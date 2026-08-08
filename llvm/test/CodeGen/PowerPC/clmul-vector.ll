@@ -698,63 +698,62 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-LABEL: clmul_v2i64:
 ; LE:       # %bb.0:
 ; LE-NEXT:    vspltisw 4, 2
-; LE-NEXT:    vspltisw 0, 1
+; LE-NEXT:    vspltisw 1, 8
 ; LE-NEXT:    vaddudm 8, 2, 2
 ; LE-NEXT:    addis 3, 2, .LCPI3_0@toc@ha
-; LE-NEXT:    vspltisw 6, 8
-; LE-NEXT:    addi 3, 3, .LCPI3_0@toc@l
 ; LE-NEXT:    vspltisw 5, 4
-; LE-NEXT:    vupklsw 7, 4
+; LE-NEXT:    addi 3, 3, .LCPI3_0@toc@l
+; LE-NEXT:    vspltisw 0, 1
+; LE-NEXT:    vupklsw 6, 4
 ; LE-NEXT:    vspltisw 4, 3
-; LE-NEXT:    vupklsw 1, 0
-; LE-NEXT:    vsld 9, 2, 7
-; LE-NEXT:    xxland 39, 35, 39
-; LE-NEXT:    vupklsw 6, 6
+; LE-NEXT:    vupklsw 1, 1
+; LE-NEXT:    vsld 9, 2, 6
+; LE-NEXT:    xxland 38, 35, 38
 ; LE-NEXT:    vupklsw 5, 5
 ; LE-NEXT:    xxland 42, 35, 37
-; LE-NEXT:    vupklsw 0, 4
-; LE-NEXT:    xxlxor 36, 36, 36
 ; LE-NEXT:    vsld 5, 2, 5
-; LE-NEXT:    xxland 33, 35, 33
-; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vupklsw 7, 4
+; LE-NEXT:    xxlxor 36, 36, 36
+; LE-NEXT:    vupklsw 0, 0
+; LE-NEXT:    xxland 32, 35, 32
+; LE-NEXT:    vcmpgtud 6, 6, 4
+; LE-NEXT:    vsld 7, 2, 7
 ; LE-NEXT:    vcmpgtud 10, 10, 4
-; LE-NEXT:    vcmpgtud 1, 1, 4
-; LE-NEXT:    xxland 2, 39, 40
-; LE-NEXT:    xxland 39, 35, 38
+; LE-NEXT:    vcmpgtud 0, 0, 4
+; LE-NEXT:    xxland 1, 38, 40
+; LE-NEXT:    xxland 38, 35, 33
 ; LE-NEXT:    xxland 0, 42, 41
-; LE-NEXT:    xxland 10, 33, 34
-; LE-NEXT:    vsld 6, 2, 6
-; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    xxlxor 2, 10, 2
-; LE-NEXT:    xxland 1, 39, 32
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    xxland 10, 32, 34
+; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    vcmpgtud 6, 6, 4
+; LE-NEXT:    xxlxor 1, 10, 1
+; LE-NEXT:    xxland 2, 38, 39
+; LE-NEXT:    lxvd2x 39, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_1@toc@ha
 ; LE-NEXT:    addi 3, 3, .LCPI3_1@toc@l
 ; LE-NEXT:    vspltisw 8, 5
 ; LE-NEXT:    vspltisw 10, 7
-; LE-NEXT:    xxlxor 0, 2, 0
-; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    xxland 41, 35, 32
+; LE-NEXT:    xxlxor 0, 1, 0
+; LE-NEXT:    xxlxor 0, 0, 2
+; LE-NEXT:    xxland 41, 35, 39
 ; LE-NEXT:    vupklsw 8, 8
 ; LE-NEXT:    vsld 8, 2, 8
-; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    vupklsw 10, 10
 ; LE-NEXT:    xxland 3, 41, 37
 ; LE-NEXT:    lxvd2x 37, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_2@toc@ha
-; LE-NEXT:    vspltisw 7, 6
+; LE-NEXT:    vupklsw 10, 10
 ; LE-NEXT:    addi 3, 3, .LCPI3_2@toc@l
+; LE-NEXT:    vspltisw 6, 6
 ; LE-NEXT:    xxlxor 0, 0, 3
 ; LE-NEXT:    lxvd2x 5, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_3@toc@ha
 ; LE-NEXT:    xxland 41, 35, 37
 ; LE-NEXT:    vsld 5, 2, 5
 ; LE-NEXT:    addi 3, 3, .LCPI3_3@toc@l
-; LE-NEXT:    vupklsw 7, 7
-; LE-NEXT:    vsld 7, 2, 7
 ; LE-NEXT:    vcmpgtud 9, 9, 4
+; LE-NEXT:    vupklsw 6, 6
+; LE-NEXT:    vsld 6, 2, 6
 ; LE-NEXT:    lxvd2x 6, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_4@toc@ha
 ; LE-NEXT:    xxland 4, 41, 40
@@ -765,21 +764,21 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 7, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_5@toc@ha
 ; LE-NEXT:    xxland 41, 35, 6
-; LE-NEXT:    xxland 5, 40, 39
-; LE-NEXT:    vsld 7, 2, 10
+; LE-NEXT:    xxland 5, 40, 38
+; LE-NEXT:    vsld 6, 2, 10
 ; LE-NEXT:    addi 3, 3, .LCPI3_5@toc@l
 ; LE-NEXT:    vcmpgtud 9, 9, 4
 ; LE-NEXT:    xxlxor 0, 0, 5
 ; LE-NEXT:    lxvd2x 8, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_6@toc@ha
-; LE-NEXT:    xxland 6, 41, 39
+; LE-NEXT:    xxland 6, 41, 38
 ; LE-NEXT:    xxland 41, 35, 7
 ; LE-NEXT:    addi 3, 3, .LCPI3_6@toc@l
 ; LE-NEXT:    vcmpgtud 9, 9, 4
 ; LE-NEXT:    xxlxor 0, 0, 6
 ; LE-NEXT:    lxvd2x 9, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_7@toc@ha
-; LE-NEXT:    xxland 7, 41, 38
+; LE-NEXT:    xxland 7, 41, 33
 ; LE-NEXT:    addi 3, 3, .LCPI3_7@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 7
 ; LE-NEXT:    lxvd2x 10, 0, 3
@@ -792,226 +791,227 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    addis 3, 2, .LCPI3_10@toc@ha
 ; LE-NEXT:    addi 3, 3, .LCPI3_10@toc@l
 ; LE-NEXT:    vspltisw 8, 9
-; LE-NEXT:    vupklsw 7, 8
-; LE-NEXT:    vsld 6, 2, 7
-; LE-NEXT:    xxland 39, 35, 8
+; LE-NEXT:    vupklsw 6, 8
+; LE-NEXT:    vsld 1, 2, 6
+; LE-NEXT:    xxland 38, 35, 8
 ; LE-NEXT:    vspltisw 8, 10
-; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    xxland 8, 39, 38
-; LE-NEXT:    xxland 39, 35, 9
-; LE-NEXT:    vcmpgtud 7, 7, 4
+; LE-NEXT:    vcmpgtud 6, 6, 4
+; LE-NEXT:    xxland 8, 38, 33
+; LE-NEXT:    xxland 38, 35, 9
+; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    vupklsw 8, 8
-; LE-NEXT:    vsld 6, 2, 8
-; LE-NEXT:    xxland 9, 39, 38
-; LE-NEXT:    xxland 39, 35, 10
-; LE-NEXT:    vcmpgtud 7, 7, 4
+; LE-NEXT:    vsld 1, 2, 8
+; LE-NEXT:    xxland 9, 38, 33
+; LE-NEXT:    xxland 38, 35, 10
+; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    xxlxor 0, 0, 8
 ; LE-NEXT:    xxlxor 0, 0, 9
 ; LE-NEXT:    vspltisw 9, 11
 ; LE-NEXT:    vupklsw 8, 9
-; LE-NEXT:    vsld 1, 2, 8
-; LE-NEXT:    xxland 10, 39, 33
-; LE-NEXT:    xxland 39, 35, 1
-; LE-NEXT:    vcmpgtud 7, 7, 4
+; LE-NEXT:    vsld 0, 2, 8
+; LE-NEXT:    xxland 10, 38, 32
+; LE-NEXT:    xxland 38, 35, 1
+; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    xxlxor 0, 0, 10
-; LE-NEXT:    vspltisw 6, 12
-; LE-NEXT:    vupklsw 6, 6
-; LE-NEXT:    vsld 6, 2, 6
-; LE-NEXT:    xxland 1, 39, 38
-; LE-NEXT:    xxland 39, 35, 2
-; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 1, 0, 3
-; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    addis 3, 2, .LCPI3_11@toc@ha
-; LE-NEXT:    vspltisw 1, 13
-; LE-NEXT:    addi 3, 3, .LCPI3_11@toc@l
+; LE-NEXT:    vspltisw 1, 12
 ; LE-NEXT:    vupklsw 1, 1
 ; LE-NEXT:    vsld 1, 2, 1
-; LE-NEXT:    xxland 2, 39, 33
-; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 2, 0, 3
-; LE-NEXT:    addis 3, 2, .LCPI3_12@toc@ha
-; LE-NEXT:    xxland 39, 35, 1
-; LE-NEXT:    addi 3, 3, .LCPI3_12@toc@l
-; LE-NEXT:    vspltisw 6, 14
-; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    vupklsw 6, 6
-; LE-NEXT:    vsld 6, 2, 6
-; LE-NEXT:    xxland 1, 39, 38
+; LE-NEXT:    xxland 1, 38, 33
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 1, 0, 3
-; LE-NEXT:    addis 3, 2, .LCPI3_13@toc@ha
 ; LE-NEXT:    vcmpgtud 6, 6, 4
-; LE-NEXT:    vspltisw 1, 15
-; LE-NEXT:    addi 3, 3, .LCPI3_13@toc@l
+; LE-NEXT:    addis 3, 2, .LCPI3_11@toc@ha
+; LE-NEXT:    vspltisw 0, 13
+; LE-NEXT:    addi 3, 3, .LCPI3_11@toc@l
+; LE-NEXT:    vupklsw 0, 0
+; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    xxlxor 0, 0, 2
+; LE-NEXT:    lxvd2x 2, 0, 3
+; LE-NEXT:    addis 3, 2, .LCPI3_12@toc@ha
+; LE-NEXT:    xxland 38, 35, 1
+; LE-NEXT:    addi 3, 3, .LCPI3_12@toc@l
+; LE-NEXT:    vspltisw 1, 14
+; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    vupklsw 1, 1
 ; LE-NEXT:    vsld 1, 2, 1
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    lxvd2x 33, 0, 3
-; LE-NEXT:    addis 3, 2, .LCPI3_14@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 2
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 33, 35, 2
+; LE-NEXT:    xxlxor 0, 0, 1
+; LE-NEXT:    lxvd2x 1, 0, 3
+; LE-NEXT:    addis 3, 2, .LCPI3_13@toc@ha
+; LE-NEXT:    vcmpgtud 1, 1, 4
+; LE-NEXT:    vspltisw 0, 15
+; LE-NEXT:    addi 3, 3, .LCPI3_13@toc@l
 ; LE-NEXT:    xxland 38, 35, 1
-; LE-NEXT:    addi 3, 3, .LCPI3_14@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
+; LE-NEXT:    vupklsw 0, 0
+; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 33, 32
+; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    addis 3, 2, .LCPI3_14@toc@ha
+; LE-NEXT:    addi 3, 3, .LCPI3_14@toc@l
+; LE-NEXT:    xxlxor 0, 0, 2
+; LE-NEXT:    vsld 1, 2, 7
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_15@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_15@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_16@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_16@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_17@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_17@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_18@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_18@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_19@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_19@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_20@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_20@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_21@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_21@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_22@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_22@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_23@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_23@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_24@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_24@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_25@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_25@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_26@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_26@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_27@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_27@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_28@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_28@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_29@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_29@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_30@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_30@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_31@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_31@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_32@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_32@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_33@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_33@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_34@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_34@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_35@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_35@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_36@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_36@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_37@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_37@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_38@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_38@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_39@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_39@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_40@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_40@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_41@toc@ha
-; LE-NEXT:    xxland 2, 38, 33
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    xxland 2, 38, 32
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_41@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_42@toc@ha
 ; LE-NEXT:    xxland 38, 35, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_42@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_43@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_43@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 3, 0, 3
@@ -1019,9 +1019,9 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_44@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_45@toc@ha
-; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 1, 38, 32
 ; LE-NEXT:    xxland 38, 35, 3
 ; LE-NEXT:    addi 3, 3, .LCPI3_45@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
@@ -1029,18 +1029,18 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_46@toc@ha
 ; LE-NEXT:    xxland 1, 38, 37
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_46@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_47@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_47@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_48@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_48@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 37, 0, 3
@@ -1050,11 +1050,11 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_50@toc@ha
-; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 1, 38, 32
 ; LE-NEXT:    vsld 5, 2, 5
 ; LE-NEXT:    addi 3, 3, .LCPI3_50@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_51@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_51@toc@l
@@ -1062,18 +1062,18 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_52@toc@ha
 ; LE-NEXT:    xxland 1, 38, 37
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_52@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_53@toc@ha
 ; LE-NEXT:    xxland 38, 35, 3
 ; LE-NEXT:    addi 3, 3, .LCPI3_53@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_54@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_54@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 37, 0, 3
@@ -1083,11 +1083,11 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_56@toc@ha
-; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 1, 38, 32
 ; LE-NEXT:    vsld 5, 2, 5
 ; LE-NEXT:    addi 3, 3, .LCPI3_56@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_57@toc@ha
 ; LE-NEXT:    xxland 38, 35, 3
 ; LE-NEXT:    addi 3, 3, .LCPI3_57@toc@l
@@ -1095,18 +1095,18 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_58@toc@ha
 ; LE-NEXT:    xxland 1, 38, 37
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_58@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_59@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_59@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_60@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_60@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 37, 0, 3
@@ -1116,11 +1116,11 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_62@toc@ha
-; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 1, 38, 32
 ; LE-NEXT:    vsld 5, 2, 5
 ; LE-NEXT:    addi 3, 3, .LCPI3_62@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_63@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_63@toc@l
@@ -1128,18 +1128,18 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_64@toc@ha
 ; LE-NEXT:    xxland 1, 38, 37
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_64@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_65@toc@ha
 ; LE-NEXT:    xxland 38, 35, 3
 ; LE-NEXT:    addi 3, 3, .LCPI3_65@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_66@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_66@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 37, 0, 3
@@ -1149,11 +1149,11 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_68@toc@ha
-; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 1, 38, 32
 ; LE-NEXT:    vsld 5, 2, 5
 ; LE-NEXT:    addi 3, 3, .LCPI3_68@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_69@toc@ha
 ; LE-NEXT:    xxland 38, 35, 3
 ; LE-NEXT:    addi 3, 3, .LCPI3_69@toc@l
@@ -1161,18 +1161,18 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_70@toc@ha
 ; LE-NEXT:    xxland 1, 38, 37
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_70@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_71@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_71@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_72@toc@ha
-; LE-NEXT:    xxland 1, 38, 32
-; LE-NEXT:    vsld 1, 2, 1
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_72@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 37, 0, 3
@@ -1182,11 +1182,11 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 2, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_74@toc@ha
-; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 1, 38, 32
 ; LE-NEXT:    vsld 5, 2, 5
 ; LE-NEXT:    addi 3, 3, .LCPI3_74@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 32, 0, 3
+; LE-NEXT:    lxvd2x 33, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_75@toc@ha
 ; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 3, 3, .LCPI3_75@toc@l
@@ -1194,18 +1194,18 @@ define <2 x i64> @clmul_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 3, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_76@toc@ha
 ; LE-NEXT:    xxland 1, 38, 37
-; LE-NEXT:    vsld 0, 2, 0
+; LE-NEXT:    vsld 1, 2, 1
 ; LE-NEXT:    addi 3, 3, .LCPI3_76@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    lxvd2x 33, 0, 3
+; LE-NEXT:    lxvd2x 32, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_77@toc@ha
 ; LE-NEXT:    xxland 38, 35, 3
 ; LE-NEXT:    addi 3, 3, .LCPI3_77@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 4
 ; LE-NEXT:    lxvd2x 1, 0, 3
 ; LE-NEXT:    addis 3, 2, .LCPI3_78@toc@ha
-; LE-NEXT:    xxland 2, 38, 32
-; LE-NEXT:    vsld 0, 2, 1
+; LE-NEXT:    xxland 2, 38, 33
+; LE-NEXT:    vsld 0, 2, 0
 ; LE-NEXT:    addi 3, 3, .LCPI3_78@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 2
 ; LE-NEXT:    lxvd2x 37, 0, 3
@@ -1901,7 +1901,8 @@ define <4 x i32> @clmulr_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; BE-NEXT:    stdu 1, -528(1)
 ; BE-NEXT:    li 3, 336
 ; BE-NEXT:    addi 4, 1, 240
-; BE-NEXT:    vxor 1, 1, 1
+; BE-NEXT:    vspltisw 14, -16
+; BE-NEXT:    vxor 0, 0, 0
 ; BE-NEXT:    stvx 20, 1, 3 # 16-byte Folded Spill
 ; BE-NEXT:    li 3, 352
 ; BE-NEXT:    lis 5, -21846
@@ -2112,21 +2113,21 @@ define <4 x i32> @clmulr_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; BE-NEXT:    rldicl 9, 10, 0, 32
 ; BE-NEXT:    stw 9, 272(1)
 ; BE-NEXT:    addi 9, 1, 288
-; BE-NEXT:    lvx 8, 0, 9
+; BE-NEXT:    lvx 1, 0, 9
 ; BE-NEXT:    li 9, 224
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    addis 9, 2, .LCPI6_0@toc@ha
-; BE-NEXT:    vand 0, 8, 2
+; BE-NEXT:    vand 6, 1, 2
 ; BE-NEXT:    addi 9, 9, .LCPI6_0@toc@l
 ; BE-NEXT:    lvx 3, 0, 9
 ; BE-NEXT:    li 9, 208
 ; BE-NEXT:    stvx 3, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    addi 9, 1, 272
-; BE-NEXT:    vand 7, 8, 3
-; BE-NEXT:    lvx 10, 0, 9
+; BE-NEXT:    vand 9, 1, 3
+; BE-NEXT:    lvx 7, 0, 9
 ; BE-NEXT:    addis 9, 2, .LCPI6_1@toc@ha
 ; BE-NEXT:    addi 9, 9, .LCPI6_1@toc@l
-; BE-NEXT:    vand 6, 10, 2
+; BE-NEXT:    vand 10, 7, 2
 ; BE-NEXT:    lvx 2, 0, 9
 ; BE-NEXT:    li 9, 192
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
@@ -2134,123 +2135,122 @@ define <4 x i32> @clmulr_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; BE-NEXT:    addi 9, 9, .LCPI6_2@toc@l
 ; BE-NEXT:    lvx 24, 0, 9
 ; BE-NEXT:    li 9, 176
-; BE-NEXT:    vand 9, 10, 3
-; BE-NEXT:    vand 11, 8, 2
-; BE-NEXT:    vand 13, 10, 24
-; BE-NEXT:    vand 14, 10, 2
-; BE-NEXT:    vspltisw 10, -16
-; BE-NEXT:    vmulouh 2, 9, 0
+; BE-NEXT:    vand 8, 7, 3
+; BE-NEXT:    vand 11, 1, 2
+; BE-NEXT:    vand 12, 7, 24
+; BE-NEXT:    vand 7, 7, 2
+; BE-NEXT:    vmulouh 2, 8, 6
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 160
-; BE-NEXT:    vand 15, 8, 24
-; BE-NEXT:    vrlw 26, 11, 10
-; BE-NEXT:    vmulouh 2, 9, 11
+; BE-NEXT:    vand 1, 1, 24
+; BE-NEXT:    vrlw 17, 11, 14
+; BE-NEXT:    vmulouh 2, 8, 11
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 144
-; BE-NEXT:    vrlw 25, 15, 10
-; BE-NEXT:    vmsumuhm 4, 13, 26, 1
+; BE-NEXT:    vrlw 18, 1, 14
+; BE-NEXT:    vmsumuhm 4, 12, 17, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 128
-; BE-NEXT:    vmsumuhm 4, 14, 25, 1
+; BE-NEXT:    vmsumuhm 4, 7, 18, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 112
-; BE-NEXT:    vrlw 29, 0, 10
-; BE-NEXT:    vmsumuhm 4, 9, 26, 1
+; BE-NEXT:    vrlw 15, 6, 14
+; BE-NEXT:    vmsumuhm 4, 8, 17, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 96
-; BE-NEXT:    vmsumuhm 4, 6, 29, 1
+; BE-NEXT:    vmsumuhm 4, 10, 15, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 80
-; BE-NEXT:    vrlw 27, 7, 10
-; BE-NEXT:    vmsumuhm 4, 13, 25, 1
+; BE-NEXT:    vrlw 16, 9, 14
+; BE-NEXT:    vmsumuhm 4, 12, 18, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 64
-; BE-NEXT:    vmsumuhm 4, 14, 27, 1
+; BE-NEXT:    vmsumuhm 4, 7, 16, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 144
-; BE-NEXT:    vmsumuhm 2, 9, 29, 1
-; BE-NEXT:    vmsumuhm 20, 14, 26, 1
-; BE-NEXT:    vmsumuhm 8, 14, 29, 1
-; BE-NEXT:    vmulouh 28, 14, 15
-; BE-NEXT:    vmulouh 30, 14, 7
-; BE-NEXT:    vmulouh 19, 14, 11
-; BE-NEXT:    vmulouh 31, 14, 0
-; BE-NEXT:    vslw 14, 2, 10
+; BE-NEXT:    vmsumuhm 2, 8, 15, 0
+; BE-NEXT:    vmsumuhm 3, 10, 16, 0
+; BE-NEXT:    vmsumuhm 23, 8, 16, 0
+; BE-NEXT:    vmsumuhm 22, 10, 18, 0
+; BE-NEXT:    vmsumuhm 21, 12, 15, 0
+; BE-NEXT:    vmsumuhm 20, 7, 17, 0
+; BE-NEXT:    vmsumuhm 28, 8, 18, 0
+; BE-NEXT:    vmsumuhm 19, 10, 17, 0
+; BE-NEXT:    vmsumuhm 13, 7, 15, 0
+; BE-NEXT:    vmulouh 18, 8, 9
+; BE-NEXT:    vmulouh 31, 8, 1
+; BE-NEXT:    vmulouh 25, 7, 1
+; BE-NEXT:    vmulouh 15, 10, 1
+; BE-NEXT:    vmulouh 8, 10, 9
+; BE-NEXT:    vmulouh 26, 7, 9
+; BE-NEXT:    vmulouh 17, 12, 11
+; BE-NEXT:    vmulouh 5, 10, 6
+; BE-NEXT:    vmulouh 10, 10, 11
+; BE-NEXT:    vmulouh 11, 7, 11
+; BE-NEXT:    vmulouh 27, 7, 6
+; BE-NEXT:    vslw 7, 2, 14
 ; BE-NEXT:    lvx 2, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 128
-; BE-NEXT:    vmsumuhm 3, 6, 27, 1
-; BE-NEXT:    vmsumuhm 23, 9, 27, 1
-; BE-NEXT:    vmsumuhm 22, 6, 25, 1
-; BE-NEXT:    vmsumuhm 21, 13, 29, 1
-; BE-NEXT:    vmsumuhm 25, 9, 25, 1
-; BE-NEXT:    vmsumuhm 26, 6, 26, 1
-; BE-NEXT:    vmsumuhm 27, 13, 27, 1
-; BE-NEXT:    vmulouh 29, 9, 7
-; BE-NEXT:    vmulouh 16, 9, 15
-; BE-NEXT:    vmulouh 18, 13, 15
-; BE-NEXT:    vmulouh 15, 6, 15
-; BE-NEXT:    vmulouh 1, 6, 7
-; BE-NEXT:    vmulouh 17, 13, 7
-; BE-NEXT:    vmulouh 5, 6, 0
-; BE-NEXT:    vmulouh 7, 6, 11
-; BE-NEXT:    vslw 6, 2, 10
+; BE-NEXT:    vmulouh 29, 12, 1
+; BE-NEXT:    vslw 1, 2, 14
 ; BE-NEXT:    lvx 2, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 112
-; BE-NEXT:    vmulouh 12, 13, 11
-; BE-NEXT:    vslw 11, 2, 10
+; BE-NEXT:    vadduwm 1, 17, 1
+; BE-NEXT:    vmulouh 30, 12, 9
+; BE-NEXT:    vslw 9, 2, 14
 ; BE-NEXT:    lvx 2, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 96
-; BE-NEXT:    vslw 4, 3, 10
+; BE-NEXT:    vslw 4, 3, 14
 ; BE-NEXT:    lvx 3, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 80
-; BE-NEXT:    vadduwm 4, 1, 4
-; BE-NEXT:    vmulouh 13, 13, 0
+; BE-NEXT:    vadduwm 4, 8, 4
+; BE-NEXT:    vmsumuhm 16, 12, 16, 0
 ; BE-NEXT:    lvx 0, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 64
-; BE-NEXT:    lvx 9, 1, 9 # 16-byte Folded Reload
+; BE-NEXT:    vmulouh 12, 12, 6
+; BE-NEXT:    lvx 6, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 176
-; BE-NEXT:    vslw 2, 2, 10
-; BE-NEXT:    vslw 3, 3, 10
+; BE-NEXT:    vslw 2, 2, 14
+; BE-NEXT:    vslw 3, 3, 14
 ; BE-NEXT:    vadduwm 3, 5, 3
-; BE-NEXT:    vslw 0, 0, 10
-; BE-NEXT:    vadduwm 0, 18, 0
-; BE-NEXT:    vslw 9, 9, 10
-; BE-NEXT:    vslw 23, 23, 10
-; BE-NEXT:    vslw 22, 22, 10
+; BE-NEXT:    vslw 0, 0, 14
+; BE-NEXT:    vadduwm 0, 29, 0
+; BE-NEXT:    vslw 6, 6, 14
+; BE-NEXT:    vslw 23, 23, 14
+; BE-NEXT:    vslw 22, 22, 14
 ; BE-NEXT:    vadduwm 5, 15, 22
-; BE-NEXT:    vslw 21, 21, 10
-; BE-NEXT:    vslw 20, 20, 10
-; BE-NEXT:    vslw 25, 25, 10
-; BE-NEXT:    vslw 26, 26, 10
-; BE-NEXT:    vslw 27, 27, 10
-; BE-NEXT:    vslw 8, 8, 10
-; BE-NEXT:    lvx 10, 1, 9 # 16-byte Folded Reload
+; BE-NEXT:    vslw 21, 21, 14
+; BE-NEXT:    vslw 20, 20, 14
+; BE-NEXT:    vslw 28, 28, 14
+; BE-NEXT:    vslw 19, 19, 14
+; BE-NEXT:    vslw 16, 16, 14
+; BE-NEXT:    vslw 13, 13, 14
+; BE-NEXT:    lvx 14, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 160
-; BE-NEXT:    lvx 1, 1, 9 # 16-byte Folded Reload
-; BE-NEXT:    vadduwm 10, 10, 14
+; BE-NEXT:    vadduwm 7, 14, 7
+; BE-NEXT:    vxor 4, 4, 7
+; BE-NEXT:    lvx 7, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 208
-; BE-NEXT:    vadduwm 2, 1, 2
+; BE-NEXT:    vadduwm 2, 7, 2
+; BE-NEXT:    vadduwm 7, 10, 19
 ; BE-NEXT:    vxor 2, 3, 2
-; BE-NEXT:    vadduwm 3, 29, 23
-; BE-NEXT:    vadduwm 1, 7, 26
+; BE-NEXT:    vadduwm 3, 18, 23
 ; BE-NEXT:    vxor 3, 5, 3
-; BE-NEXT:    vadduwm 5, 16, 25
+; BE-NEXT:    vadduwm 5, 31, 28
 ; BE-NEXT:    vxor 2, 2, 0
-; BE-NEXT:    vadduwm 0, 13, 21
-; BE-NEXT:    vxor 4, 4, 10
-; BE-NEXT:    vxor 5, 1, 5
-; BE-NEXT:    vadduwm 1, 12, 6
+; BE-NEXT:    vadduwm 0, 12, 21
+; BE-NEXT:    vxor 5, 7, 5
 ; BE-NEXT:    vxor 3, 3, 0
-; BE-NEXT:    vadduwm 0, 17, 27
+; BE-NEXT:    vadduwm 0, 30, 16
 ; BE-NEXT:    vxor 4, 4, 1
 ; BE-NEXT:    vxor 5, 5, 0
-; BE-NEXT:    vadduwm 0, 28, 11
+; BE-NEXT:    vadduwm 0, 25, 9
 ; BE-NEXT:    vxor 4, 4, 0
-; BE-NEXT:    vadduwm 0, 30, 9
+; BE-NEXT:    vadduwm 0, 26, 6
 ; BE-NEXT:    vxor 2, 2, 0
-; BE-NEXT:    vadduwm 0, 19, 20
+; BE-NEXT:    vadduwm 0, 11, 20
 ; BE-NEXT:    vxor 3, 3, 0
-; BE-NEXT:    vadduwm 0, 31, 8
+; BE-NEXT:    vadduwm 0, 27, 13
 ; BE-NEXT:    vxor 5, 5, 0
 ; BE-NEXT:    lvx 0, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 224
@@ -3098,10 +3098,10 @@ define <2 x i64> @clmulr_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    sldi 7, 7, 32
 ; LE-NEXT:    sldi 8, 8, 32
 ; LE-NEXT:    vspltisw 4, 4
-; LE-NEXT:    vspltisw 0, 8
+; LE-NEXT:    vspltisw 7, 1
 ; LE-NEXT:    oris 3, 3, 43690
 ; LE-NEXT:    oris 4, 4, 21845
-; LE-NEXT:    vspltisw 7, 1
+; LE-NEXT:    vspltisw 0, 8
 ; LE-NEXT:    vspltisw 10, 7
 ; LE-NEXT:    oris 5, 5, 52428
 ; LE-NEXT:    oris 11, 6, 13107
@@ -3109,7 +3109,7 @@ define <2 x i64> @clmulr_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    vspltisw 4, 3
 ; LE-NEXT:    oris 12, 7, 61680
 ; LE-NEXT:    oris 0, 8, 3855
-; LE-NEXT:    vupklsw 6, 0
+; LE-NEXT:    vupklsw 0, 0
 ; LE-NEXT:    vupklsw 10, 10
 ; LE-NEXT:    ori 8, 3, 43690
 ; LE-NEXT:    ori 7, 4, 21845
@@ -3230,76 +3230,65 @@ define <2 x i64> @clmulr_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    addis 9, 2, .LCPI7_0@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI7_0@toc@l
 ; LE-NEXT:    xxmrghd 35, 1, 0
-; LE-NEXT:    vaddudm 0, 3, 3
+; LE-NEXT:    vaddudm 6, 3, 3
 ; LE-NEXT:    vsld 5, 3, 5
-; LE-NEXT:    xxland 0, 41, 32
-; LE-NEXT:    vupklsw 0, 7
+; LE-NEXT:    xxland 0, 41, 38
+; LE-NEXT:    vupklsw 6, 7
 ; LE-NEXT:    xxland 39, 34, 33
 ; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    xxland 32, 34, 32
 ; LE-NEXT:    xxland 1, 39, 37
-; LE-NEXT:    xxland 39, 34, 38
+; LE-NEXT:    xxland 39, 34, 32
 ; LE-NEXT:    vsld 5, 3, 8
-; LE-NEXT:    vsld 6, 3, 6
-; LE-NEXT:    vcmpgtud 0, 0, 4
+; LE-NEXT:    vsld 0, 3, 0
 ; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    xxland 13, 32, 35
 ; LE-NEXT:    xxland 2, 39, 37
-; LE-NEXT:    vsld 5, 3, 1
-; LE-NEXT:    lxvd2x 33, 0, 9
+; LE-NEXT:    lxvd2x 39, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_1@toc@ha
-; LE-NEXT:    xxlxor 0, 13, 0
-; LE-NEXT:    vspltisw 8, 5
+; LE-NEXT:    vsld 5, 3, 1
 ; LE-NEXT:    addi 9, 9, .LCPI7_1@toc@l
-; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    xxland 41, 34, 33
+; LE-NEXT:    xxland 41, 34, 39
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    xxland 5, 41, 37
+; LE-NEXT:    xxland 3, 41, 37
 ; LE-NEXT:    lxvd2x 37, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_2@toc@ha
-; LE-NEXT:    vupklsw 8, 8
-; LE-NEXT:    vsld 8, 3, 8
+; LE-NEXT:    vspltisw 8, 5
 ; LE-NEXT:    addi 9, 9, .LCPI7_2@toc@l
-; LE-NEXT:    xxlxor 0, 0, 5
-; LE-NEXT:    lxvd2x 3, 0, 9
+; LE-NEXT:    lxvd2x 5, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_3@toc@ha
 ; LE-NEXT:    xxland 41, 34, 37
-; LE-NEXT:    vspltisw 7, 6
 ; LE-NEXT:    vsld 5, 3, 5
+; LE-NEXT:    vupklsw 8, 8
+; LE-NEXT:    vsld 8, 3, 8
 ; LE-NEXT:    addi 9, 9, .LCPI7_3@toc@l
 ; LE-NEXT:    vcmpgtud 9, 9, 4
 ; LE-NEXT:    lxvd2x 6, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_4@toc@ha
 ; LE-NEXT:    xxland 4, 41, 40
-; LE-NEXT:    xxland 40, 34, 3
-; LE-NEXT:    vupklsw 7, 7
-; LE-NEXT:    vsld 7, 3, 7
+; LE-NEXT:    xxland 40, 34, 5
+; LE-NEXT:    vspltisw 1, 6
 ; LE-NEXT:    addi 9, 9, .LCPI7_4@toc@l
 ; LE-NEXT:    vcmpgtud 8, 8, 4
-; LE-NEXT:    xxlxor 0, 0, 4
 ; LE-NEXT:    lxvd2x 7, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_5@toc@ha
 ; LE-NEXT:    xxland 41, 34, 6
-; LE-NEXT:    xxland 3, 40, 39
-; LE-NEXT:    vsld 7, 3, 10
 ; LE-NEXT:    addi 9, 9, .LCPI7_5@toc@l
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    xxlxor 0, 0, 3
+; LE-NEXT:    vupklsw 1, 1
+; LE-NEXT:    vsld 1, 3, 1
+; LE-NEXT:    xxland 5, 40, 33
+; LE-NEXT:    vsld 1, 3, 10
 ; LE-NEXT:    lxvd2x 8, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_6@toc@ha
-; LE-NEXT:    xxland 6, 41, 39
+; LE-NEXT:    xxland 6, 41, 33
 ; LE-NEXT:    xxland 41, 34, 7
 ; LE-NEXT:    addi 9, 9, .LCPI7_6@toc@l
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    xxlxor 0, 0, 6
-; LE-NEXT:    xxland 7, 41, 38
-; LE-NEXT:    xxland 41, 34, 8
-; LE-NEXT:    lxvd2x 8, 0, 9
+; LE-NEXT:    lxvd2x 9, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_7@toc@ha
+; LE-NEXT:    xxland 7, 41, 32
+; LE-NEXT:    xxland 41, 34, 8
 ; LE-NEXT:    addi 9, 9, .LCPI7_7@toc@l
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    xxlxor 0, 0, 7
 ; LE-NEXT:    lxvd2x 10, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_8@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI7_8@toc@l
@@ -3309,83 +3298,94 @@ define <2 x i64> @clmulr_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 12, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_10@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI7_10@toc@l
-; LE-NEXT:    lxvd2x 1, 0, 9
-; LE-NEXT:    addis 9, 2, .LCPI7_11@toc@ha
-; LE-NEXT:    addi 9, 9, .LCPI7_11@toc@l
-; LE-NEXT:    lxvd2x 2, 0, 9
-; LE-NEXT:    addis 9, 2, .LCPI7_12@toc@ha
-; LE-NEXT:    addi 9, 9, .LCPI7_12@toc@l
-; LE-NEXT:    lxvd2x 4, 0, 9
-; LE-NEXT:    addis 9, 2, .LCPI7_13@toc@ha
-; LE-NEXT:    addi 9, 9, .LCPI7_13@toc@l
 ; LE-NEXT:    vspltisw 8, 9
-; LE-NEXT:    vupklsw 7, 8
+; LE-NEXT:    vupklsw 1, 8
 ; LE-NEXT:    vspltisw 8, 10
-; LE-NEXT:    vsld 6, 3, 7
-; LE-NEXT:    xxland 9, 41, 38
+; LE-NEXT:    vsld 0, 3, 1
+; LE-NEXT:    xxland 8, 41, 32
 ; LE-NEXT:    xxland 41, 34, 10
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    xxlxor 0, 0, 9
-; LE-NEXT:    vupklsw 7, 8
+; LE-NEXT:    vupklsw 1, 8
 ; LE-NEXT:    vspltisw 8, 11
-; LE-NEXT:    vsld 6, 3, 7
-; LE-NEXT:    vupklsw 7, 8
-; LE-NEXT:    xxland 40, 34, 8
+; LE-NEXT:    vsld 0, 3, 1
+; LE-NEXT:    vupklsw 1, 8
+; LE-NEXT:    xxland 40, 34, 9
 ; LE-NEXT:    vcmpgtud 8, 8, 4
-; LE-NEXT:    xxland 8, 40, 38
-; LE-NEXT:    vsld 6, 3, 7
-; LE-NEXT:    xxland 10, 41, 38
+; LE-NEXT:    xxland 9, 40, 32
+; LE-NEXT:    vsld 0, 3, 1
+; LE-NEXT:    xxland 10, 41, 32
 ; LE-NEXT:    xxland 41, 34, 11
 ; LE-NEXT:    vcmpgtud 9, 9, 4
-; LE-NEXT:    xxlxor 0, 0, 8
-; LE-NEXT:    xxlxor 0, 0, 10
-; LE-NEXT:    vspltisw 7, 12
+; LE-NEXT:    vspltisw 1, 12
 ; LE-NEXT:    vspltisw 8, 13
-; LE-NEXT:    vupklsw 6, 7
-; LE-NEXT:    vsld 6, 3, 6
-; LE-NEXT:    vupklsw 7, 8
-; LE-NEXT:    xxland 11, 41, 38
-; LE-NEXT:    xxland 38, 34, 12
+; LE-NEXT:    vupklsw 0, 1
+; LE-NEXT:    vsld 0, 3, 0
+; LE-NEXT:    vupklsw 1, 8
+; LE-NEXT:    vsld 1, 3, 1
 ; LE-NEXT:    vspltisw 8, 14
-; LE-NEXT:    vsld 7, 3, 7
-; LE-NEXT:    vcmpgtud 6, 6, 4
-; LE-NEXT:    xxland 12, 38, 39
-; LE-NEXT:    xxland 39, 34, 1
-; LE-NEXT:    vcmpgtud 7, 7, 4
-; LE-NEXT:    xxlxor 0, 0, 11
+; LE-NEXT:    xxland 11, 41, 32
+; LE-NEXT:    xxland 32, 34, 12
+; LE-NEXT:    vcmpgtud 0, 0, 4
+; LE-NEXT:    xxland 12, 32, 33
+; LE-NEXT:    xxland 32, 34, 38
+; LE-NEXT:    vcmpgtud 0, 0, 4
+; LE-NEXT:    xxland 13, 32, 35
 ; LE-NEXT:    vupklsw 8, 8
-; LE-NEXT:    vsld 6, 3, 8
-; LE-NEXT:    xxland 1, 39, 38
-; LE-NEXT:    xxland 38, 34, 2
+; LE-NEXT:    vsld 1, 3, 8
+; LE-NEXT:    xxlxor 0, 13, 0
+; LE-NEXT:    xxlxor 0, 0, 1
+; LE-NEXT:    lxvd2x 1, 0, 9
+; LE-NEXT:    addis 9, 2, .LCPI7_11@toc@ha
 ; LE-NEXT:    vspltisw 9, 15
-; LE-NEXT:    xxlxor 0, 0, 12
+; LE-NEXT:    addi 9, 9, .LCPI7_11@toc@l
+; LE-NEXT:    xxlxor 0, 0, 2
+; LE-NEXT:    lxvd2x 2, 0, 9
+; LE-NEXT:    addis 9, 2, .LCPI7_12@toc@ha
+; LE-NEXT:    xxlxor 0, 0, 3
+; LE-NEXT:    xxland 38, 34, 1
+; LE-NEXT:    addi 9, 9, .LCPI7_12@toc@l
+; LE-NEXT:    xxlxor 0, 0, 4
 ; LE-NEXT:    vcmpgtud 6, 6, 4
+; LE-NEXT:    lxvd2x 3, 0, 9
+; LE-NEXT:    addis 9, 2, .LCPI7_13@toc@ha
+; LE-NEXT:    xxlxor 0, 0, 5
+; LE-NEXT:    xxland 1, 38, 33
+; LE-NEXT:    xxland 33, 34, 2
+; LE-NEXT:    addi 9, 9, .LCPI7_13@toc@l
+; LE-NEXT:    xxlxor 0, 0, 6
+; LE-NEXT:    vcmpgtud 1, 1, 4
+; LE-NEXT:    xxlxor 0, 0, 7
+; LE-NEXT:    xxlxor 0, 0, 8
+; LE-NEXT:    xxlxor 0, 0, 9
+; LE-NEXT:    xxlxor 0, 0, 10
+; LE-NEXT:    xxlxor 0, 0, 11
+; LE-NEXT:    xxlxor 0, 0, 12
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    vupklsw 0, 9
 ; LE-NEXT:    vsld 0, 3, 0
-; LE-NEXT:    xxland 2, 38, 32
-; LE-NEXT:    vsld 0, 3, 1
+; LE-NEXT:    xxland 2, 33, 32
+; LE-NEXT:    xxland 33, 34, 3
+; LE-NEXT:    vsld 0, 3, 7
+; LE-NEXT:    vcmpgtud 1, 1, 4
+; LE-NEXT:    xxland 3, 33, 32
+; LE-NEXT:    lxvd2x 32, 0, 9
+; LE-NEXT:    addi 9, 10, .LCPI7_14@toc@l
+; LE-NEXT:    lxvd2x 4, 0, 9
 ; LE-NEXT:    xxland 33, 34, 4
+; LE-NEXT:    addis 9, 2, .LCPI7_15@toc@ha
+; LE-NEXT:    vsld 0, 3, 0
+; LE-NEXT:    addis 10, 2, .LCPI7_16@toc@ha
+; LE-NEXT:    addi 9, 9, .LCPI7_15@toc@l
 ; LE-NEXT:    vcmpgtud 1, 1, 4
 ; LE-NEXT:    xxlxor 0, 0, 2
 ; LE-NEXT:    xxland 4, 33, 32
 ; LE-NEXT:    lxvd2x 32, 0, 9
-; LE-NEXT:    addi 9, 10, .LCPI7_14@toc@l
-; LE-NEXT:    addis 10, 2, .LCPI7_16@toc@ha
-; LE-NEXT:    lxvd2x 3, 0, 9
-; LE-NEXT:    addis 9, 2, .LCPI7_15@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 4
-; LE-NEXT:    addi 9, 9, .LCPI7_15@toc@l
-; LE-NEXT:    vsld 0, 3, 0
-; LE-NEXT:    xxland 33, 34, 3
-; LE-NEXT:    vcmpgtud 1, 1, 4
-; LE-NEXT:    xxland 3, 33, 32
-; LE-NEXT:    lxvd2x 32, 0, 9
 ; LE-NEXT:    addi 9, 10, .LCPI7_16@toc@l
 ; LE-NEXT:    addis 10, 2, .LCPI7_18@toc@ha
+; LE-NEXT:    xxlxor 0, 0, 3
 ; LE-NEXT:    lxvd2x 5, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI7_17@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 3
+; LE-NEXT:    xxlxor 0, 0, 4
 ; LE-NEXT:    addi 9, 9, .LCPI7_17@toc@l
 ; LE-NEXT:    vsld 0, 3, 0
 ; LE-NEXT:    xxland 33, 34, 5
@@ -4483,7 +4483,8 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; BE-NEXT:    stdu 1, -528(1)
 ; BE-NEXT:    li 3, 336
 ; BE-NEXT:    addi 4, 1, 240
-; BE-NEXT:    vxor 1, 1, 1
+; BE-NEXT:    vspltisw 14, -16
+; BE-NEXT:    vxor 0, 0, 0
 ; BE-NEXT:    stvx 20, 1, 3 # 16-byte Folded Spill
 ; BE-NEXT:    li 3, 352
 ; BE-NEXT:    lis 5, -21846
@@ -4694,21 +4695,21 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; BE-NEXT:    rldicl 9, 10, 0, 32
 ; BE-NEXT:    stw 9, 272(1)
 ; BE-NEXT:    addi 9, 1, 288
-; BE-NEXT:    lvx 8, 0, 9
+; BE-NEXT:    lvx 1, 0, 9
 ; BE-NEXT:    li 9, 224
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    addis 9, 2, .LCPI10_0@toc@ha
-; BE-NEXT:    vand 0, 8, 2
+; BE-NEXT:    vand 6, 1, 2
 ; BE-NEXT:    addi 9, 9, .LCPI10_0@toc@l
 ; BE-NEXT:    lvx 3, 0, 9
 ; BE-NEXT:    li 9, 208
 ; BE-NEXT:    stvx 3, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    addi 9, 1, 272
-; BE-NEXT:    vand 7, 8, 3
-; BE-NEXT:    lvx 10, 0, 9
+; BE-NEXT:    vand 9, 1, 3
+; BE-NEXT:    lvx 7, 0, 9
 ; BE-NEXT:    addis 9, 2, .LCPI10_1@toc@ha
 ; BE-NEXT:    addi 9, 9, .LCPI10_1@toc@l
-; BE-NEXT:    vand 6, 10, 2
+; BE-NEXT:    vand 10, 7, 2
 ; BE-NEXT:    lvx 2, 0, 9
 ; BE-NEXT:    li 9, 192
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
@@ -4716,123 +4717,122 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; BE-NEXT:    addi 9, 9, .LCPI10_2@toc@l
 ; BE-NEXT:    lvx 24, 0, 9
 ; BE-NEXT:    li 9, 176
-; BE-NEXT:    vand 9, 10, 3
-; BE-NEXT:    vand 11, 8, 2
-; BE-NEXT:    vand 13, 10, 24
-; BE-NEXT:    vand 14, 10, 2
-; BE-NEXT:    vspltisw 10, -16
-; BE-NEXT:    vmulouh 2, 9, 0
+; BE-NEXT:    vand 8, 7, 3
+; BE-NEXT:    vand 11, 1, 2
+; BE-NEXT:    vand 12, 7, 24
+; BE-NEXT:    vand 7, 7, 2
+; BE-NEXT:    vmulouh 2, 8, 6
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 160
-; BE-NEXT:    vand 15, 8, 24
-; BE-NEXT:    vrlw 26, 11, 10
-; BE-NEXT:    vmulouh 2, 9, 11
+; BE-NEXT:    vand 1, 1, 24
+; BE-NEXT:    vrlw 17, 11, 14
+; BE-NEXT:    vmulouh 2, 8, 11
 ; BE-NEXT:    stvx 2, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 144
-; BE-NEXT:    vrlw 25, 15, 10
-; BE-NEXT:    vmsumuhm 4, 13, 26, 1
+; BE-NEXT:    vrlw 18, 1, 14
+; BE-NEXT:    vmsumuhm 4, 12, 17, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 128
-; BE-NEXT:    vmsumuhm 4, 14, 25, 1
+; BE-NEXT:    vmsumuhm 4, 7, 18, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 112
-; BE-NEXT:    vrlw 29, 0, 10
-; BE-NEXT:    vmsumuhm 4, 9, 26, 1
+; BE-NEXT:    vrlw 15, 6, 14
+; BE-NEXT:    vmsumuhm 4, 8, 17, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 96
-; BE-NEXT:    vmsumuhm 4, 6, 29, 1
+; BE-NEXT:    vmsumuhm 4, 10, 15, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 80
-; BE-NEXT:    vrlw 27, 7, 10
-; BE-NEXT:    vmsumuhm 4, 13, 25, 1
+; BE-NEXT:    vrlw 16, 9, 14
+; BE-NEXT:    vmsumuhm 4, 12, 18, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 64
-; BE-NEXT:    vmsumuhm 4, 14, 27, 1
+; BE-NEXT:    vmsumuhm 4, 7, 16, 0
 ; BE-NEXT:    stvx 4, 1, 9 # 16-byte Folded Spill
 ; BE-NEXT:    li 9, 144
-; BE-NEXT:    vmsumuhm 2, 9, 29, 1
-; BE-NEXT:    vmsumuhm 20, 14, 26, 1
-; BE-NEXT:    vmsumuhm 8, 14, 29, 1
-; BE-NEXT:    vmulouh 28, 14, 15
-; BE-NEXT:    vmulouh 30, 14, 7
-; BE-NEXT:    vmulouh 19, 14, 11
-; BE-NEXT:    vmulouh 31, 14, 0
-; BE-NEXT:    vslw 14, 2, 10
+; BE-NEXT:    vmsumuhm 2, 8, 15, 0
+; BE-NEXT:    vmsumuhm 3, 10, 16, 0
+; BE-NEXT:    vmsumuhm 23, 8, 16, 0
+; BE-NEXT:    vmsumuhm 22, 10, 18, 0
+; BE-NEXT:    vmsumuhm 21, 12, 15, 0
+; BE-NEXT:    vmsumuhm 20, 7, 17, 0
+; BE-NEXT:    vmsumuhm 28, 8, 18, 0
+; BE-NEXT:    vmsumuhm 19, 10, 17, 0
+; BE-NEXT:    vmsumuhm 13, 7, 15, 0
+; BE-NEXT:    vmulouh 18, 8, 9
+; BE-NEXT:    vmulouh 31, 8, 1
+; BE-NEXT:    vmulouh 25, 7, 1
+; BE-NEXT:    vmulouh 15, 10, 1
+; BE-NEXT:    vmulouh 8, 10, 9
+; BE-NEXT:    vmulouh 26, 7, 9
+; BE-NEXT:    vmulouh 17, 12, 11
+; BE-NEXT:    vmulouh 5, 10, 6
+; BE-NEXT:    vmulouh 10, 10, 11
+; BE-NEXT:    vmulouh 11, 7, 11
+; BE-NEXT:    vmulouh 27, 7, 6
+; BE-NEXT:    vslw 7, 2, 14
 ; BE-NEXT:    lvx 2, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 128
-; BE-NEXT:    vmsumuhm 3, 6, 27, 1
-; BE-NEXT:    vmsumuhm 23, 9, 27, 1
-; BE-NEXT:    vmsumuhm 22, 6, 25, 1
-; BE-NEXT:    vmsumuhm 21, 13, 29, 1
-; BE-NEXT:    vmsumuhm 25, 9, 25, 1
-; BE-NEXT:    vmsumuhm 26, 6, 26, 1
-; BE-NEXT:    vmsumuhm 27, 13, 27, 1
-; BE-NEXT:    vmulouh 29, 9, 7
-; BE-NEXT:    vmulouh 16, 9, 15
-; BE-NEXT:    vmulouh 18, 13, 15
-; BE-NEXT:    vmulouh 15, 6, 15
-; BE-NEXT:    vmulouh 1, 6, 7
-; BE-NEXT:    vmulouh 17, 13, 7
-; BE-NEXT:    vmulouh 5, 6, 0
-; BE-NEXT:    vmulouh 7, 6, 11
-; BE-NEXT:    vslw 6, 2, 10
+; BE-NEXT:    vmulouh 29, 12, 1
+; BE-NEXT:    vslw 1, 2, 14
 ; BE-NEXT:    lvx 2, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 112
-; BE-NEXT:    vmulouh 12, 13, 11
-; BE-NEXT:    vslw 11, 2, 10
+; BE-NEXT:    vadduwm 1, 17, 1
+; BE-NEXT:    vmulouh 30, 12, 9
+; BE-NEXT:    vslw 9, 2, 14
 ; BE-NEXT:    lvx 2, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 96
-; BE-NEXT:    vslw 4, 3, 10
+; BE-NEXT:    vslw 4, 3, 14
 ; BE-NEXT:    lvx 3, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 80
-; BE-NEXT:    vadduwm 4, 1, 4
-; BE-NEXT:    vmulouh 13, 13, 0
+; BE-NEXT:    vadduwm 4, 8, 4
+; BE-NEXT:    vmsumuhm 16, 12, 16, 0
 ; BE-NEXT:    lvx 0, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 64
-; BE-NEXT:    lvx 9, 1, 9 # 16-byte Folded Reload
+; BE-NEXT:    vmulouh 12, 12, 6
+; BE-NEXT:    lvx 6, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 176
-; BE-NEXT:    vslw 2, 2, 10
-; BE-NEXT:    vslw 3, 3, 10
+; BE-NEXT:    vslw 2, 2, 14
+; BE-NEXT:    vslw 3, 3, 14
 ; BE-NEXT:    vadduwm 3, 5, 3
-; BE-NEXT:    vslw 0, 0, 10
-; BE-NEXT:    vadduwm 0, 18, 0
-; BE-NEXT:    vslw 9, 9, 10
-; BE-NEXT:    vslw 23, 23, 10
-; BE-NEXT:    vslw 22, 22, 10
+; BE-NEXT:    vslw 0, 0, 14
+; BE-NEXT:    vadduwm 0, 29, 0
+; BE-NEXT:    vslw 6, 6, 14
+; BE-NEXT:    vslw 23, 23, 14
+; BE-NEXT:    vslw 22, 22, 14
 ; BE-NEXT:    vadduwm 5, 15, 22
-; BE-NEXT:    vslw 21, 21, 10
-; BE-NEXT:    vslw 20, 20, 10
-; BE-NEXT:    vslw 25, 25, 10
-; BE-NEXT:    vslw 26, 26, 10
-; BE-NEXT:    vslw 27, 27, 10
-; BE-NEXT:    vslw 8, 8, 10
-; BE-NEXT:    lvx 10, 1, 9 # 16-byte Folded Reload
+; BE-NEXT:    vslw 21, 21, 14
+; BE-NEXT:    vslw 20, 20, 14
+; BE-NEXT:    vslw 28, 28, 14
+; BE-NEXT:    vslw 19, 19, 14
+; BE-NEXT:    vslw 16, 16, 14
+; BE-NEXT:    vslw 13, 13, 14
+; BE-NEXT:    lvx 14, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 160
-; BE-NEXT:    lvx 1, 1, 9 # 16-byte Folded Reload
-; BE-NEXT:    vadduwm 10, 10, 14
+; BE-NEXT:    vadduwm 7, 14, 7
+; BE-NEXT:    vxor 4, 4, 7
+; BE-NEXT:    lvx 7, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 208
-; BE-NEXT:    vadduwm 2, 1, 2
+; BE-NEXT:    vadduwm 2, 7, 2
+; BE-NEXT:    vadduwm 7, 10, 19
 ; BE-NEXT:    vxor 2, 3, 2
-; BE-NEXT:    vadduwm 3, 29, 23
-; BE-NEXT:    vadduwm 1, 7, 26
+; BE-NEXT:    vadduwm 3, 18, 23
 ; BE-NEXT:    vxor 3, 5, 3
-; BE-NEXT:    vadduwm 5, 16, 25
+; BE-NEXT:    vadduwm 5, 31, 28
 ; BE-NEXT:    vxor 2, 2, 0
-; BE-NEXT:    vadduwm 0, 13, 21
-; BE-NEXT:    vxor 4, 4, 10
-; BE-NEXT:    vxor 5, 1, 5
-; BE-NEXT:    vadduwm 1, 12, 6
+; BE-NEXT:    vadduwm 0, 12, 21
+; BE-NEXT:    vxor 5, 7, 5
 ; BE-NEXT:    vxor 3, 3, 0
-; BE-NEXT:    vadduwm 0, 17, 27
+; BE-NEXT:    vadduwm 0, 30, 16
 ; BE-NEXT:    vxor 4, 4, 1
 ; BE-NEXT:    vxor 5, 5, 0
-; BE-NEXT:    vadduwm 0, 28, 11
+; BE-NEXT:    vadduwm 0, 25, 9
 ; BE-NEXT:    vxor 4, 4, 0
-; BE-NEXT:    vadduwm 0, 30, 9
+; BE-NEXT:    vadduwm 0, 26, 6
 ; BE-NEXT:    vxor 2, 2, 0
-; BE-NEXT:    vadduwm 0, 19, 20
+; BE-NEXT:    vadduwm 0, 11, 20
 ; BE-NEXT:    vxor 3, 3, 0
-; BE-NEXT:    vadduwm 0, 31, 8
+; BE-NEXT:    vadduwm 0, 27, 13
 ; BE-NEXT:    vxor 5, 5, 0
 ; BE-NEXT:    lvx 0, 1, 9 # 16-byte Folded Reload
 ; BE-NEXT:    li 9, 224
@@ -4972,7 +4972,7 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; LE-NEXT:    lis 10, 3855
 ; LE-NEXT:    lis 3, -21846
 ; LE-NEXT:    xxswapd 1, 35
-; LE-NEXT:    xxsldwi 5, 35, 35, 3
+; LE-NEXT:    xxsldwi 3, 35, 35, 3
 ; LE-NEXT:    ori 7, 5, 52428
 ; LE-NEXT:    ori 5, 9, 61680
 ; LE-NEXT:    mfvsrwz 9, 35
@@ -4981,12 +4981,12 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; LE-NEXT:    mffprwz 10, 0
 ; LE-NEXT:    ori 3, 3, 43690
 ; LE-NEXT:    mffprwz 11, 1
-; LE-NEXT:    mffprwz 0, 5
+; LE-NEXT:    mffprwz 0, 3
 ; LE-NEXT:    lis 6, 13107
 ; LE-NEXT:    ori 6, 6, 13107
 ; LE-NEXT:    xxsldwi 2, 34, 34, 1
-; LE-NEXT:    xxswapd 3, 34
-; LE-NEXT:    xxsldwi 4, 34, 34, 3
+; LE-NEXT:    xxswapd 4, 34
+; LE-NEXT:    xxsldwi 5, 34, 34, 3
 ; LE-NEXT:    vspltisb 3, -16
 ; LE-NEXT:    vspltisb 4, 1
 ; LE-NEXT:    slwi 12, 9, 1
@@ -5089,7 +5089,7 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; LE-NEXT:    rlwimi 10, 9, 8, 8, 15
 ; LE-NEXT:    rlwimi 10, 9, 8, 24, 31
 ; LE-NEXT:    rldicl 9, 10, 0, 32
-; LE-NEXT:    mffprwz 10, 3
+; LE-NEXT:    mffprwz 10, 4
 ; LE-NEXT:    slwi 11, 10, 1
 ; LE-NEXT:    srwi 10, 10, 1
 ; LE-NEXT:    and 11, 11, 3
@@ -5110,7 +5110,7 @@ define <4 x i32> @clmulh_v4i32(<4 x i32> %a, <4 x i32> %b) nounwind {
 ; LE-NEXT:    rlwimi 11, 10, 8, 24, 31
 ; LE-NEXT:    rldicl 10, 11, 0, 32
 ; LE-NEXT:    rldimi 10, 9, 32, 0
-; LE-NEXT:    mffprwz 9, 4
+; LE-NEXT:    mffprwz 9, 5
 ; LE-NEXT:    xxmrghd 0, 1, 0
 ; LE-NEXT:    mtfprd 1, 10
 ; LE-NEXT:    slwi 10, 9, 1
@@ -5830,26 +5830,24 @@ define <2 x i64> @clmulh_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    xxland 1, 39, 32
 ; LE-NEXT:    xxland 39, 35, 38
 ; LE-NEXT:    vsld 0, 4, 9
-; LE-NEXT:    vsld 6, 4, 6
 ; LE-NEXT:    vcmpgtud 7, 7, 5
 ; LE-NEXT:    xxland 2, 39, 32
-; LE-NEXT:    vsld 0, 4, 1
-; LE-NEXT:    lxvd2x 33, 0, 9
+; LE-NEXT:    lxvd2x 39, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_1@toc@ha
+; LE-NEXT:    vsld 0, 4, 1
 ; LE-NEXT:    addi 9, 9, .LCPI11_1@toc@l
+; LE-NEXT:    xxland 41, 35, 39
 ; LE-NEXT:    vupklsw 2, 8
 ; LE-NEXT:    vspltisw 8, 5
-; LE-NEXT:    xxland 41, 35, 33
-; LE-NEXT:    vsld 1, 4, 1
 ; LE-NEXT:    vcmpgtud 9, 9, 5
-; LE-NEXT:    xxland 5, 41, 32
+; LE-NEXT:    xxland 3, 41, 32
 ; LE-NEXT:    lxvd2x 32, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_2@toc@ha
+; LE-NEXT:    addi 9, 9, .LCPI11_2@toc@l
+; LE-NEXT:    lxvd2x 5, 0, 9
+; LE-NEXT:    addis 9, 2, .LCPI11_3@toc@ha
 ; LE-NEXT:    vupklsw 8, 8
 ; LE-NEXT:    vsld 8, 4, 8
-; LE-NEXT:    addi 9, 9, .LCPI11_2@toc@l
-; LE-NEXT:    lxvd2x 3, 0, 9
-; LE-NEXT:    addis 9, 2, .LCPI11_3@toc@ha
 ; LE-NEXT:    xxland 41, 35, 32
 ; LE-NEXT:    vsld 0, 4, 0
 ; LE-NEXT:    addi 9, 9, .LCPI11_3@toc@l
@@ -5857,7 +5855,7 @@ define <2 x i64> @clmulh_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 6, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_4@toc@ha
 ; LE-NEXT:    xxland 4, 41, 40
-; LE-NEXT:    xxland 40, 35, 3
+; LE-NEXT:    xxland 40, 35, 5
 ; LE-NEXT:    addi 9, 9, .LCPI11_4@toc@l
 ; LE-NEXT:    vcmpgtud 8, 8, 5
 ; LE-NEXT:    lxvd2x 7, 0, 9
@@ -5868,20 +5866,10 @@ define <2 x i64> @clmulh_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    lxvd2x 8, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_6@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI11_6@toc@l
-; LE-NEXT:    vspltisw 7, 6
-; LE-NEXT:    vupklsw 7, 7
-; LE-NEXT:    vsld 7, 4, 7
-; LE-NEXT:    xxland 3, 40, 39
-; LE-NEXT:    vsld 7, 4, 10
-; LE-NEXT:    xxland 6, 41, 39
-; LE-NEXT:    xxland 41, 35, 7
-; LE-NEXT:    vcmpgtud 9, 9, 5
-; LE-NEXT:    xxland 7, 41, 38
-; LE-NEXT:    xxland 41, 35, 8
-; LE-NEXT:    lxvd2x 8, 0, 9
+; LE-NEXT:    lxvd2x 9, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_7@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI11_7@toc@l
-; LE-NEXT:    vcmpgtud 9, 9, 5
+; LE-NEXT:    vspltisw 1, 6
 ; LE-NEXT:    lxvd2x 10, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_8@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI11_8@toc@l
@@ -5889,42 +5877,53 @@ define <2 x i64> @clmulh_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    addis 9, 2, .LCPI11_9@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI11_9@toc@l
 ; LE-NEXT:    lxvd2x 12, 0, 9
+; LE-NEXT:    vupklsw 1, 1
+; LE-NEXT:    vsld 1, 4, 1
+; LE-NEXT:    xxland 5, 40, 33
+; LE-NEXT:    vsld 1, 4, 10
+; LE-NEXT:    xxland 6, 41, 33
+; LE-NEXT:    xxland 41, 35, 7
+; LE-NEXT:    vsld 1, 4, 6
+; LE-NEXT:    vcmpgtud 9, 9, 5
+; LE-NEXT:    xxland 7, 41, 33
+; LE-NEXT:    xxland 41, 35, 8
+; LE-NEXT:    vcmpgtud 9, 9, 5
 ; LE-NEXT:    addis 9, 2, .LCPI11_10@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI11_10@toc@l
 ; LE-NEXT:    vspltisw 8, 9
-; LE-NEXT:    vupklsw 7, 8
+; LE-NEXT:    vupklsw 6, 8
 ; LE-NEXT:    vspltisw 8, 10
-; LE-NEXT:    vsld 6, 4, 7
-; LE-NEXT:    xxland 9, 41, 38
+; LE-NEXT:    vsld 1, 4, 6
+; LE-NEXT:    xxland 8, 41, 33
 ; LE-NEXT:    xxland 41, 35, 10
 ; LE-NEXT:    vcmpgtud 9, 9, 5
-; LE-NEXT:    vupklsw 7, 8
+; LE-NEXT:    vupklsw 6, 8
 ; LE-NEXT:    vspltisw 8, 11
-; LE-NEXT:    vsld 6, 4, 7
-; LE-NEXT:    vupklsw 7, 8
-; LE-NEXT:    xxland 40, 35, 8
+; LE-NEXT:    vsld 1, 4, 6
+; LE-NEXT:    vupklsw 6, 8
+; LE-NEXT:    xxland 40, 35, 9
 ; LE-NEXT:    vcmpgtud 8, 8, 5
-; LE-NEXT:    xxland 8, 40, 38
-; LE-NEXT:    vsld 6, 4, 7
-; LE-NEXT:    xxland 10, 41, 38
+; LE-NEXT:    xxland 9, 40, 33
+; LE-NEXT:    vsld 1, 4, 6
+; LE-NEXT:    xxland 10, 41, 33
 ; LE-NEXT:    xxland 41, 35, 11
 ; LE-NEXT:    vcmpgtud 9, 9, 5
-; LE-NEXT:    vspltisw 7, 12
+; LE-NEXT:    vspltisw 6, 12
 ; LE-NEXT:    vspltisw 8, 13
-; LE-NEXT:    vupklsw 6, 7
+; LE-NEXT:    vupklsw 1, 6
+; LE-NEXT:    vsld 1, 4, 1
+; LE-NEXT:    vupklsw 6, 8
 ; LE-NEXT:    vsld 6, 4, 6
-; LE-NEXT:    vupklsw 7, 8
-; LE-NEXT:    vsld 7, 4, 7
 ; LE-NEXT:    vspltisw 8, 14
-; LE-NEXT:    xxland 11, 41, 38
-; LE-NEXT:    xxland 38, 35, 12
-; LE-NEXT:    vcmpgtud 6, 6, 5
-; LE-NEXT:    xxland 12, 38, 39
-; LE-NEXT:    xxland 38, 35, 34
-; LE-NEXT:    vcmpgtud 6, 6, 5
-; LE-NEXT:    xxland 13, 38, 36
+; LE-NEXT:    xxland 11, 41, 33
+; LE-NEXT:    xxland 33, 35, 12
+; LE-NEXT:    vcmpgtud 1, 1, 5
+; LE-NEXT:    xxland 12, 33, 38
+; LE-NEXT:    xxland 33, 35, 34
+; LE-NEXT:    vcmpgtud 1, 1, 5
+; LE-NEXT:    xxland 13, 33, 36
 ; LE-NEXT:    vupklsw 8, 8
-; LE-NEXT:    vsld 7, 4, 8
+; LE-NEXT:    vsld 6, 4, 8
 ; LE-NEXT:    xxlxor 0, 13, 0
 ; LE-NEXT:    xxlxor 0, 0, 1
 ; LE-NEXT:    lxvd2x 1, 0, 9
@@ -5934,50 +5933,51 @@ define <2 x i64> @clmulh_v2i64(<2 x i64> %a, <2 x i64> %b) nounwind {
 ; LE-NEXT:    xxlxor 0, 0, 2
 ; LE-NEXT:    lxvd2x 2, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_12@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 5
+; LE-NEXT:    xxlxor 0, 0, 3
 ; LE-NEXT:    xxland 40, 35, 1
 ; LE-NEXT:    addi 9, 9, .LCPI11_12@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 4
 ; LE-NEXT:    vcmpgtud 8, 8, 5
-; LE-NEXT:    lxvd2x 4, 0, 9
+; LE-NEXT:    lxvd2x 3, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_13@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 3
-; LE-NEXT:    xxland 1, 40, 39
-; LE-NEXT:    xxland 39, 35, 2
+; LE-NEXT:    xxlxor 0, 0, 5
+; LE-NEXT:    xxland 1, 40, 38
+; LE-NEXT:    xxland 38, 35, 2
 ; LE-NEXT:    addi 9, 9, .LCPI11_13@toc@l
 ; LE-NEXT:    xxlxor 0, 0, 6
-; LE-NEXT:    vcmpgtud 7, 7, 5
+; LE-NEXT:    vcmpgtud 6, 6, 5
 ; LE-NEXT:    xxlxor 0, 0, 7
-; LE-NEXT:    xxlxor 0, 0, 9
 ; LE-NEXT:    xxlxor 0, 0, 8
+; LE-NEXT:    xxlxor 0, 0, 9
 ; LE-NEXT:    xxlxor 0, 0, 10
 ; LE-NEXT:    xxlxor 0, 0, 11
 ; LE-NEXT:    xxlxor 0, 0, 12
 ; LE-NEXT:    xxlxor 0, 0, 1
-; LE-NEXT:    vupklsw 6, 9
-; LE-NEXT:    vsld 6, 4, 6
-; LE-NEXT:    xxland 2, 39, 38
-; LE-NEXT:    xxland 38, 35, 4
+; LE-NEXT:    vupklsw 1, 9
+; LE-NEXT:    vsld 1, 4, 1
+; LE-NEXT:    xxland 2, 38, 33
+; LE-NEXT:    xxland 38, 35, 3
+; LE-NEXT:    vsld 1, 4, 7
 ; LE-NEXT:    vcmpgtud 6, 6, 5
-; LE-NEXT:    xxland 4, 38, 33
+; LE-NEXT:    xxland 3, 38, 33
 ; LE-NEXT:    lxvd2x 33, 0, 9
 ; LE-NEXT:    addi 9, 10, .LCPI11_14@toc@l
-; LE-NEXT:    lxvd2x 3, 0, 9
-; LE-NEXT:    xxland 38, 35, 3
+; LE-NEXT:    lxvd2x 4, 0, 9
+; LE-NEXT:    xxland 38, 35, 4
 ; LE-NEXT:    addis 9, 2, .LCPI11_15@toc@ha
 ; LE-NEXT:    vsld 1, 4, 1
 ; LE-NEXT:    addis 10, 2, .LCPI11_16@toc@ha
 ; LE-NEXT:    addi 9, 9, .LCPI11_15@toc@l
 ; LE-NEXT:    vcmpgtud 6, 6, 5
 ; LE-NEXT:    xxlxor 0, 0, 2
-; LE-NEXT:    xxland 3, 38, 33
+; LE-NEXT:    xxland 4, 38, 33
 ; LE-NEXT:    lxvd2x 33, 0, 9
 ; LE-NEXT:    addi 9, 10, .LCPI11_16@toc@l
 ; LE-NEXT:    addis 10, 2, .LCPI11_18@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 4
+; LE-NEXT:    xxlxor 0, 0, 3
 ; LE-NEXT:    lxvd2x 5, 0, 9
 ; LE-NEXT:    addis 9, 2, .LCPI11_17@toc@ha
-; LE-NEXT:    xxlxor 0, 0, 3
+; LE-NEXT:    xxlxor 0, 0, 4
 ; LE-NEXT:    addi 9, 9, .LCPI11_17@toc@l
 ; LE-NEXT:    vsld 1, 4, 1
 ; LE-NEXT:    xxland 38, 35, 5

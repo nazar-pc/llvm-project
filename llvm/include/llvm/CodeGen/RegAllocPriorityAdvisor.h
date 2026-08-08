@@ -57,6 +57,7 @@ public:
 
 private:
   unsigned getPriority(const LiveInterval &LI) const override;
+  bool coversEnoughOfItsBlock(const LiveInterval &LI) const;
 };
 
 /// Stupid priority advisor which just enqueues in virtual register number

@@ -56,24 +56,24 @@ define i128 @foo(i128 %t, i128 %u) {
 ; X86-NEXT:    movl %edi, %eax
 ; X86-NEXT:    movl 40(%ebp), %ecx
 ; X86-NEXT:    mull %ecx
-; X86-NEXT:    movl %edx, %ebx
+; X86-NEXT:    movl %edx, %edi
 ; X86-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; X86-NEXT:    movl 28(%ebp), %eax
 ; X86-NEXT:    mull %ecx
-; X86-NEXT:    movl %edx, %edi
+; X86-NEXT:    movl %edx, %ebx
 ; X86-NEXT:    movl %eax, %ecx
-; X86-NEXT:    addl %ebx, %ecx
-; X86-NEXT:    adcl $0, %edi
+; X86-NEXT:    addl %edi, %ecx
+; X86-NEXT:    adcl $0, %ebx
 ; X86-NEXT:    movl 24(%ebp), %eax
 ; X86-NEXT:    mull 44(%ebp)
-; X86-NEXT:    movl %edx, %ebx
+; X86-NEXT:    movl %edx, %edi
 ; X86-NEXT:    addl %ecx, %eax
 ; X86-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
-; X86-NEXT:    adcl %edi, %ebx
+; X86-NEXT:    adcl %ebx, %edi
 ; X86-NEXT:    setb %cl
 ; X86-NEXT:    movl 28(%ebp), %eax
 ; X86-NEXT:    mull 44(%ebp)
-; X86-NEXT:    addl %ebx, %eax
+; X86-NEXT:    addl %edi, %eax
 ; X86-NEXT:    movzbl %cl, %ecx
 ; X86-NEXT:    adcl %ecx, %edx
 ; X86-NEXT:    addl (%esp), %eax # 4-byte Folded Reload

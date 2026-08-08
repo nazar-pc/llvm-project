@@ -30,29 +30,29 @@ define i64 @fn1() #0 {
 ; CHECK-NEXT:    cmpl $0, (%edi)
 ; CHECK-NEXT:    je .LBB0_2
 ; CHECK-NEXT:  # %bb.1: # %if.then
-; CHECK-NEXT:    movl 8(%edi), %esi
+; CHECK-NEXT:    movl 8(%edi), %eax
 ; CHECK-NEXT:    movl 12(%edi), %edx
-; CHECK-NEXT:    movl %edx, %eax
-; CHECK-NEXT:    shldl $1, %esi, %eax
-; CHECK-NEXT:    orl %edx, %eax
-; CHECK-NEXT:    leal (%esi,%esi), %ecx
-; CHECK-NEXT:    orl %esi, %ecx
+; CHECK-NEXT:    movl %edx, %esi
+; CHECK-NEXT:    shldl $1, %eax, %esi
+; CHECK-NEXT:    orl %edx, %esi
+; CHECK-NEXT:    leal (%eax,%eax), %ecx
+; CHECK-NEXT:    orl %eax, %ecx
 ; CHECK-NEXT:    movl %ecx, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; CHECK-NEXT:    movl 16(%edi), %ecx
-; CHECK-NEXT:    movl 20(%edi), %esi
-; CHECK-NEXT:    movl %esi, %edx
+; CHECK-NEXT:    movl 20(%edi), %eax
+; CHECK-NEXT:    movl %eax, %edx
 ; CHECK-NEXT:    shldl $2, %ecx, %edx
 ; CHECK-NEXT:    movl %edx, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; CHECK-NEXT:    leal (,%ecx,4), %edx
 ; CHECK-NEXT:    movl %edx, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
-; CHECK-NEXT:    shrdl $1, %esi, %ecx
+; CHECK-NEXT:    shrdl $1, %eax, %ecx
 ; CHECK-NEXT:    orl {{[-0-9]+}}(%e{{[sb]}}p), %ecx # 4-byte Folded Reload
-; CHECK-NEXT:    shrl %esi
-; CHECK-NEXT:    orl {{[-0-9]+}}(%e{{[sb]}}p), %esi # 4-byte Folded Reload
+; CHECK-NEXT:    shrl %eax
+; CHECK-NEXT:    orl {{[-0-9]+}}(%e{{[sb]}}p), %eax # 4-byte Folded Reload
 ; CHECK-NEXT:    addl {{[-0-9]+}}(%e{{[sb]}}p), %ecx # 4-byte Folded Reload
 ; CHECK-NEXT:    movl %ecx, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
-; CHECK-NEXT:    adcl %eax, %esi
-; CHECK-NEXT:    movl %esi, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
+; CHECK-NEXT:    adcl %esi, %eax
+; CHECK-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; CHECK-NEXT:    movl 24(%edi), %eax
 ; CHECK-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; CHECK-NEXT:    movl $-1028477379, %ecx # imm = 0xC2B2AE3D
@@ -81,18 +81,18 @@ define i64 @fn1() #0 {
 ; CHECK-NEXT:    movl %eax, %edi
 ; CHECK-NEXT:    imull $326129324, %esi, %eax # imm = 0x137056AC
 ; CHECK-NEXT:    addl %edx, %eax
-; CHECK-NEXT:    imull $-66860409, %ebx, %ecx # imm = 0xFC03CA87
-; CHECK-NEXT:    addl %eax, %ecx
-; CHECK-NEXT:    xorl {{[-0-9]+}}(%e{{[sb]}}p), %ecx # 4-byte Folded Reload
+; CHECK-NEXT:    imull $-66860409, %ebx, %esi # imm = 0xFC03CA87
+; CHECK-NEXT:    addl %eax, %esi
+; CHECK-NEXT:    xorl {{[-0-9]+}}(%e{{[sb]}}p), %esi # 4-byte Folded Reload
 ; CHECK-NEXT:    xorl {{[-0-9]+}}(%e{{[sb]}}p), %edi # 4-byte Folded Reload
 ; CHECK-NEXT:    movl %edi, b
 ; CHECK-NEXT:    movl %edi, %eax
-; CHECK-NEXT:    movl $-66860409, %edx # imm = 0xFC03CA87
-; CHECK-NEXT:    mull %edx
-; CHECK-NEXT:    imull $326129324, %edi, %esi # imm = 0x137056AC
-; CHECK-NEXT:    addl %edx, %esi
-; CHECK-NEXT:    movl %ecx, b+4
-; CHECK-NEXT:    imull $-66860409, %ecx, %ecx # imm = 0xFC03CA87
+; CHECK-NEXT:    mull %ecx
+; CHECK-NEXT:    imull $326129324, %edi, %edi # imm = 0x137056AC
+; CHECK-NEXT:    addl %edx, %edi
+; CHECK-NEXT:    movl %esi, b+4
+; CHECK-NEXT:    imull $-66860409, %esi, %ecx # imm = 0xFC03CA87
+; CHECK-NEXT:    addl %edi, %ecx
 ; CHECK-NEXT:    jmp .LBB0_3
 ; CHECK-NEXT:  .LBB0_2: # %if.else
 ; CHECK-NEXT:    xorl b+4, %eax
@@ -104,8 +104,8 @@ define i64 @fn1() #0 {
 ; CHECK-NEXT:    imull $93298681, %ebx, %esi # imm = 0x58F9FF9
 ; CHECK-NEXT:    addl %edx, %esi
 ; CHECK-NEXT:    imull $1419758215, %edi, %ecx # imm = 0x549FCA87
-; CHECK-NEXT:  .LBB0_3: # %if.end
 ; CHECK-NEXT:    addl %esi, %ecx
+; CHECK-NEXT:  .LBB0_3: # %if.end
 ; CHECK-NEXT:    addl $-1028477341, %eax # imm = 0xC2B2AE63
 ; CHECK-NEXT:    adcl $-2048144777, %ecx # imm = 0x85EBCA77
 ; CHECK-NEXT:    movl %eax, b

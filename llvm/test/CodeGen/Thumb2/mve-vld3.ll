@@ -136,29 +136,29 @@ define void @vld3_v16i32(ptr %src, ptr %dst) {
 ; CHECK-NEXT:    vmov.f32 s12, s5
 ; CHECK-NEXT:    vmov.f32 s15, s18
 ; CHECK-NEXT:    vmov.f32 s11, s17
-; CHECK-NEXT:    vadd.i32 q2, q2, q3
 ; CHECK-NEXT:    vmov.f32 s0, s6
+; CHECK-NEXT:    vadd.i32 q2, q2, q3
 ; CHECK-NEXT:    vmov.f32 s2, s16
 ; CHECK-NEXT:    vldrw.u32 q1, [r0, #16]
 ; CHECK-NEXT:    vmov.f32 s3, s19
-; CHECK-NEXT:    vldrw.u32 q3, [r0, #32]
+; CHECK-NEXT:    vldrw.u32 q4, [r0, #32]
 ; CHECK-NEXT:    vadd.i32 q0, q2, q0
 ; CHECK-NEXT:    vldrw.u32 q2, [r0]
-; CHECK-NEXT:    vmov.f32 s17, s4
-; CHECK-NEXT:    vmov.f32 s18, s7
+; CHECK-NEXT:    vmov.f32 s13, s4
+; CHECK-NEXT:    vmov.f32 s14, s7
 ; CHECK-NEXT:    vmov.f32 s22, s6
-; CHECK-NEXT:    vmov.f32 s16, s9
-; CHECK-NEXT:    vmov.f32 s19, s14
+; CHECK-NEXT:    vmov.f32 s12, s9
+; CHECK-NEXT:    vmov.f32 s15, s18
 ; CHECK-NEXT:    vmov.f32 s20, s8
 ; CHECK-NEXT:    vmov.f32 s21, s11
-; CHECK-NEXT:    vmov.f32 s23, s13
+; CHECK-NEXT:    vmov.f32 s23, s17
+; CHECK-NEXT:    vadd.i32 q3, q5, q3
 ; CHECK-NEXT:    vmov.f32 s4, s10
+; CHECK-NEXT:    vmov.f32 s7, s19
 ; CHECK-NEXT:    vldrw.u32 q2, [r0, #160]
-; CHECK-NEXT:    vmov.f32 s6, s12
-; CHECK-NEXT:    vadd.i32 q4, q5, q4
-; CHECK-NEXT:    vmov.f32 s7, s15
+; CHECK-NEXT:    vmov.f32 s6, s16
+; CHECK-NEXT:    vadd.i32 q1, q3, q1
 ; CHECK-NEXT:    vldrw.u32 q3, [r0, #144]
-; CHECK-NEXT:    vadd.i32 q1, q4, q1
 ; CHECK-NEXT:    vmov.f32 s18, s10
 ; CHECK-NEXT:    vmov.f32 s21, s8
 ; CHECK-NEXT:    vmov.f32 s22, s11
@@ -167,30 +167,30 @@ define void @vld3_v16i32(ptr %src, ptr %dst) {
 ; CHECK-NEXT:    vmov.f32 s20, s13
 ; CHECK-NEXT:    vmov.f32 s23, s26
 ; CHECK-NEXT:    vmov.f32 s19, s25
-; CHECK-NEXT:    vadd.i32 q4, q4, q5
 ; CHECK-NEXT:    vmov.f32 s8, s14
+; CHECK-NEXT:    vadd.i32 q4, q4, q5
 ; CHECK-NEXT:    vmov.f32 s10, s24
 ; CHECK-NEXT:    vldrw.u32 q3, [r0, #112]
 ; CHECK-NEXT:    vmov.f32 s11, s27
-; CHECK-NEXT:    vldrw.u32 q5, [r0, #128]
+; CHECK-NEXT:    vldrw.u32 q6, [r0, #128]
 ; CHECK-NEXT:    vadd.i32 q2, q4, q2
 ; CHECK-NEXT:    vldrw.u32 q4, [r0, #96]
-; CHECK-NEXT:    vmov.f32 s25, s12
+; CHECK-NEXT:    vmov.f32 s21, s12
 ; CHECK-NEXT:    vstrw.32 q2, [r1, #48]
-; CHECK-NEXT:    vmov.f32 s26, s15
+; CHECK-NEXT:    vmov.f32 s22, s15
 ; CHECK-NEXT:    vstrw.32 q0, [r1, #16]
 ; CHECK-NEXT:    vmov.f32 s30, s14
 ; CHECK-NEXT:    vstrw.32 q1, [r1]
-; CHECK-NEXT:    vmov.f32 s24, s17
-; CHECK-NEXT:    vmov.f32 s27, s22
+; CHECK-NEXT:    vmov.f32 s20, s17
+; CHECK-NEXT:    vmov.f32 s23, s26
 ; CHECK-NEXT:    vmov.f32 s28, s16
 ; CHECK-NEXT:    vmov.f32 s29, s19
-; CHECK-NEXT:    vmov.f32 s31, s21
-; CHECK-NEXT:    vadd.i32 q6, q7, q6
+; CHECK-NEXT:    vmov.f32 s31, s25
+; CHECK-NEXT:    vadd.i32 q5, q7, q5
 ; CHECK-NEXT:    vmov.f32 s12, s18
-; CHECK-NEXT:    vmov.f32 s14, s20
-; CHECK-NEXT:    vmov.f32 s15, s23
-; CHECK-NEXT:    vadd.i32 q3, q6, q3
+; CHECK-NEXT:    vmov.f32 s14, s24
+; CHECK-NEXT:    vmov.f32 s15, s27
+; CHECK-NEXT:    vadd.i32 q3, q5, q3
 ; CHECK-NEXT:    vstrw.32 q3, [r1, #32]
 ; CHECK-NEXT:    vpop {d8, d9, d10, d11, d12, d13, d14, d15}
 ; CHECK-NEXT:    bx lr
@@ -862,40 +862,40 @@ define void @vld3_v4i64(ptr %src, ptr %dst) {
 ; CHECK-LV:       @ %bb.0: @ %entry
 ; CHECK-LV-NEXT:    .save {r4, r5, r6, r7, r8, lr}
 ; CHECK-LV-NEXT:    push.w {r4, r5, r6, r7, r8, lr}
-; CHECK-LV-NEXT:    .vsave {d8, d9, d10, d11, d12}
-; CHECK-LV-NEXT:    vpush {d8, d9, d10, d11, d12}
+; CHECK-LV-NEXT:    .vsave {d12, d13}
+; CHECK-LV-NEXT:    vpush {d12, d13}
+; CHECK-LV-NEXT:    .vsave {d8, d9, d10}
+; CHECK-LV-NEXT:    vpush {d8, d9, d10}
 ; CHECK-LV-NEXT:    vldrw.u32 q0, [r0]
 ; CHECK-LV-NEXT:    vldrw.u32 q3, [r0, #32]
 ; CHECK-LV-NEXT:    vldrw.u32 q2, [r0, #16]
 ; CHECK-LV-NEXT:    vldrw.u32 q4, [r0, #48]
 ; CHECK-LV-NEXT:    vmov.f32 s4, s2
-; CHECK-LV-NEXT:    vldrw.u32 q5, [r0, #64]
+; CHECK-LV-NEXT:    vldrw.u32 q6, [r0, #64]
 ; CHECK-LV-NEXT:    vmov.f32 s5, s3
 ; CHECK-LV-NEXT:    vmov.f32 s2, s12
 ; CHECK-LV-NEXT:    vmov.f32 s3, s13
 ; CHECK-LV-NEXT:    vmov r2, r3, d5
 ; CHECK-LV-NEXT:    vmov r4, r8, d7
 ; CHECK-LV-NEXT:    vldrw.u32 q3, [r0, #80]
-; CHECK-LV-NEXT:    vmov.f32 s24, s18
-; CHECK-LV-NEXT:    vmov.f32 s25, s19
-; CHECK-LV-NEXT:    vmov.f32 s6, s22
-; CHECK-LV-NEXT:    vmov.f32 s7, s23
+; CHECK-LV-NEXT:    vmov.f32 s20, s18
+; CHECK-LV-NEXT:    vmov.f32 s21, s19
 ; CHECK-LV-NEXT:    vmov lr, r12, d1
 ; CHECK-LV-NEXT:    vmov.f32 s2, s12
 ; CHECK-LV-NEXT:    vmov.f32 s3, s13
-; CHECK-LV-NEXT:    vmov r6, r7, d12
+; CHECK-LV-NEXT:    vmov r6, r7, d10
 ; CHECK-LV-NEXT:    adds.w r0, r2, lr
 ; CHECK-LV-NEXT:    adc.w r2, r3, r12
 ; CHECK-LV-NEXT:    adds.w lr, r0, r4
 ; CHECK-LV-NEXT:    vmov r3, r5, d8
 ; CHECK-LV-NEXT:    adc.w r12, r2, r8
-; CHECK-LV-NEXT:    vmov r2, r0, d10
+; CHECK-LV-NEXT:    vmov r2, r0, d12
 ; CHECK-LV-NEXT:    adds r3, r3, r6
 ; CHECK-LV-NEXT:    adcs r7, r5
 ; CHECK-LV-NEXT:    adds r2, r2, r3
 ; CHECK-LV-NEXT:    adc.w r8, r7, r0
 ; CHECK-LV-NEXT:    vmov r6, r5, d1
-; CHECK-LV-NEXT:    vmov r3, r7, d3
+; CHECK-LV-NEXT:    vmov r3, r7, d13
 ; CHECK-LV-NEXT:    vmov r4, r0, d0
 ; CHECK-LV-NEXT:    adds r3, r3, r6
 ; CHECK-LV-NEXT:    adcs r7, r5
@@ -914,56 +914,57 @@ define void @vld3_v4i64(ptr %src, ptr %dst) {
 ; CHECK-LV-NEXT:    adcs r0, r6
 ; CHECK-LV-NEXT:    vmov q0[3], q0[1], r0, r12
 ; CHECK-LV-NEXT:    vstrw.32 q0, [r1]
-; CHECK-LV-NEXT:    vpop {d8, d9, d10, d11, d12}
+; CHECK-LV-NEXT:    vpop {d8, d9, d10}
+; CHECK-LV-NEXT:    vpop {d12, d13}
 ; CHECK-LV-NEXT:    pop.w {r4, r5, r6, r7, r8, pc}
 ;
 ; CHECK-LIS-LABEL: vld3_v4i64:
 ; CHECK-LIS:       @ %bb.0: @ %entry
 ; CHECK-LIS-NEXT:    .save {r4, r5, r6, r7, r8, lr}
 ; CHECK-LIS-NEXT:    push.w {r4, r5, r6, r7, r8, lr}
-; CHECK-LIS-NEXT:    .vsave {d8, d9, d10, d11, d12}
-; CHECK-LIS-NEXT:    vpush {d8, d9, d10, d11, d12}
+; CHECK-LIS-NEXT:    .vsave {d12, d13}
+; CHECK-LIS-NEXT:    vpush {d12, d13}
+; CHECK-LIS-NEXT:    .vsave {d8, d9, d10}
+; CHECK-LIS-NEXT:    vpush {d8, d9, d10}
 ; CHECK-LIS-NEXT:    vldrw.u32 q0, [r0]
 ; CHECK-LIS-NEXT:    vldrw.u32 q3, [r0, #32]
 ; CHECK-LIS-NEXT:    vldrw.u32 q2, [r0, #16]
 ; CHECK-LIS-NEXT:    vldrw.u32 q4, [r0, #48]
 ; CHECK-LIS-NEXT:    vmov.f32 s4, s2
-; CHECK-LIS-NEXT:    vldrw.u32 q5, [r0, #64]
+; CHECK-LIS-NEXT:    vldrw.u32 q6, [r0, #64]
 ; CHECK-LIS-NEXT:    vmov.f32 s5, s3
 ; CHECK-LIS-NEXT:    vmov.f32 s2, s12
 ; CHECK-LIS-NEXT:    vmov.f32 s3, s13
 ; CHECK-LIS-NEXT:    vmov r5, r4, d5
 ; CHECK-LIS-NEXT:    vmov r3, r8, d7
 ; CHECK-LIS-NEXT:    vldrw.u32 q3, [r0, #80]
-; CHECK-LIS-NEXT:    vmov.f32 s24, s18
-; CHECK-LIS-NEXT:    vmov.f32 s25, s19
-; CHECK-LIS-NEXT:    vmov.f32 s6, s22
-; CHECK-LIS-NEXT:    vmov.f32 s7, s23
+; CHECK-LIS-NEXT:    vmov.f32 s20, s18
+; CHECK-LIS-NEXT:    vmov.f32 s21, s19
 ; CHECK-LIS-NEXT:    vmov lr, r12, d1
 ; CHECK-LIS-NEXT:    vmov.f32 s2, s12
 ; CHECK-LIS-NEXT:    vmov.f32 s3, s13
-; CHECK-LIS-NEXT:    vmov r7, r6, d12
+; CHECK-LIS-NEXT:    vmov r6, r7, d10
 ; CHECK-LIS-NEXT:    adds.w r0, r5, lr
 ; CHECK-LIS-NEXT:    adc.w r5, r4, r12
 ; CHECK-LIS-NEXT:    adds.w lr, r0, r3
 ; CHECK-LIS-NEXT:    vmov r4, r2, d8
 ; CHECK-LIS-NEXT:    adc.w r12, r5, r8
-; CHECK-LIS-NEXT:    vmov r5, r0, d10
-; CHECK-LIS-NEXT:    adds r7, r7, r4
-; CHECK-LIS-NEXT:    adcs r2, r6
-; CHECK-LIS-NEXT:    adds r7, r7, r5
+; CHECK-LIS-NEXT:    vmov r5, r0, d12
+; CHECK-LIS-NEXT:    adds r6, r6, r4
+; CHECK-LIS-NEXT:    adcs r2, r7
+; CHECK-LIS-NEXT:    adds r6, r6, r5
 ; CHECK-LIS-NEXT:    adc.w r8, r2, r0
-; CHECK-LIS-NEXT:    vmov r6, r4, d1
-; CHECK-LIS-NEXT:    vmov r2, r5, d3
+; CHECK-LIS-NEXT:    vmov r7, r4, d1
+; CHECK-LIS-NEXT:    vmov r2, r5, d13
 ; CHECK-LIS-NEXT:    vmov r3, r0, d0
-; CHECK-LIS-NEXT:    adds r2, r2, r6
-; CHECK-LIS-NEXT:    adc.w r6, r5, r4
+; CHECK-LIS-NEXT:    adds r2, r2, r7
+; CHECK-LIS-NEXT:    adc.w r7, r5, r4
 ; CHECK-LIS-NEXT:    vmov r5, r4, d7
 ; CHECK-LIS-NEXT:    adds r2, r2, r5
-; CHECK-LIS-NEXT:    adcs r6, r4
+; CHECK-LIS-NEXT:    adcs r7, r4
 ; CHECK-LIS-NEXT:    vmov r5, r4, d2
-; CHECK-LIS-NEXT:    vmov q1[2], q1[0], r7, r2
-; CHECK-LIS-NEXT:    vmov q1[3], q1[1], r8, r6
+; CHECK-LIS-NEXT:    vmov q1[2], q1[0], r6, r2
+; CHECK-LIS-NEXT:    vmov q1[3], q1[1], r8, r7
 ; CHECK-LIS-NEXT:    vstrw.32 q1, [r1, #16]
 ; CHECK-LIS-NEXT:    adds r3, r3, r5
 ; CHECK-LIS-NEXT:    adcs r0, r4
@@ -973,7 +974,8 @@ define void @vld3_v4i64(ptr %src, ptr %dst) {
 ; CHECK-LIS-NEXT:    adcs r0, r5
 ; CHECK-LIS-NEXT:    vmov q0[3], q0[1], r0, r12
 ; CHECK-LIS-NEXT:    vstrw.32 q0, [r1]
-; CHECK-LIS-NEXT:    vpop {d8, d9, d10, d11, d12}
+; CHECK-LIS-NEXT:    vpop {d8, d9, d10}
+; CHECK-LIS-NEXT:    vpop {d12, d13}
 ; CHECK-LIS-NEXT:    pop.w {r4, r5, r6, r7, r8, pc}
 entry:
   %l1 = load <12 x i64>, ptr %src, align 4
@@ -1134,29 +1136,29 @@ define void @vld3_v16f32(ptr %src, ptr %dst) {
 ; CHECK-NEXT:    vmov.f32 s12, s5
 ; CHECK-NEXT:    vmov.f32 s15, s18
 ; CHECK-NEXT:    vmov.f32 s11, s17
-; CHECK-NEXT:    vadd.f32 q2, q2, q3
 ; CHECK-NEXT:    vmov.f32 s0, s6
+; CHECK-NEXT:    vadd.f32 q2, q2, q3
 ; CHECK-NEXT:    vmov.f32 s2, s16
 ; CHECK-NEXT:    vldrw.u32 q1, [r0, #16]
 ; CHECK-NEXT:    vmov.f32 s3, s19
-; CHECK-NEXT:    vldrw.u32 q3, [r0, #32]
+; CHECK-NEXT:    vldrw.u32 q4, [r0, #32]
 ; CHECK-NEXT:    vadd.f32 q0, q2, q0
 ; CHECK-NEXT:    vldrw.u32 q2, [r0]
-; CHECK-NEXT:    vmov.f32 s17, s4
-; CHECK-NEXT:    vmov.f32 s18, s7
+; CHECK-NEXT:    vmov.f32 s13, s4
+; CHECK-NEXT:    vmov.f32 s14, s7
 ; CHECK-NEXT:    vmov.f32 s22, s6
-; CHECK-NEXT:    vmov.f32 s16, s9
-; CHECK-NEXT:    vmov.f32 s19, s14
+; CHECK-NEXT:    vmov.f32 s12, s9
+; CHECK-NEXT:    vmov.f32 s15, s18
 ; CHECK-NEXT:    vmov.f32 s20, s8
 ; CHECK-NEXT:    vmov.f32 s21, s11
-; CHECK-NEXT:    vmov.f32 s23, s13
+; CHECK-NEXT:    vmov.f32 s23, s17
+; CHECK-NEXT:    vadd.f32 q3, q5, q3
 ; CHECK-NEXT:    vmov.f32 s4, s10
+; CHECK-NEXT:    vmov.f32 s7, s19
 ; CHECK-NEXT:    vldrw.u32 q2, [r0, #160]
-; CHECK-NEXT:    vmov.f32 s6, s12
-; CHECK-NEXT:    vadd.f32 q4, q5, q4
-; CHECK-NEXT:    vmov.f32 s7, s15
+; CHECK-NEXT:    vmov.f32 s6, s16
+; CHECK-NEXT:    vadd.f32 q1, q3, q1
 ; CHECK-NEXT:    vldrw.u32 q3, [r0, #144]
-; CHECK-NEXT:    vadd.f32 q1, q4, q1
 ; CHECK-NEXT:    vmov.f32 s18, s10
 ; CHECK-NEXT:    vmov.f32 s21, s8
 ; CHECK-NEXT:    vmov.f32 s22, s11
@@ -1165,30 +1167,30 @@ define void @vld3_v16f32(ptr %src, ptr %dst) {
 ; CHECK-NEXT:    vmov.f32 s20, s13
 ; CHECK-NEXT:    vmov.f32 s23, s26
 ; CHECK-NEXT:    vmov.f32 s19, s25
-; CHECK-NEXT:    vadd.f32 q4, q4, q5
 ; CHECK-NEXT:    vmov.f32 s8, s14
+; CHECK-NEXT:    vadd.f32 q4, q4, q5
 ; CHECK-NEXT:    vmov.f32 s10, s24
 ; CHECK-NEXT:    vldrw.u32 q3, [r0, #112]
 ; CHECK-NEXT:    vmov.f32 s11, s27
-; CHECK-NEXT:    vldrw.u32 q5, [r0, #128]
+; CHECK-NEXT:    vldrw.u32 q6, [r0, #128]
 ; CHECK-NEXT:    vadd.f32 q2, q4, q2
 ; CHECK-NEXT:    vldrw.u32 q4, [r0, #96]
-; CHECK-NEXT:    vmov.f32 s25, s12
+; CHECK-NEXT:    vmov.f32 s21, s12
 ; CHECK-NEXT:    vstrw.32 q2, [r1, #48]
-; CHECK-NEXT:    vmov.f32 s26, s15
+; CHECK-NEXT:    vmov.f32 s22, s15
 ; CHECK-NEXT:    vstrw.32 q0, [r1, #16]
 ; CHECK-NEXT:    vmov.f32 s30, s14
 ; CHECK-NEXT:    vstrw.32 q1, [r1]
-; CHECK-NEXT:    vmov.f32 s24, s17
-; CHECK-NEXT:    vmov.f32 s27, s22
+; CHECK-NEXT:    vmov.f32 s20, s17
+; CHECK-NEXT:    vmov.f32 s23, s26
 ; CHECK-NEXT:    vmov.f32 s28, s16
 ; CHECK-NEXT:    vmov.f32 s29, s19
-; CHECK-NEXT:    vmov.f32 s31, s21
-; CHECK-NEXT:    vadd.f32 q6, q7, q6
+; CHECK-NEXT:    vmov.f32 s31, s25
+; CHECK-NEXT:    vadd.f32 q5, q7, q5
 ; CHECK-NEXT:    vmov.f32 s12, s18
-; CHECK-NEXT:    vmov.f32 s14, s20
-; CHECK-NEXT:    vmov.f32 s15, s23
-; CHECK-NEXT:    vadd.f32 q3, q6, q3
+; CHECK-NEXT:    vmov.f32 s14, s24
+; CHECK-NEXT:    vmov.f32 s15, s27
+; CHECK-NEXT:    vadd.f32 q3, q5, q3
 ; CHECK-NEXT:    vstrw.32 q3, [r1, #32]
 ; CHECK-NEXT:    vpop {d8, d9, d10, d11, d12, d13, d14, d15}
 ; CHECK-NEXT:    bx lr

@@ -120,31 +120,31 @@ define i64 @mul1(i64 %n, ptr nocapture %z, ptr nocapture %x, i64 %y) nounwind {
 ; X86-NOBMI-NEXT:    # =>This Inner Loop Header: Depth=1
 ; X86-NOBMI-NEXT:    movl %edx, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; X86-NOBMI-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
-; X86-NOBMI-NEXT:    movl {{[0-9]+}}(%esp), %ebx
-; X86-NOBMI-NEXT:    movl (%ebx,%edi,8), %esi
+; X86-NOBMI-NEXT:    movl {{[0-9]+}}(%esp), %ebp
+; X86-NOBMI-NEXT:    movl (%ebp,%edi,8), %esi
 ; X86-NOBMI-NEXT:    movl %esi, %eax
 ; X86-NOBMI-NEXT:    movl {{[0-9]+}}(%esp), %ecx
 ; X86-NOBMI-NEXT:    mull %ecx
 ; X86-NOBMI-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
-; X86-NOBMI-NEXT:    movl %edx, %ebp
-; X86-NOBMI-NEXT:    movl 4(%ebx,%edi,8), %eax
+; X86-NOBMI-NEXT:    movl %edx, %ebx
+; X86-NOBMI-NEXT:    movl 4(%ebp,%edi,8), %eax
 ; X86-NOBMI-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; X86-NOBMI-NEXT:    mull %ecx
-; X86-NOBMI-NEXT:    movl %edx, %ebx
+; X86-NOBMI-NEXT:    movl %edx, %ebp
 ; X86-NOBMI-NEXT:    movl %eax, %ecx
-; X86-NOBMI-NEXT:    addl %ebp, %ecx
-; X86-NOBMI-NEXT:    adcl $0, %ebx
+; X86-NOBMI-NEXT:    addl %ebx, %ecx
+; X86-NOBMI-NEXT:    adcl $0, %ebp
 ; X86-NOBMI-NEXT:    movl %esi, %eax
 ; X86-NOBMI-NEXT:    movl {{[0-9]+}}(%esp), %edx
 ; X86-NOBMI-NEXT:    mull %edx
-; X86-NOBMI-NEXT:    movl %edx, %ebp
+; X86-NOBMI-NEXT:    movl %edx, %ebx
 ; X86-NOBMI-NEXT:    movl %eax, %esi
 ; X86-NOBMI-NEXT:    addl %ecx, %esi
-; X86-NOBMI-NEXT:    adcl %ebx, %ebp
+; X86-NOBMI-NEXT:    adcl %ebp, %ebx
 ; X86-NOBMI-NEXT:    setb %cl
 ; X86-NOBMI-NEXT:    movl {{[-0-9]+}}(%e{{[sb]}}p), %eax # 4-byte Reload
 ; X86-NOBMI-NEXT:    mull {{[0-9]+}}(%esp)
-; X86-NOBMI-NEXT:    addl %ebp, %eax
+; X86-NOBMI-NEXT:    addl %ebx, %eax
 ; X86-NOBMI-NEXT:    movl {{[0-9]+}}(%esp), %ebp
 ; X86-NOBMI-NEXT:    movzbl %cl, %ecx
 ; X86-NOBMI-NEXT:    adcl %ecx, %edx
@@ -162,9 +162,9 @@ define i64 @mul1(i64 %n, ptr nocapture %z, ptr nocapture %x, i64 %y) nounwind {
 ; X86-NOBMI-NEXT:    movl (%esp), %esi # 4-byte Reload
 ; X86-NOBMI-NEXT:    adcl $0, %esi
 ; X86-NOBMI-NEXT:    movl %edi, %ecx
-; X86-NOBMI-NEXT:    xorl %ebp, %ecx
+; X86-NOBMI-NEXT:    xorl {{[0-9]+}}(%esp), %ecx
 ; X86-NOBMI-NEXT:    movl %esi, (%esp) # 4-byte Spill
-; X86-NOBMI-NEXT:    xorl {{[0-9]+}}(%esp), %esi
+; X86-NOBMI-NEXT:    xorl %ebp, %esi
 ; X86-NOBMI-NEXT:    orl %ecx, %esi
 ; X86-NOBMI-NEXT:    jne .LBB1_2
 ; X86-NOBMI-NEXT:  .LBB1_3: # %for.end
@@ -200,23 +200,23 @@ define i64 @mul1(i64 %n, ptr nocapture %z, ptr nocapture %x, i64 %y) nounwind {
 ; X86-BMI-NEXT:    movl %eax, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; X86-BMI-NEXT:    movl %ebp, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; X86-BMI-NEXT:    movl {{[0-9]+}}(%esp), %esi
-; X86-BMI-NEXT:    movl (%esi,%ebx,8), %ecx
-; X86-BMI-NEXT:    movl %ecx, %edx
-; X86-BMI-NEXT:    movl {{[0-9]+}}(%esp), %eax
-; X86-BMI-NEXT:    mulxl %eax, %edx, %edi
+; X86-BMI-NEXT:    movl (%esi,%ebx,8), %eax
+; X86-BMI-NEXT:    movl %eax, %edx
+; X86-BMI-NEXT:    movl {{[0-9]+}}(%esp), %ecx
+; X86-BMI-NEXT:    mulxl %ecx, %edx, %edi
 ; X86-BMI-NEXT:    movl %edx, {{[-0-9]+}}(%e{{[sb]}}p) # 4-byte Spill
 ; X86-BMI-NEXT:    movl 4(%esi,%ebx,8), %edx
 ; X86-BMI-NEXT:    movl %edx, (%esp) # 4-byte Spill
-; X86-BMI-NEXT:    mulxl %eax, %esi, %eax
+; X86-BMI-NEXT:    mulxl %ecx, %esi, %ecx
 ; X86-BMI-NEXT:    addl %edi, %esi
-; X86-BMI-NEXT:    adcl $0, %eax
-; X86-BMI-NEXT:    movl %ecx, %edx
-; X86-BMI-NEXT:    movl {{[0-9]+}}(%esp), %ecx
-; X86-BMI-NEXT:    mulxl %ecx, %edi, %ebp
+; X86-BMI-NEXT:    adcl $0, %ecx
+; X86-BMI-NEXT:    movl %eax, %edx
+; X86-BMI-NEXT:    movl {{[0-9]+}}(%esp), %eax
+; X86-BMI-NEXT:    mulxl %eax, %edi, %ebp
 ; X86-BMI-NEXT:    addl %esi, %edi
-; X86-BMI-NEXT:    adcl %eax, %ebp
+; X86-BMI-NEXT:    adcl %ecx, %ebp
 ; X86-BMI-NEXT:    movl (%esp), %edx # 4-byte Reload
-; X86-BMI-NEXT:    mulxl %ecx, %ecx, %esi
+; X86-BMI-NEXT:    mulxl %eax, %ecx, %esi
 ; X86-BMI-NEXT:    setb %dl
 ; X86-BMI-NEXT:    addl %ebp, %ecx
 ; X86-BMI-NEXT:    movl {{[-0-9]+}}(%e{{[sb]}}p), %ebp # 4-byte Reload

@@ -92,7 +92,7 @@ define i64 @clmulr_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:    shrl %ecx
 ; CHECK-NEXT:    andl $1431655765, %ecx # imm = 0x55555555
 ; CHECK-NEXT:    leal (%ecx,%edx,2), %ecx
-; CHECK-NEXT:    movd %ecx, %xmm2
+; CHECK-NEXT:    movd %ecx, %xmm1
 ; CHECK-NEXT:    bswapl %eax
 ; CHECK-NEXT:    movl %eax, %ecx
 ; CHECK-NEXT:    andl $252645135, %ecx # imm = 0xF0F0F0F
@@ -110,10 +110,10 @@ define i64 @clmulr_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:    shrl %eax
 ; CHECK-NEXT:    andl $1431655765, %eax # imm = 0x55555555
 ; CHECK-NEXT:    leal (%eax,%ecx,2), %eax
-; CHECK-NEXT:    movd %eax, %xmm1
-; CHECK-NEXT:    punpckldq {{.*#+}} xmm1 = xmm1[0],xmm2[0],xmm1[1],xmm2[1]
-; CHECK-NEXT:    pclmulqdq $0, %xmm0, %xmm1
-; CHECK-NEXT:    movd %xmm1, %eax
+; CHECK-NEXT:    movd %eax, %xmm2
+; CHECK-NEXT:    punpckldq {{.*#+}} xmm2 = xmm2[0],xmm1[0],xmm2[1],xmm1[1]
+; CHECK-NEXT:    pclmulqdq $0, %xmm0, %xmm2
+; CHECK-NEXT:    movd %xmm2, %eax
 ; CHECK-NEXT:    bswapl %eax
 ; CHECK-NEXT:    movl %eax, %ecx
 ; CHECK-NEXT:    andl $252645135, %ecx # imm = 0xF0F0F0F
@@ -131,7 +131,7 @@ define i64 @clmulr_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:    shrl %eax
 ; CHECK-NEXT:    andl $1431655765, %eax # imm = 0x55555555
 ; CHECK-NEXT:    leal (%eax,%ecx,2), %edx
-; CHECK-NEXT:    pshufd {{.*#+}} xmm0 = xmm1[1,1,1,1]
+; CHECK-NEXT:    pshufd {{.*#+}} xmm0 = xmm2[1,1,1,1]
 ; CHECK-NEXT:    movd %xmm0, %eax
 ; CHECK-NEXT:    bswapl %eax
 ; CHECK-NEXT:    movl %eax, %ecx

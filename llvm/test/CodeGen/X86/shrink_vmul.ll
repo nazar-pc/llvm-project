@@ -2018,43 +2018,43 @@ define void @PR34947(ptr %p0, ptr %p1) nounwind {
 ; X86-SSE-NEXT:    movl %edi, %eax
 ; X86-SSE-NEXT:    xorl %edx, %edx
 ; X86-SSE-NEXT:    divl 4(%ecx)
-; X86-SSE-NEXT:    movd %edx, %xmm3
+; X86-SSE-NEXT:    movd %edx, %xmm0
 ; X86-SSE-NEXT:    movl %ebx, %eax
 ; X86-SSE-NEXT:    xorl %edx, %edx
 ; X86-SSE-NEXT:    divl (%ecx)
-; X86-SSE-NEXT:    movd %edx, %xmm0
-; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm0 = xmm0[0],xmm3[0],xmm0[1],xmm3[1]
+; X86-SSE-NEXT:    movd %edx, %xmm3
+; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm3 = xmm3[0],xmm0[0],xmm3[1],xmm0[1]
 ; X86-SSE-NEXT:    movl %ebp, %eax
 ; X86-SSE-NEXT:    xorl %edx, %edx
 ; X86-SSE-NEXT:    divl 12(%ecx)
-; X86-SSE-NEXT:    movd %edx, %xmm3
+; X86-SSE-NEXT:    movd %edx, %xmm0
 ; X86-SSE-NEXT:    pshufd {{.*#+}} xmm2 = xmm2[2,3,2,3]
 ; X86-SSE-NEXT:    movd %xmm2, %eax
 ; X86-SSE-NEXT:    xorl %edx, %edx
 ; X86-SSE-NEXT:    divl 8(%ecx)
 ; X86-SSE-NEXT:    movd %edx, %xmm2
-; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm2 = xmm2[0],xmm3[0],xmm2[1],xmm3[1]
-; X86-SSE-NEXT:    punpcklqdq {{.*#+}} xmm0 = xmm0[0],xmm2[0]
+; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm2 = xmm2[0],xmm0[0],xmm2[1],xmm0[1]
+; X86-SSE-NEXT:    punpcklqdq {{.*#+}} xmm3 = xmm3[0],xmm2[0]
 ; X86-SSE-NEXT:    movl (%esp), %eax # 4-byte Reload
 ; X86-SSE-NEXT:    xorl %edx, %edx
 ; X86-SSE-NEXT:    divl 32(%ecx)
-; X86-SSE-NEXT:    movdqa {{.*#+}} xmm2 = [8199,8199,8199,8199]
-; X86-SSE-NEXT:    pshufd {{.*#+}} xmm3 = xmm0[1,1,3,3]
-; X86-SSE-NEXT:    pmuludq %xmm2, %xmm0
-; X86-SSE-NEXT:    pshufd {{.*#+}} xmm0 = xmm0[0,2,2,3]
-; X86-SSE-NEXT:    pmuludq %xmm2, %xmm3
+; X86-SSE-NEXT:    movdqa {{.*#+}} xmm0 = [8199,8199,8199,8199]
+; X86-SSE-NEXT:    pshufd {{.*#+}} xmm2 = xmm3[1,1,3,3]
+; X86-SSE-NEXT:    pmuludq %xmm0, %xmm3
 ; X86-SSE-NEXT:    pshufd {{.*#+}} xmm3 = xmm3[0,2,2,3]
-; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm0 = xmm0[0],xmm3[0],xmm0[1],xmm3[1]
-; X86-SSE-NEXT:    pshufd {{.*#+}} xmm3 = xmm1[1,1,3,3]
-; X86-SSE-NEXT:    pmuludq %xmm2, %xmm1
+; X86-SSE-NEXT:    pmuludq %xmm0, %xmm2
+; X86-SSE-NEXT:    pshufd {{.*#+}} xmm2 = xmm2[0,2,2,3]
+; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm3 = xmm3[0],xmm2[0],xmm3[1],xmm2[1]
+; X86-SSE-NEXT:    pshufd {{.*#+}} xmm2 = xmm1[1,1,3,3]
+; X86-SSE-NEXT:    pmuludq %xmm0, %xmm1
 ; X86-SSE-NEXT:    pshufd {{.*#+}} xmm1 = xmm1[0,2,2,3]
-; X86-SSE-NEXT:    pmuludq %xmm2, %xmm3
-; X86-SSE-NEXT:    pshufd {{.*#+}} xmm2 = xmm3[0,2,2,3]
-; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm1 = xmm1[0],xmm2[0],xmm1[1],xmm2[1]
+; X86-SSE-NEXT:    pmuludq %xmm0, %xmm2
+; X86-SSE-NEXT:    pshufd {{.*#+}} xmm0 = xmm2[0,2,2,3]
+; X86-SSE-NEXT:    punpckldq {{.*#+}} xmm1 = xmm1[0],xmm0[0],xmm1[1],xmm0[1]
 ; X86-SSE-NEXT:    imull $8199, %edx, %eax # imm = 0x2007
 ; X86-SSE-NEXT:    movl %eax, (%eax)
 ; X86-SSE-NEXT:    movdqa %xmm1, (%eax)
-; X86-SSE-NEXT:    movdqa %xmm0, (%eax)
+; X86-SSE-NEXT:    movdqa %xmm3, (%eax)
 ; X86-SSE-NEXT:    addl $4, %esp
 ; X86-SSE-NEXT:    popl %esi
 ; X86-SSE-NEXT:    popl %edi

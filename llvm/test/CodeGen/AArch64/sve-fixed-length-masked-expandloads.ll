@@ -1419,6 +1419,7 @@ define void @masked_load_v64f32(ptr %ap, ptr %bp, ptr %c) vscale_range(16,0) #0 
 ; CHECK-NEXT:    fmov w21, s5
 ; CHECK-NEXT:    bfi x25, x12, #1, #1
 ; CHECK-NEXT:    umov w16, v0.b[12]
+; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z17.b, z0.b[24]
 ; CHECK-NEXT:    fmov w22, s6
 ; CHECK-NEXT:    ubfiz x3, x3, #7, #1
@@ -1427,6 +1428,7 @@ define void @masked_load_v64f32(ptr %ap, ptr %bp, ptr %c) vscale_range(16,0) #0 
 ; CHECK-NEXT:    ubfiz x20, x20, #19, #1
 ; CHECK-NEXT:    umov w10, v0.b[4]
 ; CHECK-NEXT:    umov w17, v0.b[13]
+; CHECK-NEXT:    mov z2.b, z0.b[17]
 ; CHECK-NEXT:    mov z18.b, z0.b[25]
 ; CHECK-NEXT:    fmov w23, s7
 ; CHECK-NEXT:    bfi x25, x13, #2, #1
@@ -1437,45 +1439,43 @@ define void @masked_load_v64f32(ptr %ap, ptr %bp, ptr %c) vscale_range(16,0) #0 
 ; CHECK-NEXT:    ubfiz x20, x21, #20, #1
 ; CHECK-NEXT:    ubfiz x18, x18, #10, #1
 ; CHECK-NEXT:    umov w14, v0.b[14]
-; CHECK-NEXT:    mov z19.b, z0.b[26]
+; CHECK-NEXT:    fmov w6, s1
+; CHECK-NEXT:    mov z1.b, z0.b[26]
 ; CHECK-NEXT:    fmov w26, s17
 ; CHECK-NEXT:    orr x3, x3, x4
 ; CHECK-NEXT:    ubfiz x4, x22, #21, #1
 ; CHECK-NEXT:    bfi x25, x11, #3, #1
 ; CHECK-NEXT:    ubfiz x11, x1, #11, #1
 ; CHECK-NEXT:    umov w9, v0.b[5]
-; CHECK-NEXT:    mov z20.b, z0.b[27]
+; CHECK-NEXT:    fmov w7, s2
+; CHECK-NEXT:    mov z2.b, z0.b[27]
 ; CHECK-NEXT:    fmov w27, s18
 ; CHECK-NEXT:    orr x19, x19, x20
 ; CHECK-NEXT:    orr x18, x3, x18
 ; CHECK-NEXT:    ubfiz x3, x23, #22, #1
 ; CHECK-NEXT:    ubfiz x16, x16, #12, #1
 ; CHECK-NEXT:    umov w15, v0.b[15]
-; CHECK-NEXT:    mov z1.b, z0.b[16]
-; CHECK-NEXT:    mov z21.b, z0.b[28]
+; CHECK-NEXT:    mov z3.b, z0.b[28]
 ; CHECK-NEXT:    orr x1, x19, x4
 ; CHECK-NEXT:    orr x11, x18, x11
 ; CHECK-NEXT:    ubfiz x18, x24, #23, #1
 ; CHECK-NEXT:    bfi x25, x10, #4, #1
 ; CHECK-NEXT:    ubfiz x10, x17, #13, #1
 ; CHECK-NEXT:    umov w8, v0.b[6]
-; CHECK-NEXT:    mov z2.b, z0.b[17]
 ; CHECK-NEXT:    mov z4.b, z0.b[29]
-; CHECK-NEXT:    fmov w28, s19
+; CHECK-NEXT:    fmov w28, s1
 ; CHECK-NEXT:    orr x1, x1, x3
 ; CHECK-NEXT:    orr x11, x11, x16
 ; CHECK-NEXT:    ubfiz x17, x26, #24, #1
 ; CHECK-NEXT:    mov z5.b, z0.b[30]
-; CHECK-NEXT:    fmov w30, s20
+; CHECK-NEXT:    fmov w30, s2
 ; CHECK-NEXT:    orr x16, x1, x18
 ; CHECK-NEXT:    orr x10, x11, x10
 ; CHECK-NEXT:    ubfiz x11, x14, #14, #1
 ; CHECK-NEXT:    ubfiz x14, x27, #25, #1
-; CHECK-NEXT:    fmov w6, s1
-; CHECK-NEXT:    fmov w12, s21
+; CHECK-NEXT:    fmov w12, s3
 ; CHECK-NEXT:    orr x16, x16, x17
 ; CHECK-NEXT:    bfi x25, x9, #5, #1
-; CHECK-NEXT:    fmov w7, s2
 ; CHECK-NEXT:    fmov w13, s4
 ; CHECK-NEXT:    ubfiz x9, x15, #15, #1
 ; CHECK-NEXT:    orr x10, x10, x11
@@ -1484,7 +1484,7 @@ define void @masked_load_v64f32(ptr %ap, ptr %bp, ptr %c) vscale_range(16,0) #0 
 ; CHECK-NEXT:    fmov w5, s5
 ; CHECK-NEXT:    bfi x25, x8, #6, #1
 ; CHECK-NEXT:    ubfiz x8, x30, #27, #1
-; CHECK-NEXT:    mov z3.b, z0.b[31]
+; CHECK-NEXT:    mov z6.b, z0.b[31]
 ; CHECK-NEXT:    orr x9, x10, x9
 ; CHECK-NEXT:    orr x10, x11, x14
 ; CHECK-NEXT:    ubfiz x11, x6, #16, #1
@@ -1492,140 +1492,140 @@ define void @masked_load_v64f32(ptr %ap, ptr %bp, ptr %c) vscale_range(16,0) #0 
 ; CHECK-NEXT:    orr x8, x10, x8
 ; CHECK-NEXT:    ubfiz x10, x7, #17, #1
 ; CHECK-NEXT:    ubfiz x13, x13, #29, #1
-; CHECK-NEXT:    mov z2.b, z0.b[32]
+; CHECK-NEXT:    mov z7.b, z0.b[32]
 ; CHECK-NEXT:    orr x9, x9, x11
 ; CHECK-NEXT:    orr x8, x8, x12
 ; CHECK-NEXT:    ubfiz x11, x5, #30, #1
-; CHECK-NEXT:    fmov w12, s3
+; CHECK-NEXT:    fmov w12, s6
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    orr x8, x8, x13
-; CHECK-NEXT:    mov z1.b, z0.b[33]
+; CHECK-NEXT:    mov z16.b, z0.b[33]
 ; CHECK-NEXT:    orr x9, x25, x9
 ; CHECK-NEXT:    orr x8, x8, x11
+; CHECK-NEXT:    mov z1.b, z0.b[34]
 ; CHECK-NEXT:    orr x8, x9, x8
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s7
 ; CHECK-NEXT:    lsl w10, w12, #31
-; CHECK-NEXT:    mov z2.b, z0.b[34]
+; CHECK-NEXT:    mov z2.b, z0.b[35]
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #32
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[35]
+; CHECK-NEXT:    fmov w9, s16
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #33
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[36]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[36]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #34
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[37]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[37]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #35
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[38]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[38]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #36
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[39]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[39]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #37
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[40]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[40]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #38
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[41]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[41]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #39
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[42]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[42]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #40
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[43]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[43]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #41
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[44]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[44]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #42
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[45]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[45]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #43
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[46]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[46]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #44
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[47]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[47]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #45
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[48]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[48]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #46
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[49]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[49]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #47
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[50]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[50]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #48
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[51]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[51]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #49
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[52]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[52]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #50
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[53]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[53]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #51
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[54]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[54]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #52
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[55]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[55]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #53
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[56]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[56]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #54
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[57]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[57]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #55
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[58]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[58]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #56
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[59]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[59]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #57
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[60]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[60]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #58
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[61]
-; CHECK-NEXT:    and w9, w9, #0x1
-; CHECK-NEXT:    fmov w10, s1
-; CHECK-NEXT:    orr x8, x8, x9, lsl #59
 ; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[62]
+; CHECK-NEXT:    mov z2.b, z0.b[61]
+; CHECK-NEXT:    and w9, w9, #0x1
+; CHECK-NEXT:    fmov w10, s2
+; CHECK-NEXT:    orr x8, x8, x9, lsl #59
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[62]
 ; CHECK-NEXT:    mov z0.b, z0.b[63]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #60
 ; CHECK-NEXT:    and w9, w10, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #61
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s1
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #62
 ; CHECK-NEXT:    fmov w9, s0
@@ -2421,204 +2421,204 @@ define void @masked_load_v64i8(ptr %ap, ptr %bp, ptr %c) #0 {
 ; VBITS_GE_256-NEXT:    umov w1, v0.b[11]
 ; VBITS_GE_256-NEXT:    umov w12, v0.b[3]
 ; VBITS_GE_256-NEXT:    umov w3, v0.b[12]
-; VBITS_GE_256-NEXT:    mov z20.b, z0.b[18]
-; VBITS_GE_256-NEXT:    mov z21.b, z0.b[19]
+; VBITS_GE_256-NEXT:    mov z5.b, z0.b[18]
+; VBITS_GE_256-NEXT:    mov z6.b, z0.b[19]
 ; VBITS_GE_256-NEXT:    and w8, w8, #0x1
 ; VBITS_GE_256-NEXT:    ubfiz w15, w15, #7, #1
 ; VBITS_GE_256-NEXT:    ubfiz w16, w16, #8, #1
 ; VBITS_GE_256-NEXT:    bfi w8, w14, #1, #1
 ; VBITS_GE_256-NEXT:    umov w4, v0.b[13]
-; VBITS_GE_256-NEXT:    mov z22.b, z0.b[20]
+; VBITS_GE_256-NEXT:    mov z7.b, z0.b[20]
 ; VBITS_GE_256-NEXT:    ubfiz w17, w17, #9, #1
 ; VBITS_GE_256-NEXT:    umov w11, v0.b[4]
 ; VBITS_GE_256-NEXT:    umov w5, v0.b[14]
-; VBITS_GE_256-NEXT:    mov z18.b, z0.b[16]
+; VBITS_GE_256-NEXT:    mov z3.b, z0.b[16]
 ; VBITS_GE_256-NEXT:    ubfiz w18, w18, #10, #1
 ; VBITS_GE_256-NEXT:    bfi w8, w13, #2, #1
 ; VBITS_GE_256-NEXT:    orr w15, w15, w16
 ; VBITS_GE_256-NEXT:    umov w6, v0.b[15]
-; VBITS_GE_256-NEXT:    fmov w20, s20
-; VBITS_GE_256-NEXT:    fmov w21, s21
+; VBITS_GE_256-NEXT:    fmov w20, s5
+; VBITS_GE_256-NEXT:    fmov w21, s6
 ; VBITS_GE_256-NEXT:    ubfiz w13, w1, #11, #1
 ; VBITS_GE_256-NEXT:    orr w15, w15, w17
 ; VBITS_GE_256-NEXT:    umov w10, v0.b[5]
-; VBITS_GE_256-NEXT:    fmov w22, s22
+; VBITS_GE_256-NEXT:    fmov w22, s7
 ; VBITS_GE_256-NEXT:    ubfiz w1, w3, #12, #1
 ; VBITS_GE_256-NEXT:    bfi w8, w12, #3, #1
 ; VBITS_GE_256-NEXT:    orr w15, w15, w18
-; VBITS_GE_256-NEXT:    fmov w7, s18
+; VBITS_GE_256-NEXT:    fmov w7, s3
 ; VBITS_GE_256-NEXT:    ubfiz w16, w4, #13, #1
 ; VBITS_GE_256-NEXT:    orr w13, w15, w13
 ; VBITS_GE_256-NEXT:    umov w9, v0.b[6]
-; VBITS_GE_256-NEXT:    mov z19.b, z0.b[17]
-; VBITS_GE_256-NEXT:    mov z23.b, z0.b[21]
+; VBITS_GE_256-NEXT:    mov z4.b, z0.b[17]
+; VBITS_GE_256-NEXT:    mov z16.b, z0.b[21]
 ; VBITS_GE_256-NEXT:    ubfiz w12, w5, #14, #1
 ; VBITS_GE_256-NEXT:    bfi w8, w11, #4, #1
 ; VBITS_GE_256-NEXT:    ubfiz w11, w20, #18, #1
 ; VBITS_GE_256-NEXT:    ubfiz w15, w21, #19, #1
 ; VBITS_GE_256-NEXT:    orr w13, w13, w1
-; VBITS_GE_256-NEXT:    mov z3.b, z0.b[22]
+; VBITS_GE_256-NEXT:    mov z17.b, z0.b[22]
 ; VBITS_GE_256-NEXT:    ubfiz w17, w6, #15, #1
 ; VBITS_GE_256-NEXT:    ubfiz w18, w22, #20, #1
 ; VBITS_GE_256-NEXT:    orr w13, w13, w16
-; VBITS_GE_256-NEXT:    mov z4.b, z0.b[23]
+; VBITS_GE_256-NEXT:    mov z18.b, z0.b[23]
 ; VBITS_GE_256-NEXT:    ubfiz w3, w7, #16, #1
 ; VBITS_GE_256-NEXT:    bfi w8, w10, #5, #1
 ; VBITS_GE_256-NEXT:    orr w11, w11, w15
 ; VBITS_GE_256-NEXT:    orr w12, w13, w12
-; VBITS_GE_256-NEXT:    mov z5.b, z0.b[24]
-; VBITS_GE_256-NEXT:    fmov w19, s19
-; VBITS_GE_256-NEXT:    fmov w14, s23
+; VBITS_GE_256-NEXT:    mov z19.b, z0.b[24]
+; VBITS_GE_256-NEXT:    fmov w19, s4
+; VBITS_GE_256-NEXT:    fmov w14, s16
 ; VBITS_GE_256-NEXT:    orr w18, w11, w18
 ; VBITS_GE_256-NEXT:    orr w11, w12, w17
 ; VBITS_GE_256-NEXT:    bfi w8, w9, #6, #1
 ; VBITS_GE_256-NEXT:    orr w9, w11, w3
-; VBITS_GE_256-NEXT:    fmov w11, s3
+; VBITS_GE_256-NEXT:    fmov w11, s17
 ; VBITS_GE_256-NEXT:    mov z1.b, p1/z, #-1 // =0xffffffffffffffff
-; VBITS_GE_256-NEXT:    fmov w24, s4
+; VBITS_GE_256-NEXT:    fmov w24, s18
 ; VBITS_GE_256-NEXT:    ubfiz w10, w19, #17, #1
 ; VBITS_GE_256-NEXT:    ubfiz w6, w14, #21, #1
-; VBITS_GE_256-NEXT:    fmov w19, s5
-; VBITS_GE_256-NEXT:    mov z6.b, z0.b[25]
+; VBITS_GE_256-NEXT:    fmov w19, s19
+; VBITS_GE_256-NEXT:    mov z20.b, z0.b[25]
 ; VBITS_GE_256-NEXT:    ubfiz w7, w11, #22, #1
-; VBITS_GE_256-NEXT:    mov z7.b, z0.b[26]
-; VBITS_GE_256-NEXT:    mov z16.b, z0.b[27]
+; VBITS_GE_256-NEXT:    mov z21.b, z0.b[26]
+; VBITS_GE_256-NEXT:    mov z22.b, z0.b[27]
 ; VBITS_GE_256-NEXT:    umov w20, v1.b[1]
 ; VBITS_GE_256-NEXT:    fmov w30, s1
 ; VBITS_GE_256-NEXT:    orr w18, w18, w6
-; VBITS_GE_256-NEXT:    ubfiz w24, w24, #23, #1
+; VBITS_GE_256-NEXT:    ubfiz w6, w24, #23, #1
 ; VBITS_GE_256-NEXT:    orr w18, w18, w7
-; VBITS_GE_256-NEXT:    ubfiz w19, w19, #24, #1
+; VBITS_GE_256-NEXT:    ubfiz w7, w19, #24, #1
 ; VBITS_GE_256-NEXT:    umov w21, v1.b[2]
-; VBITS_GE_256-NEXT:    mov z17.b, z0.b[28]
-; VBITS_GE_256-NEXT:    fmov w5, s6
-; VBITS_GE_256-NEXT:    orr w18, w18, w24
+; VBITS_GE_256-NEXT:    mov z23.b, z0.b[28]
+; VBITS_GE_256-NEXT:    fmov w5, s20
+; VBITS_GE_256-NEXT:    orr w18, w18, w6
 ; VBITS_GE_256-NEXT:    umov w1, v1.b[3]
 ; VBITS_GE_256-NEXT:    mov z24.b, z0.b[29]
-; VBITS_GE_256-NEXT:    orr w19, w18, w19
-; VBITS_GE_256-NEXT:    and w18, w30, #0x1
-; VBITS_GE_256-NEXT:    fmov w16, s7
-; VBITS_GE_256-NEXT:    bfi w18, w20, #1, #1
-; VBITS_GE_256-NEXT:    fmov w15, s16
+; VBITS_GE_256-NEXT:    orr w18, w18, w7
+; VBITS_GE_256-NEXT:    and w7, w30, #0x1
+; VBITS_GE_256-NEXT:    fmov w16, s21
+; VBITS_GE_256-NEXT:    bfi w7, w20, #1, #1
+; VBITS_GE_256-NEXT:    fmov w15, s22
 ; VBITS_GE_256-NEXT:    umov w17, v1.b[4]
 ; VBITS_GE_256-NEXT:    umov w25, v1.b[7]
 ; VBITS_GE_256-NEXT:    umov w27, v1.b[8]
-; VBITS_GE_256-NEXT:    fmov w14, s17
-; VBITS_GE_256-NEXT:    bfi w18, w21, #2, #1
+; VBITS_GE_256-NEXT:    fmov w14, s23
+; VBITS_GE_256-NEXT:    bfi w7, w21, #2, #1
 ; VBITS_GE_256-NEXT:    umov w28, v1.b[9]
 ; VBITS_GE_256-NEXT:    ubfiz w5, w5, #25, #1
 ; VBITS_GE_256-NEXT:    fmov w12, s24
 ; VBITS_GE_256-NEXT:    umov w29, v1.b[10]
-; VBITS_GE_256-NEXT:    mov z7.b, z1.b[18]
-; VBITS_GE_256-NEXT:    mov z16.b, z1.b[19]
+; VBITS_GE_256-NEXT:    mov z4.b, z1.b[18]
+; VBITS_GE_256-NEXT:    mov z5.b, z1.b[19]
 ; VBITS_GE_256-NEXT:    ubfiz w16, w16, #26, #1
-; VBITS_GE_256-NEXT:    bfi w18, w1, #3, #1
+; VBITS_GE_256-NEXT:    bfi w7, w1, #3, #1
 ; VBITS_GE_256-NEXT:    umov w13, v1.b[5]
 ; VBITS_GE_256-NEXT:    umov w22, v1.b[11]
-; VBITS_GE_256-NEXT:    mov z17.b, z1.b[20]
-; VBITS_GE_256-NEXT:    orr w5, w19, w5
+; VBITS_GE_256-NEXT:    mov z6.b, z1.b[20]
+; VBITS_GE_256-NEXT:    orr w18, w18, w5
 ; VBITS_GE_256-NEXT:    ubfiz w15, w15, #27, #1
 ; VBITS_GE_256-NEXT:    umov w26, v1.b[12]
-; VBITS_GE_256-NEXT:    mov z18.b, z1.b[21]
-; VBITS_GE_256-NEXT:    orr w16, w5, w16
+; VBITS_GE_256-NEXT:    mov z7.b, z1.b[21]
+; VBITS_GE_256-NEXT:    orr w16, w18, w16
 ; VBITS_GE_256-NEXT:    ubfiz w14, w14, #28, #1
-; VBITS_GE_256-NEXT:    bfi w18, w17, #4, #1
+; VBITS_GE_256-NEXT:    bfi w7, w17, #4, #1
 ; VBITS_GE_256-NEXT:    ubfiz w17, w25, #7, #1
 ; VBITS_GE_256-NEXT:    ubfiz w25, w27, #8, #1
 ; VBITS_GE_256-NEXT:    umov w23, v1.b[13]
-; VBITS_GE_256-NEXT:    mov z19.b, z1.b[22]
-; VBITS_GE_256-NEXT:    fmov w24, s7
-; VBITS_GE_256-NEXT:    fmov w30, s16
+; VBITS_GE_256-NEXT:    mov z16.b, z1.b[22]
+; VBITS_GE_256-NEXT:    fmov w6, s4
+; VBITS_GE_256-NEXT:    fmov w30, s5
 ; VBITS_GE_256-NEXT:    orr w15, w16, w15
 ; VBITS_GE_256-NEXT:    ubfiz w12, w12, #29, #1
 ; VBITS_GE_256-NEXT:    ubfiz w28, w28, #9, #1
 ; VBITS_GE_256-NEXT:    orr w10, w9, w10
-; VBITS_GE_256-NEXT:    mov z20.b, z1.b[23]
-; VBITS_GE_256-NEXT:    fmov w20, s17
+; VBITS_GE_256-NEXT:    mov z17.b, z1.b[23]
+; VBITS_GE_256-NEXT:    fmov w20, s6
 ; VBITS_GE_256-NEXT:    orr w14, w15, w14
 ; VBITS_GE_256-NEXT:    orr w17, w17, w25
 ; VBITS_GE_256-NEXT:    ubfiz w29, w29, #10, #1
-; VBITS_GE_256-NEXT:    mov z21.b, z1.b[24]
-; VBITS_GE_256-NEXT:    fmov w19, s18
+; VBITS_GE_256-NEXT:    mov z18.b, z1.b[24]
+; VBITS_GE_256-NEXT:    fmov w5, s7
 ; VBITS_GE_256-NEXT:    orr w8, w8, w10
 ; VBITS_GE_256-NEXT:    orr w10, w14, w12
 ; VBITS_GE_256-NEXT:    orr w12, w17, w28
-; VBITS_GE_256-NEXT:    bfi w18, w13, #5, #1
+; VBITS_GE_256-NEXT:    bfi w7, w13, #5, #1
 ; VBITS_GE_256-NEXT:    ubfiz w13, w22, #11, #1
 ; VBITS_GE_256-NEXT:    umov w3, v1.b[14]
-; VBITS_GE_256-NEXT:    mov z22.b, z1.b[25]
-; VBITS_GE_256-NEXT:    fmov w21, s19
+; VBITS_GE_256-NEXT:    mov z19.b, z1.b[25]
+; VBITS_GE_256-NEXT:    fmov w21, s16
 ; VBITS_GE_256-NEXT:    orr w12, w12, w29
 ; VBITS_GE_256-NEXT:    ubfiz w14, w26, #12, #1
-; VBITS_GE_256-NEXT:    ubfiz w17, w24, #18, #1
-; VBITS_GE_256-NEXT:    ubfiz w22, w30, #19, #1
+; VBITS_GE_256-NEXT:    ubfiz w17, w6, #18, #1
+; VBITS_GE_256-NEXT:    ubfiz w6, w30, #19, #1
 ; VBITS_GE_256-NEXT:    umov w4, v1.b[15]
-; VBITS_GE_256-NEXT:    fmov w5, s20
+; VBITS_GE_256-NEXT:    fmov w18, s17
 ; VBITS_GE_256-NEXT:    orr w12, w12, w13
 ; VBITS_GE_256-NEXT:    ubfiz w13, w23, #13, #1
 ; VBITS_GE_256-NEXT:    ubfiz w20, w20, #20, #1
-; VBITS_GE_256-NEXT:    mov z23.b, z1.b[26]
-; VBITS_GE_256-NEXT:    fmov w16, s21
+; VBITS_GE_256-NEXT:    mov z20.b, z1.b[26]
+; VBITS_GE_256-NEXT:    fmov w16, s18
 ; VBITS_GE_256-NEXT:    orr w12, w12, w14
-; VBITS_GE_256-NEXT:    orr w14, w17, w22
-; VBITS_GE_256-NEXT:    ubfiz w17, w19, #21, #1
-; VBITS_GE_256-NEXT:    mov z25.b, z0.b[30]
+; VBITS_GE_256-NEXT:    orr w14, w17, w6
+; VBITS_GE_256-NEXT:    ubfiz w17, w5, #21, #1
 ; VBITS_GE_256-NEXT:    umov w11, v1.b[6]
-; VBITS_GE_256-NEXT:    mov z24.b, z1.b[27]
-; VBITS_GE_256-NEXT:    fmov w1, s22
+; VBITS_GE_256-NEXT:    mov z21.b, z1.b[27]
+; VBITS_GE_256-NEXT:    fmov w1, s19
 ; VBITS_GE_256-NEXT:    orr w12, w12, w13
 ; VBITS_GE_256-NEXT:    orr w13, w14, w20
 ; VBITS_GE_256-NEXT:    ubfiz w14, w21, #22, #1
-; VBITS_GE_256-NEXT:    mov z3.b, z1.b[29]
 ; VBITS_GE_256-NEXT:    orr w13, w13, w17
 ; VBITS_GE_256-NEXT:    ubfiz w17, w3, #14, #1
-; VBITS_GE_256-NEXT:    ubfiz w3, w5, #23, #1
-; VBITS_GE_256-NEXT:    fmov w15, s23
+; VBITS_GE_256-NEXT:    ubfiz w18, w18, #23, #1
+; VBITS_GE_256-NEXT:    mov z23.b, z1.b[29]
+; VBITS_GE_256-NEXT:    fmov w15, s20
 ; VBITS_GE_256-NEXT:    orr w13, w13, w14
 ; VBITS_GE_256-NEXT:    ubfiz w14, w4, #15, #1
 ; VBITS_GE_256-NEXT:    ubfiz w16, w16, #24, #1
-; VBITS_GE_256-NEXT:    fmov w9, s25
-; VBITS_GE_256-NEXT:    mov z5.b, z1.b[16]
-; VBITS_GE_256-NEXT:    mov z25.b, z1.b[28]
-; VBITS_GE_256-NEXT:    fmov w27, s24
+; VBITS_GE_256-NEXT:    mov z2.b, z1.b[16]
+; VBITS_GE_256-NEXT:    mov z22.b, z1.b[28]
+; VBITS_GE_256-NEXT:    fmov w27, s21
 ; VBITS_GE_256-NEXT:    orr w12, w12, w17
-; VBITS_GE_256-NEXT:    orr w13, w13, w3
+; VBITS_GE_256-NEXT:    orr w13, w13, w18
 ; VBITS_GE_256-NEXT:    ubfiz w17, w1, #25, #1
-; VBITS_GE_256-NEXT:    mov z6.b, z1.b[17]
-; VBITS_GE_256-NEXT:    bfi w18, w11, #6, #1
+; VBITS_GE_256-NEXT:    mov z25.b, z0.b[30]
+; VBITS_GE_256-NEXT:    mov z3.b, z1.b[17]
+; VBITS_GE_256-NEXT:    bfi w7, w11, #6, #1
 ; VBITS_GE_256-NEXT:    orr w11, w12, w14
 ; VBITS_GE_256-NEXT:    orr w12, w13, w16
-; VBITS_GE_256-NEXT:    mov z4.b, z1.b[30]
+; VBITS_GE_256-NEXT:    mov z24.b, z1.b[30]
 ; VBITS_GE_256-NEXT:    orr w12, w12, w17
 ; VBITS_GE_256-NEXT:    ubfiz w13, w15, #26, #1
-; VBITS_GE_256-NEXT:    fmov w17, s3
-; VBITS_GE_256-NEXT:    fmov w6, s5
-; VBITS_GE_256-NEXT:    fmov w25, s25
+; VBITS_GE_256-NEXT:    fmov w17, s23
+; VBITS_GE_256-NEXT:    fmov w24, s2
+; VBITS_GE_256-NEXT:    fmov w25, s22
 ; VBITS_GE_256-NEXT:    ubfiz w16, w27, #27, #1
-; VBITS_GE_256-NEXT:    fmov w7, s6
+; VBITS_GE_256-NEXT:    fmov w9, s25
+; VBITS_GE_256-NEXT:    fmov w19, s3
 ; VBITS_GE_256-NEXT:    orr w12, w12, w13
-; VBITS_GE_256-NEXT:    ubfiz w9, w9, #30, #1
-; VBITS_GE_256-NEXT:    mov z0.b, z0.b[31]
-; VBITS_GE_256-NEXT:    mov z2.b, z1.b[31]
 ; VBITS_GE_256-NEXT:    orr w12, w12, w16
 ; VBITS_GE_256-NEXT:    ubfiz w16, w17, #29, #1
-; VBITS_GE_256-NEXT:    fmov w17, s4
-; VBITS_GE_256-NEXT:    ubfiz w14, w6, #16, #1
+; VBITS_GE_256-NEXT:    fmov w17, s24
+; VBITS_GE_256-NEXT:    ubfiz w14, w24, #16, #1
 ; VBITS_GE_256-NEXT:    ubfiz w13, w25, #28, #1
-; VBITS_GE_256-NEXT:    ubfiz w15, w7, #17, #1
-; VBITS_GE_256-NEXT:    orr w9, w10, w9
-; VBITS_GE_256-NEXT:    ptrue p1.b
+; VBITS_GE_256-NEXT:    mov z0.b, z0.b[31]
+; VBITS_GE_256-NEXT:    ubfiz w9, w9, #30, #1
+; VBITS_GE_256-NEXT:    ubfiz w15, w19, #17, #1
+; VBITS_GE_256-NEXT:    mov z25.b, z1.b[31]
 ; VBITS_GE_256-NEXT:    orr w11, w11, w14
 ; VBITS_GE_256-NEXT:    orr w12, w12, w13
 ; VBITS_GE_256-NEXT:    ubfiz w13, w17, #30, #1
+; VBITS_GE_256-NEXT:    orr w9, w10, w9
 ; VBITS_GE_256-NEXT:    orr w10, w11, w15
 ; VBITS_GE_256-NEXT:    orr w11, w12, w16
 ; VBITS_GE_256-NEXT:    orr w8, w8, w9
-; VBITS_GE_256-NEXT:    orr w9, w18, w10
+; VBITS_GE_256-NEXT:    orr w9, w7, w10
 ; VBITS_GE_256-NEXT:    orr w10, w11, w13
 ; VBITS_GE_256-NEXT:    fmov w11, s0
 ; VBITS_GE_256-NEXT:    orr w9, w9, w10
-; VBITS_GE_256-NEXT:    fmov w10, s2
+; VBITS_GE_256-NEXT:    fmov w10, s25
+; VBITS_GE_256-NEXT:    ptrue p1.b
 ; VBITS_GE_256-NEXT:    orr w8, w8, w11, lsl #31
 ; VBITS_GE_256-NEXT:    orr w9, w9, w10, lsl #31
 ; VBITS_GE_256-NEXT:    orr x8, x9, x8, lsl #32
@@ -3309,30 +3309,30 @@ define void @masked_load_v64i8(ptr %ap, ptr %bp, ptr %c) #0 {
 ; VBITS_GE_512-NEXT:    umov w1, v0.b[8]
 ; VBITS_GE_512-NEXT:    umov w16, v0.b[9]
 ; VBITS_GE_512-NEXT:    mov z3.b, z0.b[18]
-; VBITS_GE_512-NEXT:    mov z5.b, z0.b[19]
+; VBITS_GE_512-NEXT:    mov z4.b, z0.b[19]
 ; VBITS_GE_512-NEXT:    and x22, x22, #0x1
 ; VBITS_GE_512-NEXT:    umov w10, v0.b[4]
 ; VBITS_GE_512-NEXT:    umov w17, v0.b[10]
 ; VBITS_GE_512-NEXT:    bfi x22, x11, #1, #1
-; VBITS_GE_512-NEXT:    mov z6.b, z0.b[20]
+; VBITS_GE_512-NEXT:    mov z5.b, z0.b[20]
 ; VBITS_GE_512-NEXT:    umov w3, v0.b[11]
-; VBITS_GE_512-NEXT:    mov z4.b, z0.b[21]
+; VBITS_GE_512-NEXT:    mov z6.b, z0.b[21]
 ; VBITS_GE_512-NEXT:    umov w9, v0.b[5]
 ; VBITS_GE_512-NEXT:    mov z7.b, z0.b[22]
 ; VBITS_GE_512-NEXT:    bfi x22, x12, #2, #1
 ; VBITS_GE_512-NEXT:    fmov w19, s3
-; VBITS_GE_512-NEXT:    fmov w20, s5
+; VBITS_GE_512-NEXT:    fmov w20, s4
 ; VBITS_GE_512-NEXT:    ubfiz x14, x14, #7, #1
 ; VBITS_GE_512-NEXT:    ubfiz x1, x1, #8, #1
 ; VBITS_GE_512-NEXT:    umov w4, v0.b[12]
 ; VBITS_GE_512-NEXT:    bfi x22, x13, #3, #1
 ; VBITS_GE_512-NEXT:    mov z16.b, z0.b[23]
-; VBITS_GE_512-NEXT:    fmov w21, s6
+; VBITS_GE_512-NEXT:    fmov w21, s5
 ; VBITS_GE_512-NEXT:    ubfiz x16, x16, #9, #1
 ; VBITS_GE_512-NEXT:    umov w8, v0.b[6]
 ; VBITS_GE_512-NEXT:    umov w5, v0.b[13]
 ; VBITS_GE_512-NEXT:    mov z17.b, z0.b[24]
-; VBITS_GE_512-NEXT:    fmov w23, s4
+; VBITS_GE_512-NEXT:    fmov w23, s6
 ; VBITS_GE_512-NEXT:    orr x14, x14, x1
 ; VBITS_GE_512-NEXT:    bfi x22, x10, #4, #1
 ; VBITS_GE_512-NEXT:    ubfiz x10, x17, #10, #1
@@ -3343,11 +3343,13 @@ define void @masked_load_v64i8(ptr %ap, ptr %bp, ptr %c) #0 {
 ; VBITS_GE_512-NEXT:    orr x14, x14, x16
 ; VBITS_GE_512-NEXT:    ubfiz x16, x3, #11, #1
 ; VBITS_GE_512-NEXT:    umov w15, v0.b[14]
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[16]
 ; VBITS_GE_512-NEXT:    mov z19.b, z0.b[26]
 ; VBITS_GE_512-NEXT:    fmov w25, s16
 ; VBITS_GE_512-NEXT:    ubfiz x1, x21, #20, #1
 ; VBITS_GE_512-NEXT:    orr x10, x14, x10
 ; VBITS_GE_512-NEXT:    bfi x22, x9, #5, #1
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[17]
 ; VBITS_GE_512-NEXT:    mov z20.b, z0.b[27]
 ; VBITS_GE_512-NEXT:    fmov w26, s17
 ; VBITS_GE_512-NEXT:    orr x13, x13, x19
@@ -3355,36 +3357,34 @@ define void @masked_load_v64i8(ptr %ap, ptr %bp, ptr %c) #0 {
 ; VBITS_GE_512-NEXT:    orr x10, x10, x16
 ; VBITS_GE_512-NEXT:    ubfiz x16, x23, #21, #1
 ; VBITS_GE_512-NEXT:    umov w18, v0.b[15]
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[16]
 ; VBITS_GE_512-NEXT:    mov z21.b, z0.b[28]
 ; VBITS_GE_512-NEXT:    fmov w11, s18
 ; VBITS_GE_512-NEXT:    orr x13, x13, x1
 ; VBITS_GE_512-NEXT:    ubfiz x14, x5, #13, #1
 ; VBITS_GE_512-NEXT:    bfi x22, x8, #6, #1
 ; VBITS_GE_512-NEXT:    ubfiz x8, x24, #22, #1
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[17]
-; VBITS_GE_512-NEXT:    mov z22.b, z0.b[29]
+; VBITS_GE_512-NEXT:    fmov w6, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[29]
 ; VBITS_GE_512-NEXT:    fmov w27, s19
 ; VBITS_GE_512-NEXT:    orr x9, x10, x9
 ; VBITS_GE_512-NEXT:    orr x10, x13, x16
 ; VBITS_GE_512-NEXT:    ubfiz x13, x25, #23, #1
-; VBITS_GE_512-NEXT:    mov z5.b, z0.b[30]
+; VBITS_GE_512-NEXT:    fmov w7, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[30]
 ; VBITS_GE_512-NEXT:    fmov w28, s20
 ; VBITS_GE_512-NEXT:    orr x9, x9, x14
 ; VBITS_GE_512-NEXT:    orr x8, x10, x8
 ; VBITS_GE_512-NEXT:    ubfiz x10, x15, #14, #1
 ; VBITS_GE_512-NEXT:    ubfiz x14, x26, #24, #1
-; VBITS_GE_512-NEXT:    fmov w6, s1
 ; VBITS_GE_512-NEXT:    fmov w29, s21
 ; VBITS_GE_512-NEXT:    orr x8, x8, x13
 ; VBITS_GE_512-NEXT:    ubfiz x11, x11, #25, #1
-; VBITS_GE_512-NEXT:    fmov w7, s2
-; VBITS_GE_512-NEXT:    fmov w30, s22
+; VBITS_GE_512-NEXT:    fmov w30, s1
 ; VBITS_GE_512-NEXT:    ubfiz x13, x18, #15, #1
 ; VBITS_GE_512-NEXT:    orr x9, x9, x10
 ; VBITS_GE_512-NEXT:    orr x8, x8, x14
 ; VBITS_GE_512-NEXT:    ubfiz x10, x27, #26, #1
-; VBITS_GE_512-NEXT:    fmov w12, s5
+; VBITS_GE_512-NEXT:    fmov w12, s2
 ; VBITS_GE_512-NEXT:    orr x8, x8, x11
 ; VBITS_GE_512-NEXT:    ubfiz x11, x28, #27, #1
 ; VBITS_GE_512-NEXT:    mov z3.b, z0.b[31]
@@ -3395,140 +3395,140 @@ define void @masked_load_v64i8(ptr %ap, ptr %bp, ptr %c) #0 {
 ; VBITS_GE_512-NEXT:    orr x8, x8, x11
 ; VBITS_GE_512-NEXT:    ubfiz x11, x7, #17, #1
 ; VBITS_GE_512-NEXT:    ubfiz x14, x30, #29, #1
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[32]
+; VBITS_GE_512-NEXT:    mov z4.b, z0.b[32]
 ; VBITS_GE_512-NEXT:    orr x9, x9, x10
 ; VBITS_GE_512-NEXT:    orr x8, x8, x13
 ; VBITS_GE_512-NEXT:    ubfiz x10, x12, #30, #1
 ; VBITS_GE_512-NEXT:    fmov w12, s3
 ; VBITS_GE_512-NEXT:    orr x9, x9, x11
 ; VBITS_GE_512-NEXT:    orr x8, x8, x14
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[33]
+; VBITS_GE_512-NEXT:    mov z5.b, z0.b[33]
 ; VBITS_GE_512-NEXT:    orr x9, x22, x9
 ; VBITS_GE_512-NEXT:    orr x8, x8, x10
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[34]
 ; VBITS_GE_512-NEXT:    orr x8, x9, x8
-; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    fmov w9, s4
 ; VBITS_GE_512-NEXT:    lsl w10, w12, #31
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[34]
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[35]
 ; VBITS_GE_512-NEXT:    orr x8, x8, x10
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #32
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[35]
+; VBITS_GE_512-NEXT:    fmov w9, s5
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #33
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[36]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[36]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #34
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[37]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[37]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #35
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[38]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[38]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #36
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[39]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[39]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #37
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[40]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[40]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #38
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[41]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[41]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #39
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[42]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[42]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #40
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[43]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[43]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #41
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[44]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[44]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #42
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[45]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[45]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #43
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[46]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[46]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #44
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[47]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[47]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #45
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[48]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[48]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #46
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[49]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[49]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #47
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[50]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[50]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #48
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[51]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[51]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #49
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[52]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[52]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #50
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[53]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[53]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #51
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[54]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[54]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #52
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[55]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[55]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #53
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[56]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[56]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #54
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[57]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[57]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #55
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[58]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[58]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #56
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[59]
+; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[59]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #57
-; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[60]
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[60]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #58
-; VBITS_GE_512-NEXT:    fmov w9, s1
-; VBITS_GE_512-NEXT:    mov z1.b, z0.b[61]
-; VBITS_GE_512-NEXT:    and w9, w9, #0x1
-; VBITS_GE_512-NEXT:    fmov w10, s1
-; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #59
 ; VBITS_GE_512-NEXT:    fmov w9, s2
-; VBITS_GE_512-NEXT:    mov z2.b, z0.b[62]
+; VBITS_GE_512-NEXT:    mov z2.b, z0.b[61]
+; VBITS_GE_512-NEXT:    and w9, w9, #0x1
+; VBITS_GE_512-NEXT:    fmov w10, s2
+; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #59
+; VBITS_GE_512-NEXT:    fmov w9, s1
+; VBITS_GE_512-NEXT:    mov z1.b, z0.b[62]
 ; VBITS_GE_512-NEXT:    mov z0.b, z0.b[63]
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #60
 ; VBITS_GE_512-NEXT:    and w9, w10, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #61
-; VBITS_GE_512-NEXT:    fmov w9, s2
+; VBITS_GE_512-NEXT:    fmov w9, s1
 ; VBITS_GE_512-NEXT:    and w9, w9, #0x1
 ; VBITS_GE_512-NEXT:    orr x8, x8, x9, lsl #62
 ; VBITS_GE_512-NEXT:    fmov w9, s0
@@ -17643,30 +17643,30 @@ define void @masked_load_sext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    umov w1, v0.b[8]
 ; CHECK-NEXT:    umov w16, v0.b[9]
 ; CHECK-NEXT:    mov z3.b, z0.b[18]
-; CHECK-NEXT:    mov z5.b, z0.b[19]
+; CHECK-NEXT:    mov z4.b, z0.b[19]
 ; CHECK-NEXT:    and x22, x22, #0x1
 ; CHECK-NEXT:    umov w10, v0.b[4]
 ; CHECK-NEXT:    umov w17, v0.b[10]
 ; CHECK-NEXT:    bfi x22, x11, #1, #1
-; CHECK-NEXT:    mov z6.b, z0.b[20]
+; CHECK-NEXT:    mov z5.b, z0.b[20]
 ; CHECK-NEXT:    umov w3, v0.b[11]
-; CHECK-NEXT:    mov z4.b, z0.b[21]
+; CHECK-NEXT:    mov z6.b, z0.b[21]
 ; CHECK-NEXT:    umov w9, v0.b[5]
 ; CHECK-NEXT:    mov z7.b, z0.b[22]
 ; CHECK-NEXT:    bfi x22, x12, #2, #1
 ; CHECK-NEXT:    fmov w19, s3
-; CHECK-NEXT:    fmov w20, s5
+; CHECK-NEXT:    fmov w20, s4
 ; CHECK-NEXT:    ubfiz x14, x14, #7, #1
 ; CHECK-NEXT:    ubfiz x1, x1, #8, #1
 ; CHECK-NEXT:    umov w4, v0.b[12]
 ; CHECK-NEXT:    bfi x22, x13, #3, #1
 ; CHECK-NEXT:    mov z16.b, z0.b[23]
-; CHECK-NEXT:    fmov w21, s6
+; CHECK-NEXT:    fmov w21, s5
 ; CHECK-NEXT:    ubfiz x16, x16, #9, #1
 ; CHECK-NEXT:    umov w8, v0.b[6]
 ; CHECK-NEXT:    umov w5, v0.b[13]
 ; CHECK-NEXT:    mov z17.b, z0.b[24]
-; CHECK-NEXT:    fmov w23, s4
+; CHECK-NEXT:    fmov w23, s6
 ; CHECK-NEXT:    orr x14, x14, x1
 ; CHECK-NEXT:    bfi x22, x10, #4, #1
 ; CHECK-NEXT:    ubfiz x10, x17, #10, #1
@@ -17677,11 +17677,13 @@ define void @masked_load_sext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    orr x14, x14, x16
 ; CHECK-NEXT:    ubfiz x16, x3, #11, #1
 ; CHECK-NEXT:    umov w15, v0.b[14]
+; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z19.b, z0.b[26]
 ; CHECK-NEXT:    fmov w25, s16
 ; CHECK-NEXT:    ubfiz x1, x21, #20, #1
 ; CHECK-NEXT:    orr x10, x14, x10
 ; CHECK-NEXT:    bfi x22, x9, #5, #1
+; CHECK-NEXT:    mov z2.b, z0.b[17]
 ; CHECK-NEXT:    mov z20.b, z0.b[27]
 ; CHECK-NEXT:    fmov w26, s17
 ; CHECK-NEXT:    orr x13, x13, x19
@@ -17689,36 +17691,34 @@ define void @masked_load_sext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    orr x10, x10, x16
 ; CHECK-NEXT:    ubfiz x16, x23, #21, #1
 ; CHECK-NEXT:    umov w18, v0.b[15]
-; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z21.b, z0.b[28]
 ; CHECK-NEXT:    fmov w11, s18
 ; CHECK-NEXT:    orr x13, x13, x1
 ; CHECK-NEXT:    ubfiz x14, x5, #13, #1
 ; CHECK-NEXT:    bfi x22, x8, #6, #1
 ; CHECK-NEXT:    ubfiz x8, x24, #22, #1
-; CHECK-NEXT:    mov z2.b, z0.b[17]
-; CHECK-NEXT:    mov z22.b, z0.b[29]
+; CHECK-NEXT:    fmov w6, s1
+; CHECK-NEXT:    mov z1.b, z0.b[29]
 ; CHECK-NEXT:    fmov w27, s19
 ; CHECK-NEXT:    orr x9, x10, x9
 ; CHECK-NEXT:    orr x10, x13, x16
 ; CHECK-NEXT:    ubfiz x13, x25, #23, #1
-; CHECK-NEXT:    mov z5.b, z0.b[30]
+; CHECK-NEXT:    fmov w7, s2
+; CHECK-NEXT:    mov z2.b, z0.b[30]
 ; CHECK-NEXT:    fmov w28, s20
 ; CHECK-NEXT:    orr x9, x9, x14
 ; CHECK-NEXT:    orr x8, x10, x8
 ; CHECK-NEXT:    ubfiz x10, x15, #14, #1
 ; CHECK-NEXT:    ubfiz x14, x26, #24, #1
-; CHECK-NEXT:    fmov w6, s1
 ; CHECK-NEXT:    fmov w29, s21
 ; CHECK-NEXT:    orr x8, x8, x13
 ; CHECK-NEXT:    ubfiz x11, x11, #25, #1
-; CHECK-NEXT:    fmov w7, s2
-; CHECK-NEXT:    fmov w30, s22
+; CHECK-NEXT:    fmov w30, s1
 ; CHECK-NEXT:    ubfiz x13, x18, #15, #1
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    orr x8, x8, x14
 ; CHECK-NEXT:    ubfiz x10, x27, #26, #1
-; CHECK-NEXT:    fmov w12, s5
+; CHECK-NEXT:    fmov w12, s2
 ; CHECK-NEXT:    orr x8, x8, x11
 ; CHECK-NEXT:    ubfiz x11, x28, #27, #1
 ; CHECK-NEXT:    mov z3.b, z0.b[31]
@@ -17729,140 +17729,140 @@ define void @masked_load_sext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    orr x8, x8, x11
 ; CHECK-NEXT:    ubfiz x11, x7, #17, #1
 ; CHECK-NEXT:    ubfiz x14, x30, #29, #1
-; CHECK-NEXT:    mov z2.b, z0.b[32]
+; CHECK-NEXT:    mov z4.b, z0.b[32]
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    orr x8, x8, x13
 ; CHECK-NEXT:    ubfiz x10, x12, #30, #1
 ; CHECK-NEXT:    fmov w12, s3
 ; CHECK-NEXT:    orr x9, x9, x11
 ; CHECK-NEXT:    orr x8, x8, x14
-; CHECK-NEXT:    mov z1.b, z0.b[33]
+; CHECK-NEXT:    mov z5.b, z0.b[33]
 ; CHECK-NEXT:    orr x9, x22, x9
 ; CHECK-NEXT:    orr x8, x8, x10
+; CHECK-NEXT:    mov z1.b, z0.b[34]
 ; CHECK-NEXT:    orr x8, x9, x8
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s4
 ; CHECK-NEXT:    lsl w10, w12, #31
-; CHECK-NEXT:    mov z2.b, z0.b[34]
+; CHECK-NEXT:    mov z2.b, z0.b[35]
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #32
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[35]
+; CHECK-NEXT:    fmov w9, s5
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #33
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[36]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[36]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #34
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[37]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[37]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #35
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[38]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[38]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #36
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[39]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[39]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #37
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[40]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[40]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #38
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[41]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[41]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #39
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[42]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[42]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #40
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[43]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[43]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #41
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[44]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[44]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #42
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[45]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[45]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #43
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[46]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[46]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #44
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[47]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[47]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #45
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[48]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[48]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #46
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[49]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[49]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #47
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[50]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[50]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #48
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[51]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[51]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #49
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[52]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[52]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #50
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[53]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[53]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #51
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[54]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[54]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #52
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[55]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[55]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #53
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[56]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[56]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #54
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[57]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[57]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #55
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[58]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[58]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #56
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[59]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[59]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #57
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[60]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[60]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #58
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[61]
-; CHECK-NEXT:    and w9, w9, #0x1
-; CHECK-NEXT:    fmov w10, s1
-; CHECK-NEXT:    orr x8, x8, x9, lsl #59
 ; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[62]
+; CHECK-NEXT:    mov z2.b, z0.b[61]
+; CHECK-NEXT:    and w9, w9, #0x1
+; CHECK-NEXT:    fmov w10, s2
+; CHECK-NEXT:    orr x8, x8, x9, lsl #59
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[62]
 ; CHECK-NEXT:    mov z0.b, z0.b[63]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #60
 ; CHECK-NEXT:    and w9, w10, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #61
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s1
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #62
 ; CHECK-NEXT:    fmov w9, s0
@@ -19053,26 +19053,26 @@ define void @masked_load_sext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    uzp1 z0.b, z0.b, z0.b
 ; CHECK-NEXT:    umov w12, v0.b[1]
 ; CHECK-NEXT:    fmov w22, s0
-; CHECK-NEXT:    mov z6.b, z0.b[18]
-; CHECK-NEXT:    mov z2.b, z0.b[19]
+; CHECK-NEXT:    mov z3.b, z0.b[18]
+; CHECK-NEXT:    mov z4.b, z0.b[19]
 ; CHECK-NEXT:    umov w13, v0.b[2]
 ; CHECK-NEXT:    umov w14, v0.b[7]
 ; CHECK-NEXT:    umov w3, v0.b[8]
-; CHECK-NEXT:    mov z1.b, z0.b[20]
+; CHECK-NEXT:    mov z5.b, z0.b[20]
 ; CHECK-NEXT:    umov w4, v0.b[9]
-; CHECK-NEXT:    mov z4.b, z0.b[21]
+; CHECK-NEXT:    mov z6.b, z0.b[21]
 ; CHECK-NEXT:    and x22, x22, #0x1
 ; CHECK-NEXT:    umov w11, v0.b[3]
 ; CHECK-NEXT:    umov w5, v0.b[10]
 ; CHECK-NEXT:    mov z7.b, z0.b[22]
-; CHECK-NEXT:    fmov w19, s6
-; CHECK-NEXT:    fmov w20, s2
+; CHECK-NEXT:    fmov w19, s3
+; CHECK-NEXT:    fmov w20, s4
 ; CHECK-NEXT:    bfi x22, x12, #1, #1
 ; CHECK-NEXT:    mov z16.b, z0.b[23]
-; CHECK-NEXT:    fmov w21, s1
+; CHECK-NEXT:    fmov w21, s5
 ; CHECK-NEXT:    umov w10, v0.b[4]
 ; CHECK-NEXT:    umov w15, v0.b[11]
-; CHECK-NEXT:    fmov w23, s4
+; CHECK-NEXT:    fmov w23, s6
 ; CHECK-NEXT:    bfi x22, x13, #2, #1
 ; CHECK-NEXT:    ubfiz x14, x14, #7, #1
 ; CHECK-NEXT:    ubfiz x3, x3, #8, #1
@@ -19091,13 +19091,14 @@ define void @masked_load_sext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    ubfiz x5, x21, #20, #1
 ; CHECK-NEXT:    bfi x22, x11, #3, #1
 ; CHECK-NEXT:    umov w16, v0.b[14]
+; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z19.b, z0.b[26]
 ; CHECK-NEXT:    orr x19, x19, x20
 ; CHECK-NEXT:    orr x14, x14, x4
 ; CHECK-NEXT:    ubfiz x4, x23, #21, #1
 ; CHECK-NEXT:    umov w8, v0.b[6]
 ; CHECK-NEXT:    umov w1, v0.b[15]
-; CHECK-NEXT:    mov z5.b, z0.b[17]
+; CHECK-NEXT:    mov z2.b, z0.b[17]
 ; CHECK-NEXT:    mov z20.b, z0.b[27]
 ; CHECK-NEXT:    fmov w26, s17
 ; CHECK-NEXT:    orr x11, x14, x3
@@ -19105,36 +19106,35 @@ define void @masked_load_sext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    ubfiz x15, x15, #11, #1
 ; CHECK-NEXT:    ubfiz x3, x24, #22, #1
 ; CHECK-NEXT:    bfi x22, x10, #4, #1
-; CHECK-NEXT:    mov z3.b, z0.b[16]
 ; CHECK-NEXT:    mov z21.b, z0.b[28]
 ; CHECK-NEXT:    fmov w12, s18
 ; CHECK-NEXT:    orr x14, x14, x4
 ; CHECK-NEXT:    ubfiz x10, x17, #12, #1
 ; CHECK-NEXT:    ubfiz x17, x25, #23, #1
-; CHECK-NEXT:    mov z22.b, z0.b[29]
+; CHECK-NEXT:    fmov w6, s1
+; CHECK-NEXT:    mov z1.b, z0.b[29]
 ; CHECK-NEXT:    fmov w27, s19
 ; CHECK-NEXT:    orr x11, x11, x15
 ; CHECK-NEXT:    orr x14, x14, x3
 ; CHECK-NEXT:    ubfiz x15, x18, #13, #1
 ; CHECK-NEXT:    bfi x22, x9, #5, #1
-; CHECK-NEXT:    fmov w7, s5
-; CHECK-NEXT:    mov z5.b, z0.b[30]
+; CHECK-NEXT:    fmov w7, s2
+; CHECK-NEXT:    mov z2.b, z0.b[30]
 ; CHECK-NEXT:    fmov w28, s20
 ; CHECK-NEXT:    orr x10, x11, x10
 ; CHECK-NEXT:    orr x9, x14, x17
 ; CHECK-NEXT:    ubfiz x11, x16, #14, #1
 ; CHECK-NEXT:    ubfiz x14, x26, #24, #1
-; CHECK-NEXT:    fmov w6, s3
 ; CHECK-NEXT:    fmov w29, s21
 ; CHECK-NEXT:    orr x10, x10, x15
 ; CHECK-NEXT:    bfi x22, x8, #6, #1
 ; CHECK-NEXT:    ubfiz x8, x1, #15, #1
 ; CHECK-NEXT:    ubfiz x12, x12, #25, #1
-; CHECK-NEXT:    fmov w30, s22
+; CHECK-NEXT:    fmov w30, s1
 ; CHECK-NEXT:    orr x10, x10, x11
 ; CHECK-NEXT:    orr x9, x9, x14
 ; CHECK-NEXT:    ubfiz x11, x27, #26, #1
-; CHECK-NEXT:    fmov w13, s5
+; CHECK-NEXT:    fmov w13, s2
 ; CHECK-NEXT:    orr x8, x10, x8
 ; CHECK-NEXT:    orr x9, x9, x12
 ; CHECK-NEXT:    ubfiz x10, x28, #27, #1
@@ -19145,140 +19145,140 @@ define void @masked_load_sext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    ubfiz x10, x7, #17, #1
 ; CHECK-NEXT:    ubfiz x14, x30, #29, #1
-; CHECK-NEXT:    mov z2.b, z0.b[32]
+; CHECK-NEXT:    mov z4.b, z0.b[32]
 ; CHECK-NEXT:    orr x8, x8, x11
 ; CHECK-NEXT:    orr x9, x9, x12
 ; CHECK-NEXT:    ubfiz x11, x13, #30, #1
 ; CHECK-NEXT:    fmov w12, s3
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    orr x9, x9, x14
-; CHECK-NEXT:    mov z1.b, z0.b[33]
+; CHECK-NEXT:    mov z5.b, z0.b[33]
 ; CHECK-NEXT:    orr x8, x22, x8
 ; CHECK-NEXT:    orr x9, x9, x11
+; CHECK-NEXT:    mov z1.b, z0.b[34]
 ; CHECK-NEXT:    orr x8, x8, x9
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s4
 ; CHECK-NEXT:    lsl w10, w12, #31
-; CHECK-NEXT:    mov z2.b, z0.b[34]
+; CHECK-NEXT:    mov z2.b, z0.b[35]
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #32
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[35]
+; CHECK-NEXT:    fmov w9, s5
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #33
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[36]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[36]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #34
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[37]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[37]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #35
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[38]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[38]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #36
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[39]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[39]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #37
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[40]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[40]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #38
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[41]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[41]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #39
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[42]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[42]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #40
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[43]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[43]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #41
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[44]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[44]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #42
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[45]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[45]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #43
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[46]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[46]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #44
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[47]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[47]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #45
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[48]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[48]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #46
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[49]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[49]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #47
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[50]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[50]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #48
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[51]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[51]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #49
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[52]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[52]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #50
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[53]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[53]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #51
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[54]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[54]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #52
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[55]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[55]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #53
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[56]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[56]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #54
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[57]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[57]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #55
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[58]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[58]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #56
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[59]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[59]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #57
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[60]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[60]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #58
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[61]
-; CHECK-NEXT:    and w9, w9, #0x1
-; CHECK-NEXT:    fmov w10, s1
-; CHECK-NEXT:    orr x8, x8, x9, lsl #59
 ; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[62]
+; CHECK-NEXT:    mov z2.b, z0.b[61]
+; CHECK-NEXT:    and w9, w9, #0x1
+; CHECK-NEXT:    fmov w10, s2
+; CHECK-NEXT:    orr x8, x8, x9, lsl #59
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[62]
 ; CHECK-NEXT:    mov z0.b, z0.b[63]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #60
 ; CHECK-NEXT:    and w9, w10, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #61
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s1
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #62
 ; CHECK-NEXT:    fmov w9, s0
@@ -22781,30 +22781,30 @@ define void @masked_load_zext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    umov w1, v0.b[8]
 ; CHECK-NEXT:    umov w16, v0.b[9]
 ; CHECK-NEXT:    mov z3.b, z0.b[18]
-; CHECK-NEXT:    mov z5.b, z0.b[19]
+; CHECK-NEXT:    mov z4.b, z0.b[19]
 ; CHECK-NEXT:    and x22, x22, #0x1
 ; CHECK-NEXT:    umov w10, v0.b[4]
 ; CHECK-NEXT:    umov w17, v0.b[10]
 ; CHECK-NEXT:    bfi x22, x11, #1, #1
-; CHECK-NEXT:    mov z6.b, z0.b[20]
+; CHECK-NEXT:    mov z5.b, z0.b[20]
 ; CHECK-NEXT:    umov w3, v0.b[11]
-; CHECK-NEXT:    mov z4.b, z0.b[21]
+; CHECK-NEXT:    mov z6.b, z0.b[21]
 ; CHECK-NEXT:    umov w9, v0.b[5]
 ; CHECK-NEXT:    mov z7.b, z0.b[22]
 ; CHECK-NEXT:    bfi x22, x12, #2, #1
 ; CHECK-NEXT:    fmov w19, s3
-; CHECK-NEXT:    fmov w20, s5
+; CHECK-NEXT:    fmov w20, s4
 ; CHECK-NEXT:    ubfiz x14, x14, #7, #1
 ; CHECK-NEXT:    ubfiz x1, x1, #8, #1
 ; CHECK-NEXT:    umov w4, v0.b[12]
 ; CHECK-NEXT:    bfi x22, x13, #3, #1
 ; CHECK-NEXT:    mov z16.b, z0.b[23]
-; CHECK-NEXT:    fmov w21, s6
+; CHECK-NEXT:    fmov w21, s5
 ; CHECK-NEXT:    ubfiz x16, x16, #9, #1
 ; CHECK-NEXT:    umov w8, v0.b[6]
 ; CHECK-NEXT:    umov w5, v0.b[13]
 ; CHECK-NEXT:    mov z17.b, z0.b[24]
-; CHECK-NEXT:    fmov w23, s4
+; CHECK-NEXT:    fmov w23, s6
 ; CHECK-NEXT:    orr x14, x14, x1
 ; CHECK-NEXT:    bfi x22, x10, #4, #1
 ; CHECK-NEXT:    ubfiz x10, x17, #10, #1
@@ -22815,11 +22815,13 @@ define void @masked_load_zext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    orr x14, x14, x16
 ; CHECK-NEXT:    ubfiz x16, x3, #11, #1
 ; CHECK-NEXT:    umov w15, v0.b[14]
+; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z19.b, z0.b[26]
 ; CHECK-NEXT:    fmov w25, s16
 ; CHECK-NEXT:    ubfiz x1, x21, #20, #1
 ; CHECK-NEXT:    orr x10, x14, x10
 ; CHECK-NEXT:    bfi x22, x9, #5, #1
+; CHECK-NEXT:    mov z2.b, z0.b[17]
 ; CHECK-NEXT:    mov z20.b, z0.b[27]
 ; CHECK-NEXT:    fmov w26, s17
 ; CHECK-NEXT:    orr x13, x13, x19
@@ -22827,36 +22829,34 @@ define void @masked_load_zext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    orr x10, x10, x16
 ; CHECK-NEXT:    ubfiz x16, x23, #21, #1
 ; CHECK-NEXT:    umov w18, v0.b[15]
-; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z21.b, z0.b[28]
 ; CHECK-NEXT:    fmov w11, s18
 ; CHECK-NEXT:    orr x13, x13, x1
 ; CHECK-NEXT:    ubfiz x14, x5, #13, #1
 ; CHECK-NEXT:    bfi x22, x8, #6, #1
 ; CHECK-NEXT:    ubfiz x8, x24, #22, #1
-; CHECK-NEXT:    mov z2.b, z0.b[17]
-; CHECK-NEXT:    mov z22.b, z0.b[29]
+; CHECK-NEXT:    fmov w6, s1
+; CHECK-NEXT:    mov z1.b, z0.b[29]
 ; CHECK-NEXT:    fmov w27, s19
 ; CHECK-NEXT:    orr x9, x10, x9
 ; CHECK-NEXT:    orr x10, x13, x16
 ; CHECK-NEXT:    ubfiz x13, x25, #23, #1
-; CHECK-NEXT:    mov z5.b, z0.b[30]
+; CHECK-NEXT:    fmov w7, s2
+; CHECK-NEXT:    mov z2.b, z0.b[30]
 ; CHECK-NEXT:    fmov w28, s20
 ; CHECK-NEXT:    orr x9, x9, x14
 ; CHECK-NEXT:    orr x8, x10, x8
 ; CHECK-NEXT:    ubfiz x10, x15, #14, #1
 ; CHECK-NEXT:    ubfiz x14, x26, #24, #1
-; CHECK-NEXT:    fmov w6, s1
 ; CHECK-NEXT:    fmov w29, s21
 ; CHECK-NEXT:    orr x8, x8, x13
 ; CHECK-NEXT:    ubfiz x11, x11, #25, #1
-; CHECK-NEXT:    fmov w7, s2
-; CHECK-NEXT:    fmov w30, s22
+; CHECK-NEXT:    fmov w30, s1
 ; CHECK-NEXT:    ubfiz x13, x18, #15, #1
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    orr x8, x8, x14
 ; CHECK-NEXT:    ubfiz x10, x27, #26, #1
-; CHECK-NEXT:    fmov w12, s5
+; CHECK-NEXT:    fmov w12, s2
 ; CHECK-NEXT:    orr x8, x8, x11
 ; CHECK-NEXT:    ubfiz x11, x28, #27, #1
 ; CHECK-NEXT:    mov z3.b, z0.b[31]
@@ -22867,140 +22867,140 @@ define void @masked_load_zext_v64i8i32(ptr %ap, ptr %bp, ptr %c) vscale_range(16
 ; CHECK-NEXT:    orr x8, x8, x11
 ; CHECK-NEXT:    ubfiz x11, x7, #17, #1
 ; CHECK-NEXT:    ubfiz x14, x30, #29, #1
-; CHECK-NEXT:    mov z2.b, z0.b[32]
+; CHECK-NEXT:    mov z4.b, z0.b[32]
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    orr x8, x8, x13
 ; CHECK-NEXT:    ubfiz x10, x12, #30, #1
 ; CHECK-NEXT:    fmov w12, s3
 ; CHECK-NEXT:    orr x9, x9, x11
 ; CHECK-NEXT:    orr x8, x8, x14
-; CHECK-NEXT:    mov z1.b, z0.b[33]
+; CHECK-NEXT:    mov z5.b, z0.b[33]
 ; CHECK-NEXT:    orr x9, x22, x9
 ; CHECK-NEXT:    orr x8, x8, x10
+; CHECK-NEXT:    mov z1.b, z0.b[34]
 ; CHECK-NEXT:    orr x8, x9, x8
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s4
 ; CHECK-NEXT:    lsl w10, w12, #31
-; CHECK-NEXT:    mov z2.b, z0.b[34]
+; CHECK-NEXT:    mov z2.b, z0.b[35]
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #32
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[35]
+; CHECK-NEXT:    fmov w9, s5
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #33
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[36]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[36]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #34
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[37]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[37]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #35
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[38]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[38]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #36
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[39]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[39]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #37
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[40]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[40]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #38
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[41]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[41]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #39
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[42]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[42]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #40
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[43]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[43]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #41
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[44]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[44]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #42
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[45]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[45]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #43
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[46]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[46]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #44
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[47]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[47]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #45
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[48]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[48]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #46
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[49]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[49]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #47
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[50]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[50]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #48
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[51]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[51]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #49
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[52]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[52]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #50
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[53]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[53]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #51
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[54]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[54]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #52
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[55]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[55]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #53
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[56]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[56]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #54
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[57]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[57]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #55
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[58]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[58]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #56
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[59]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[59]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #57
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[60]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[60]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #58
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[61]
-; CHECK-NEXT:    and w9, w9, #0x1
-; CHECK-NEXT:    fmov w10, s1
-; CHECK-NEXT:    orr x8, x8, x9, lsl #59
 ; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[62]
+; CHECK-NEXT:    mov z2.b, z0.b[61]
+; CHECK-NEXT:    and w9, w9, #0x1
+; CHECK-NEXT:    fmov w10, s2
+; CHECK-NEXT:    orr x8, x8, x9, lsl #59
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[62]
 ; CHECK-NEXT:    mov z0.b, z0.b[63]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #60
 ; CHECK-NEXT:    and w9, w10, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #61
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s1
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #62
 ; CHECK-NEXT:    fmov w9, s0
@@ -24191,26 +24191,26 @@ define void @masked_load_zext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    uzp1 z0.b, z0.b, z0.b
 ; CHECK-NEXT:    umov w12, v0.b[1]
 ; CHECK-NEXT:    fmov w22, s0
-; CHECK-NEXT:    mov z6.b, z0.b[18]
-; CHECK-NEXT:    mov z2.b, z0.b[19]
+; CHECK-NEXT:    mov z3.b, z0.b[18]
+; CHECK-NEXT:    mov z4.b, z0.b[19]
 ; CHECK-NEXT:    umov w13, v0.b[2]
 ; CHECK-NEXT:    umov w14, v0.b[7]
 ; CHECK-NEXT:    umov w3, v0.b[8]
-; CHECK-NEXT:    mov z1.b, z0.b[20]
+; CHECK-NEXT:    mov z5.b, z0.b[20]
 ; CHECK-NEXT:    umov w4, v0.b[9]
-; CHECK-NEXT:    mov z4.b, z0.b[21]
+; CHECK-NEXT:    mov z6.b, z0.b[21]
 ; CHECK-NEXT:    and x22, x22, #0x1
 ; CHECK-NEXT:    umov w11, v0.b[3]
 ; CHECK-NEXT:    umov w5, v0.b[10]
 ; CHECK-NEXT:    mov z7.b, z0.b[22]
-; CHECK-NEXT:    fmov w19, s6
-; CHECK-NEXT:    fmov w20, s2
+; CHECK-NEXT:    fmov w19, s3
+; CHECK-NEXT:    fmov w20, s4
 ; CHECK-NEXT:    bfi x22, x12, #1, #1
 ; CHECK-NEXT:    mov z16.b, z0.b[23]
-; CHECK-NEXT:    fmov w21, s1
+; CHECK-NEXT:    fmov w21, s5
 ; CHECK-NEXT:    umov w10, v0.b[4]
 ; CHECK-NEXT:    umov w15, v0.b[11]
-; CHECK-NEXT:    fmov w23, s4
+; CHECK-NEXT:    fmov w23, s6
 ; CHECK-NEXT:    bfi x22, x13, #2, #1
 ; CHECK-NEXT:    ubfiz x14, x14, #7, #1
 ; CHECK-NEXT:    ubfiz x3, x3, #8, #1
@@ -24229,13 +24229,14 @@ define void @masked_load_zext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    ubfiz x5, x21, #20, #1
 ; CHECK-NEXT:    bfi x22, x11, #3, #1
 ; CHECK-NEXT:    umov w16, v0.b[14]
+; CHECK-NEXT:    mov z1.b, z0.b[16]
 ; CHECK-NEXT:    mov z19.b, z0.b[26]
 ; CHECK-NEXT:    orr x19, x19, x20
 ; CHECK-NEXT:    orr x14, x14, x4
 ; CHECK-NEXT:    ubfiz x4, x23, #21, #1
 ; CHECK-NEXT:    umov w8, v0.b[6]
 ; CHECK-NEXT:    umov w1, v0.b[15]
-; CHECK-NEXT:    mov z5.b, z0.b[17]
+; CHECK-NEXT:    mov z2.b, z0.b[17]
 ; CHECK-NEXT:    mov z20.b, z0.b[27]
 ; CHECK-NEXT:    fmov w26, s17
 ; CHECK-NEXT:    orr x11, x14, x3
@@ -24243,36 +24244,35 @@ define void @masked_load_zext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    ubfiz x15, x15, #11, #1
 ; CHECK-NEXT:    ubfiz x3, x24, #22, #1
 ; CHECK-NEXT:    bfi x22, x10, #4, #1
-; CHECK-NEXT:    mov z3.b, z0.b[16]
 ; CHECK-NEXT:    mov z21.b, z0.b[28]
 ; CHECK-NEXT:    fmov w12, s18
 ; CHECK-NEXT:    orr x14, x14, x4
 ; CHECK-NEXT:    ubfiz x10, x17, #12, #1
 ; CHECK-NEXT:    ubfiz x17, x25, #23, #1
-; CHECK-NEXT:    mov z22.b, z0.b[29]
+; CHECK-NEXT:    fmov w6, s1
+; CHECK-NEXT:    mov z1.b, z0.b[29]
 ; CHECK-NEXT:    fmov w27, s19
 ; CHECK-NEXT:    orr x11, x11, x15
 ; CHECK-NEXT:    orr x14, x14, x3
 ; CHECK-NEXT:    ubfiz x15, x18, #13, #1
 ; CHECK-NEXT:    bfi x22, x9, #5, #1
-; CHECK-NEXT:    fmov w7, s5
-; CHECK-NEXT:    mov z5.b, z0.b[30]
+; CHECK-NEXT:    fmov w7, s2
+; CHECK-NEXT:    mov z2.b, z0.b[30]
 ; CHECK-NEXT:    fmov w28, s20
 ; CHECK-NEXT:    orr x10, x11, x10
 ; CHECK-NEXT:    orr x9, x14, x17
 ; CHECK-NEXT:    ubfiz x11, x16, #14, #1
 ; CHECK-NEXT:    ubfiz x14, x26, #24, #1
-; CHECK-NEXT:    fmov w6, s3
 ; CHECK-NEXT:    fmov w29, s21
 ; CHECK-NEXT:    orr x10, x10, x15
 ; CHECK-NEXT:    bfi x22, x8, #6, #1
 ; CHECK-NEXT:    ubfiz x8, x1, #15, #1
 ; CHECK-NEXT:    ubfiz x12, x12, #25, #1
-; CHECK-NEXT:    fmov w30, s22
+; CHECK-NEXT:    fmov w30, s1
 ; CHECK-NEXT:    orr x10, x10, x11
 ; CHECK-NEXT:    orr x9, x9, x14
 ; CHECK-NEXT:    ubfiz x11, x27, #26, #1
-; CHECK-NEXT:    fmov w13, s5
+; CHECK-NEXT:    fmov w13, s2
 ; CHECK-NEXT:    orr x8, x10, x8
 ; CHECK-NEXT:    orr x9, x9, x12
 ; CHECK-NEXT:    ubfiz x10, x28, #27, #1
@@ -24283,140 +24283,140 @@ define void @masked_load_zext_v64i16i32(ptr %ap, ptr %bp, ptr %c) vscale_range(1
 ; CHECK-NEXT:    orr x9, x9, x10
 ; CHECK-NEXT:    ubfiz x10, x7, #17, #1
 ; CHECK-NEXT:    ubfiz x14, x30, #29, #1
-; CHECK-NEXT:    mov z2.b, z0.b[32]
+; CHECK-NEXT:    mov z4.b, z0.b[32]
 ; CHECK-NEXT:    orr x8, x8, x11
 ; CHECK-NEXT:    orr x9, x9, x12
 ; CHECK-NEXT:    ubfiz x11, x13, #30, #1
 ; CHECK-NEXT:    fmov w12, s3
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    orr x9, x9, x14
-; CHECK-NEXT:    mov z1.b, z0.b[33]
+; CHECK-NEXT:    mov z5.b, z0.b[33]
 ; CHECK-NEXT:    orr x8, x22, x8
 ; CHECK-NEXT:    orr x9, x9, x11
+; CHECK-NEXT:    mov z1.b, z0.b[34]
 ; CHECK-NEXT:    orr x8, x8, x9
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s4
 ; CHECK-NEXT:    lsl w10, w12, #31
-; CHECK-NEXT:    mov z2.b, z0.b[34]
+; CHECK-NEXT:    mov z2.b, z0.b[35]
 ; CHECK-NEXT:    orr x8, x8, x10
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #32
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[35]
+; CHECK-NEXT:    fmov w9, s5
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #33
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[36]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[36]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #34
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[37]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[37]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #35
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[38]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[38]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #36
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[39]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[39]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #37
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[40]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[40]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #38
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[41]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[41]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #39
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[42]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[42]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #40
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[43]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[43]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #41
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[44]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[44]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #42
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[45]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[45]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #43
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[46]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[46]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #44
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[47]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[47]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #45
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[48]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[48]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #46
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[49]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[49]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #47
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[50]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[50]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #48
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[51]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[51]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #49
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[52]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[52]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #50
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[53]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[53]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #51
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[54]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[54]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #52
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[55]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[55]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #53
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[56]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[56]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #54
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[57]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[57]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #55
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[58]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[58]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #56
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[59]
+; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    mov z2.b, z0.b[59]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #57
-; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[60]
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[60]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #58
-; CHECK-NEXT:    fmov w9, s1
-; CHECK-NEXT:    mov z1.b, z0.b[61]
-; CHECK-NEXT:    and w9, w9, #0x1
-; CHECK-NEXT:    fmov w10, s1
-; CHECK-NEXT:    orr x8, x8, x9, lsl #59
 ; CHECK-NEXT:    fmov w9, s2
-; CHECK-NEXT:    mov z2.b, z0.b[62]
+; CHECK-NEXT:    mov z2.b, z0.b[61]
+; CHECK-NEXT:    and w9, w9, #0x1
+; CHECK-NEXT:    fmov w10, s2
+; CHECK-NEXT:    orr x8, x8, x9, lsl #59
+; CHECK-NEXT:    fmov w9, s1
+; CHECK-NEXT:    mov z1.b, z0.b[62]
 ; CHECK-NEXT:    mov z0.b, z0.b[63]
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #60
 ; CHECK-NEXT:    and w9, w10, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #61
-; CHECK-NEXT:    fmov w9, s2
+; CHECK-NEXT:    fmov w9, s1
 ; CHECK-NEXT:    and w9, w9, #0x1
 ; CHECK-NEXT:    orr x8, x8, x9, lsl #62
 ; CHECK-NEXT:    fmov w9, s0

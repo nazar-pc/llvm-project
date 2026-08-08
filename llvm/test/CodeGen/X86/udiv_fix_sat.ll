@@ -401,15 +401,17 @@ define <4 x i32> @vec(<4 x i32> %x, <4 x i32> %y) nounwind {
 ; X86-NEXT:    shrdl $1, %edx, %esi
 ; X86-NEXT:    cmpl $2, %edi
 ; X86-NEXT:    cmovael %ebp, %edi
-; X86-NEXT:    movl $-1, %ecx
-; X86-NEXT:    cmovael %ecx, %ebx
+; X86-NEXT:    movl $-1, %edx
+; X86-NEXT:    cmovael %edx, %ebx
 ; X86-NEXT:    shrdl $1, %edi, %ebx
 ; X86-NEXT:    movl (%esp), %eax # 4-byte Reload
 ; X86-NEXT:    cmpl $2, %eax
 ; X86-NEXT:    cmovael %ebp, %eax
-; X86-NEXT:    movl {{[-0-9]+}}(%e{{[sb]}}p), %edi # 4-byte Reload
-; X86-NEXT:    cmovael %ecx, %edi
-; X86-NEXT:    shrdl $1, %eax, %edi
+; X86-NEXT:    movl %eax, %ecx
+; X86-NEXT:    movl {{[-0-9]+}}(%e{{[sb]}}p), %eax # 4-byte Reload
+; X86-NEXT:    cmovael %edx, %eax
+; X86-NEXT:    shrdl $1, %ecx, %eax
+; X86-NEXT:    movl %eax, %edi
 ; X86-NEXT:    pushl $0
 ; X86-NEXT:    pushl {{[0-9]+}}(%esp)
 ; X86-NEXT:    pushl {{[0-9]+}}(%esp)

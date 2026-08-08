@@ -564,76 +564,76 @@ define <8 x i64> @test_unsigned_v8i64_v8f32(<8 x float> %f) nounwind {
 ; AVX2-NEXT:    cmovaq %rcx, %rdi
 ; AVX2-NEXT:    vmovq %rdi, %xmm5
 ; AVX2-NEXT:    vsubss %xmm2, %xmm0, %xmm6
-; AVX2-NEXT:    vcvttss2si %xmm6, %rsi
-; AVX2-NEXT:    vcvttss2si %xmm0, %rdi
-; AVX2-NEXT:    movq %rdi, %rdx
-; AVX2-NEXT:    sarq $63, %rdx
-; AVX2-NEXT:    andq %rsi, %rdx
-; AVX2-NEXT:    orq %rdi, %rdx
+; AVX2-NEXT:    vcvttss2si %xmm6, %rdx
+; AVX2-NEXT:    vcvttss2si %xmm0, %rsi
+; AVX2-NEXT:    movq %rsi, %rdi
+; AVX2-NEXT:    sarq $63, %rdi
+; AVX2-NEXT:    andq %rdx, %rdi
+; AVX2-NEXT:    orq %rsi, %rdi
 ; AVX2-NEXT:    vucomiss %xmm1, %xmm0
-; AVX2-NEXT:    cmovbq %rax, %rdx
+; AVX2-NEXT:    cmovbq %rax, %rdi
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm0
-; AVX2-NEXT:    cmovaq %rcx, %rdx
+; AVX2-NEXT:    cmovaq %rcx, %rdi
 ; AVX2-NEXT:    vmovshdup {{.*#+}} xmm6 = xmm0[1,1,3,3]
 ; AVX2-NEXT:    vsubss %xmm2, %xmm6, %xmm7
-; AVX2-NEXT:    vcvttss2si %xmm7, %rdi
-; AVX2-NEXT:    vcvttss2si %xmm6, %r8
-; AVX2-NEXT:    movq %r8, %rsi
-; AVX2-NEXT:    sarq $63, %rsi
-; AVX2-NEXT:    andq %rdi, %rsi
-; AVX2-NEXT:    orq %r8, %rsi
+; AVX2-NEXT:    vcvttss2si %xmm7, %rdx
+; AVX2-NEXT:    vcvttss2si %xmm6, %rsi
+; AVX2-NEXT:    movq %rsi, %r8
+; AVX2-NEXT:    sarq $63, %r8
+; AVX2-NEXT:    andq %rdx, %r8
+; AVX2-NEXT:    orq %rsi, %r8
 ; AVX2-NEXT:    vucomiss %xmm1, %xmm6
-; AVX2-NEXT:    cmovbq %rax, %rsi
+; AVX2-NEXT:    cmovbq %rax, %r8
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm6
-; AVX2-NEXT:    cmovaq %rcx, %rsi
+; AVX2-NEXT:    cmovaq %rcx, %r8
 ; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm4 = xmm5[0],xmm4[0]
 ; AVX2-NEXT:    vextractf128 $1, %ymm0, %xmm5
 ; AVX2-NEXT:    vshufps {{.*#+}} xmm6 = xmm5[3,3,3,3]
 ; AVX2-NEXT:    vsubss %xmm2, %xmm6, %xmm0
-; AVX2-NEXT:    vcvttss2si %xmm0, %rdi
-; AVX2-NEXT:    vcvttss2si %xmm6, %r8
-; AVX2-NEXT:    vmovq %rdx, %xmm0
-; AVX2-NEXT:    movq %r8, %rdx
-; AVX2-NEXT:    sarq $63, %rdx
-; AVX2-NEXT:    andq %rdi, %rdx
-; AVX2-NEXT:    orq %r8, %rdx
+; AVX2-NEXT:    vcvttss2si %xmm0, %rdx
+; AVX2-NEXT:    vcvttss2si %xmm6, %rsi
+; AVX2-NEXT:    vmovq %rdi, %xmm0
+; AVX2-NEXT:    movq %rsi, %rdi
+; AVX2-NEXT:    sarq $63, %rdi
+; AVX2-NEXT:    andq %rdx, %rdi
+; AVX2-NEXT:    orq %rsi, %rdi
 ; AVX2-NEXT:    vucomiss %xmm1, %xmm6
-; AVX2-NEXT:    cmovbq %rax, %rdx
+; AVX2-NEXT:    cmovbq %rax, %rdi
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm6
 ; AVX2-NEXT:    vshufpd {{.*#+}} xmm7 = xmm5[1,0]
 ; AVX2-NEXT:    vsubss %xmm2, %xmm7, %xmm6
-; AVX2-NEXT:    vcvttss2si %xmm6, %rdi
-; AVX2-NEXT:    vmovq %rsi, %xmm6
-; AVX2-NEXT:    cmovaq %rcx, %rdx
-; AVX2-NEXT:    vcvttss2si %xmm7, %r8
-; AVX2-NEXT:    movq %r8, %rsi
-; AVX2-NEXT:    sarq $63, %rsi
-; AVX2-NEXT:    andq %rdi, %rsi
-; AVX2-NEXT:    orq %r8, %rsi
+; AVX2-NEXT:    vcvttss2si %xmm6, %rdx
+; AVX2-NEXT:    vmovq %r8, %xmm6
+; AVX2-NEXT:    cmovaq %rcx, %rdi
+; AVX2-NEXT:    vcvttss2si %xmm7, %rsi
+; AVX2-NEXT:    movq %rsi, %r8
+; AVX2-NEXT:    sarq $63, %r8
+; AVX2-NEXT:    andq %rdx, %r8
+; AVX2-NEXT:    orq %rsi, %r8
 ; AVX2-NEXT:    vucomiss %xmm1, %xmm7
-; AVX2-NEXT:    cmovbq %rax, %rsi
+; AVX2-NEXT:    cmovbq %rax, %r8
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm7
 ; AVX2-NEXT:    vsubss %xmm2, %xmm5, %xmm7
-; AVX2-NEXT:    vcvttss2si %xmm7, %rdi
-; AVX2-NEXT:    vmovq %rdx, %xmm7
-; AVX2-NEXT:    cmovaq %rcx, %rsi
-; AVX2-NEXT:    vcvttss2si %xmm5, %r8
-; AVX2-NEXT:    movq %r8, %rdx
-; AVX2-NEXT:    sarq $63, %rdx
-; AVX2-NEXT:    andq %rdi, %rdx
-; AVX2-NEXT:    orq %r8, %rdx
+; AVX2-NEXT:    vcvttss2si %xmm7, %rdx
+; AVX2-NEXT:    vmovq %rdi, %xmm7
+; AVX2-NEXT:    cmovaq %rcx, %r8
+; AVX2-NEXT:    vcvttss2si %xmm5, %rsi
+; AVX2-NEXT:    movq %rsi, %rdi
+; AVX2-NEXT:    sarq $63, %rdi
+; AVX2-NEXT:    andq %rdx, %rdi
+; AVX2-NEXT:    orq %rsi, %rdi
 ; AVX2-NEXT:    vucomiss %xmm1, %xmm5
-; AVX2-NEXT:    cmovbq %rax, %rdx
+; AVX2-NEXT:    cmovbq %rax, %rdi
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm5
-; AVX2-NEXT:    cmovaq %rcx, %rdx
+; AVX2-NEXT:    cmovaq %rcx, %rdi
 ; AVX2-NEXT:    vmovshdup {{.*#+}} xmm5 = xmm5[1,1,3,3]
 ; AVX2-NEXT:    vsubss %xmm2, %xmm5, %xmm2
-; AVX2-NEXT:    vcvttss2si %xmm2, %rdi
-; AVX2-NEXT:    vmovq %rsi, %xmm2
+; AVX2-NEXT:    vcvttss2si %xmm2, %rdx
+; AVX2-NEXT:    vmovq %r8, %xmm2
 ; AVX2-NEXT:    vcvttss2si %xmm5, %rsi
 ; AVX2-NEXT:    movq %rsi, %r8
 ; AVX2-NEXT:    sarq $63, %r8
-; AVX2-NEXT:    andq %rdi, %r8
+; AVX2-NEXT:    andq %rdx, %r8
 ; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm0 = xmm0[0],xmm6[0]
 ; AVX2-NEXT:    vinserti128 $1, %xmm4, %ymm0, %ymm0
 ; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm2 = xmm2[0],xmm7[0]
@@ -642,7 +642,7 @@ define <8 x i64> @test_unsigned_v8i64_v8f32(<8 x float> %f) nounwind {
 ; AVX2-NEXT:    cmovbq %rax, %r8
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm5
 ; AVX2-NEXT:    cmovaq %rcx, %r8
-; AVX2-NEXT:    vmovq %rdx, %xmm1
+; AVX2-NEXT:    vmovq %rdi, %xmm1
 ; AVX2-NEXT:    vmovq %r8, %xmm3
 ; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm1 = xmm1[0],xmm3[0]
 ; AVX2-NEXT:    vinserti128 $1, %xmm2, %ymm1, %ymm1
@@ -2105,81 +2105,81 @@ define <16 x i64> @test_unsigned_v16i64_v16f16(<16 x half> %f) nounwind {
 ; AVX2-NEXT:    cmovbq %rax, %rdx
 ; AVX2-NEXT:    vucomiss %xmm4, %xmm1
 ; AVX2-NEXT:    cmovaq %rcx, %rdx
-; AVX2-NEXT:    vmovq %rdi, %xmm7
-; AVX2-NEXT:    vpsrld $16, %xmm5, %xmm1
-; AVX2-NEXT:    vcvtph2ps %xmm1, %xmm8
-; AVX2-NEXT:    vmovq %r8, %xmm9
-; AVX2-NEXT:    vsubss %xmm2, %xmm8, %xmm1
-; AVX2-NEXT:    vcvttss2si %xmm1, %rdi
-; AVX2-NEXT:    vmovq %r9, %xmm1
-; AVX2-NEXT:    vcvttss2si %xmm8, %r8
-; AVX2-NEXT:    movq %r8, %rsi
-; AVX2-NEXT:    sarq $63, %rsi
-; AVX2-NEXT:    andq %rdi, %rsi
-; AVX2-NEXT:    orq %r8, %rsi
-; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm0 = xmm6[0],xmm0[0]
-; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm6 = xmm7[0],xmm9[0]
-; AVX2-NEXT:    vinserti128 $1, %xmm0, %ymm6, %ymm0
-; AVX2-NEXT:    vucomiss %xmm3, %xmm8
-; AVX2-NEXT:    cmovbq %rax, %rsi
-; AVX2-NEXT:    vucomiss %xmm4, %xmm8
-; AVX2-NEXT:    cmovaq %rcx, %rsi
-; AVX2-NEXT:    vmovq %r10, %xmm6
-; AVX2-NEXT:    vpsrldq {{.*#+}} xmm7 = xmm5[14,15],zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero
+; AVX2-NEXT:    vmovq %rdi, %xmm1
+; AVX2-NEXT:    vpsrld $16, %xmm5, %xmm7
 ; AVX2-NEXT:    vcvtph2ps %xmm7, %xmm7
-; AVX2-NEXT:    vmovq %r11, %xmm8
+; AVX2-NEXT:    vmovq %r8, %xmm8
 ; AVX2-NEXT:    vsubss %xmm2, %xmm7, %xmm9
-; AVX2-NEXT:    vcvttss2si %xmm9, %r8
-; AVX2-NEXT:    vmovq %rbx, %xmm9
-; AVX2-NEXT:    vcvttss2si %xmm7, %r9
-; AVX2-NEXT:    movq %r9, %rdi
-; AVX2-NEXT:    sarq $63, %rdi
-; AVX2-NEXT:    andq %r8, %rdi
-; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm1 = xmm6[0],xmm1[0]
-; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm6 = xmm9[0],xmm8[0]
-; AVX2-NEXT:    vinserti128 $1, %xmm1, %ymm6, %ymm1
-; AVX2-NEXT:    orq %r9, %rdi
+; AVX2-NEXT:    vcvttss2si %xmm9, %rsi
+; AVX2-NEXT:    vmovq %r9, %xmm9
+; AVX2-NEXT:    vcvttss2si %xmm7, %rdi
+; AVX2-NEXT:    movq %rdi, %r8
+; AVX2-NEXT:    sarq $63, %r8
+; AVX2-NEXT:    andq %rsi, %r8
+; AVX2-NEXT:    orq %rdi, %r8
+; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm0 = xmm6[0],xmm0[0]
+; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm1 = xmm1[0],xmm8[0]
+; AVX2-NEXT:    vinserti128 $1, %xmm0, %ymm1, %ymm0
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm7
-; AVX2-NEXT:    cmovbq %rax, %rdi
+; AVX2-NEXT:    cmovbq %rax, %r8
 ; AVX2-NEXT:    vucomiss %xmm4, %xmm7
-; AVX2-NEXT:    cmovaq %rcx, %rdi
+; AVX2-NEXT:    cmovaq %rcx, %r8
+; AVX2-NEXT:    vmovq %r10, %xmm1
+; AVX2-NEXT:    vpsrldq {{.*#+}} xmm6 = xmm5[14,15],zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero,zero
+; AVX2-NEXT:    vcvtph2ps %xmm6, %xmm6
+; AVX2-NEXT:    vmovq %r11, %xmm7
+; AVX2-NEXT:    vsubss %xmm2, %xmm6, %xmm8
+; AVX2-NEXT:    vcvttss2si %xmm8, %rsi
+; AVX2-NEXT:    vmovq %rbx, %xmm8
+; AVX2-NEXT:    vcvttss2si %xmm6, %rdi
+; AVX2-NEXT:    movq %rdi, %r9
+; AVX2-NEXT:    sarq $63, %r9
+; AVX2-NEXT:    andq %rsi, %r9
+; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm1 = xmm1[0],xmm9[0]
+; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm7 = xmm8[0],xmm7[0]
+; AVX2-NEXT:    vinserti128 $1, %xmm1, %ymm7, %ymm1
+; AVX2-NEXT:    orq %rdi, %r9
+; AVX2-NEXT:    vucomiss %xmm3, %xmm6
+; AVX2-NEXT:    cmovbq %rax, %r9
+; AVX2-NEXT:    vucomiss %xmm4, %xmm6
+; AVX2-NEXT:    cmovaq %rcx, %r9
 ; AVX2-NEXT:    vmovq %r14, %xmm6
 ; AVX2-NEXT:    vshufps {{.*#+}} xmm7 = xmm5[3,3,3,3]
 ; AVX2-NEXT:    vcvtph2ps %xmm7, %xmm7
 ; AVX2-NEXT:    vmovq %r15, %xmm8
 ; AVX2-NEXT:    vsubss %xmm2, %xmm7, %xmm9
-; AVX2-NEXT:    vcvttss2si %xmm9, %r9
-; AVX2-NEXT:    vcvttss2si %xmm7, %r10
-; AVX2-NEXT:    movq %r10, %r8
-; AVX2-NEXT:    sarq $63, %r8
-; AVX2-NEXT:    andq %r9, %r8
-; AVX2-NEXT:    orq %r10, %r8
+; AVX2-NEXT:    vcvttss2si %xmm9, %rsi
+; AVX2-NEXT:    vcvttss2si %xmm7, %rdi
+; AVX2-NEXT:    movq %rdi, %r10
+; AVX2-NEXT:    sarq $63, %r10
+; AVX2-NEXT:    andq %rsi, %r10
+; AVX2-NEXT:    orq %rdi, %r10
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm7
-; AVX2-NEXT:    cmovbq %rax, %r8
+; AVX2-NEXT:    cmovbq %rax, %r10
 ; AVX2-NEXT:    vucomiss %xmm4, %xmm7
-; AVX2-NEXT:    cmovaq %rcx, %r8
+; AVX2-NEXT:    cmovaq %rcx, %r10
 ; AVX2-NEXT:    vpsrldq {{.*#+}} xmm7 = xmm5[10,11,12,13,14,15],zero,zero,zero,zero,zero,zero,zero,zero,zero,zero
 ; AVX2-NEXT:    vcvtph2ps %xmm7, %xmm7
 ; AVX2-NEXT:    vsubss %xmm2, %xmm7, %xmm9
-; AVX2-NEXT:    vcvttss2si %xmm9, %r9
-; AVX2-NEXT:    vcvttss2si %xmm7, %r10
+; AVX2-NEXT:    vcvttss2si %xmm9, %rsi
+; AVX2-NEXT:    vcvttss2si %xmm7, %rdi
 ; AVX2-NEXT:    vmovq %rdx, %xmm9
-; AVX2-NEXT:    movq %r10, %rdx
+; AVX2-NEXT:    movq %rdi, %rdx
 ; AVX2-NEXT:    sarq $63, %rdx
-; AVX2-NEXT:    andq %r9, %rdx
-; AVX2-NEXT:    orq %r10, %rdx
+; AVX2-NEXT:    andq %rsi, %rdx
+; AVX2-NEXT:    orq %rdi, %rdx
 ; AVX2-NEXT:    vpunpcklqdq {{.*#+}} xmm6 = xmm8[0],xmm6[0]
 ; AVX2-NEXT:    vucomiss %xmm3, %xmm7
 ; AVX2-NEXT:    cmovbq %rax, %rdx
 ; AVX2-NEXT:    vucomiss %xmm4, %xmm7
 ; AVX2-NEXT:    cmovaq %rcx, %rdx
-; AVX2-NEXT:    vmovq %rsi, %xmm7
+; AVX2-NEXT:    vmovq %r8, %xmm7
 ; AVX2-NEXT:    vshufpd {{.*#+}} xmm5 = xmm5[1,0]
 ; AVX2-NEXT:    vcvtph2ps %xmm5, %xmm5
-; AVX2-NEXT:    vmovq %rdi, %xmm8
+; AVX2-NEXT:    vmovq %r9, %xmm8
 ; AVX2-NEXT:    vsubss %xmm2, %xmm5, %xmm2
 ; AVX2-NEXT:    vcvttss2si %xmm2, %rsi
-; AVX2-NEXT:    vmovq %r8, %xmm10
+; AVX2-NEXT:    vmovq %r10, %xmm10
 ; AVX2-NEXT:    vcvttss2si %xmm5, %rdi
 ; AVX2-NEXT:    movq %rdi, %r8
 ; AVX2-NEXT:    sarq $63, %r8

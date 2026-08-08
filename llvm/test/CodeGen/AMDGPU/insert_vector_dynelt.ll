@@ -4128,21 +4128,21 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_lshr_b32 s78, s2, 19
 ; GCN-NEXT:    s_lshr_b32 s81, s2, 20
 ; GCN-NEXT:    s_lshr_b32 s82, s2, 21
-; GCN-NEXT:    s_lshr_b32 s84, s2, 22
-; GCN-NEXT:    s_lshr_b32 s86, s2, 23
-; GCN-NEXT:    s_lshr_b32 s89, s2, 24
-; GCN-NEXT:    s_lshr_b32 s90, s2, 25
-; GCN-NEXT:    s_lshr_b32 s93, s2, 26
-; GCN-NEXT:    s_lshr_b32 s94, s2, 27
-; GCN-NEXT:    s_lshr_b32 vcc_hi, s2, 28
-; GCN-NEXT:    s_lshr_b32 s39, s2, 29
-; GCN-NEXT:    s_lshr_b32 s38, s2, 30
-; GCN-NEXT:    s_lshr_b32 s37, s2, 31
-; GCN-NEXT:    s_lshr_b32 s33, s3, 16
-; GCN-NEXT:    s_lshr_b32 s31, s3, 17
-; GCN-NEXT:    s_lshr_b32 s28, s3, 18
-; GCN-NEXT:    s_lshr_b32 s27, s3, 19
-; GCN-NEXT:    s_lshr_b32 s24, s3, 20
+; GCN-NEXT:    s_lshr_b32 s83, s2, 22
+; GCN-NEXT:    s_lshr_b32 s84, s2, 23
+; GCN-NEXT:    s_lshr_b32 s85, s2, 24
+; GCN-NEXT:    s_lshr_b32 s86, s2, 25
+; GCN-NEXT:    s_lshr_b32 s87, s2, 26
+; GCN-NEXT:    s_lshr_b32 s88, s2, 27
+; GCN-NEXT:    s_lshr_b32 s89, s2, 28
+; GCN-NEXT:    s_lshr_b32 s90, s2, 29
+; GCN-NEXT:    s_lshr_b32 s91, s2, 30
+; GCN-NEXT:    s_lshr_b32 s92, s2, 31
+; GCN-NEXT:    s_lshr_b32 s93, s3, 16
+; GCN-NEXT:    s_lshr_b32 s94, s3, 17
+; GCN-NEXT:    s_lshr_b32 s95, s3, 18
+; GCN-NEXT:    s_lshr_b32 vcc_lo, s3, 19
+; GCN-NEXT:    s_lshr_b32 vcc_hi, s3, 20
 ; GCN-NEXT:    s_lshr_b32 s23, s3, 21
 ; GCN-NEXT:    s_lshr_b32 s20, s3, 22
 ; GCN-NEXT:    s_lshr_b32 s19, s3, 23
@@ -4176,21 +4176,21 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_bfe_u32 s76, s2, 0xb0005
 ; GCN-NEXT:    s_bfe_u32 s79, s2, 0xa0006
 ; GCN-NEXT:    s_bfe_u32 s80, s2, 0x90007
-; GCN-NEXT:    s_bfe_u32 s83, s2, 0x80008
-; GCN-NEXT:    s_bfe_u32 s85, s2, 0x70009
-; GCN-NEXT:    s_bfe_u32 s87, s2, 0x6000a
-; GCN-NEXT:    s_bfe_u32 s88, s2, 0x5000b
-; GCN-NEXT:    s_bfe_u32 s91, s2, 0x4000c
-; GCN-NEXT:    s_bfe_u32 s92, s2, 0x3000d
-; GCN-NEXT:    s_bfe_u32 s95, s2, 0x2000e
-; GCN-NEXT:    s_bfe_u32 vcc_lo, s2, 0x1000f
-; GCN-NEXT:    s_bfe_u32 s36, s3, 0xf0001
-; GCN-NEXT:    s_bfe_u32 s35, s3, 0xe0002
-; GCN-NEXT:    s_bfe_u32 s34, s3, 0xd0003
-; GCN-NEXT:    s_bfe_u32 s30, s3, 0xc0004
-; GCN-NEXT:    s_bfe_u32 s29, s3, 0xb0005
-; GCN-NEXT:    s_bfe_u32 s26, s3, 0xa0006
-; GCN-NEXT:    s_bfe_u32 s25, s3, 0x90007
+; GCN-NEXT:    s_bfe_u32 s39, s2, 0x80008
+; GCN-NEXT:    s_bfe_u32 s38, s2, 0x70009
+; GCN-NEXT:    s_bfe_u32 s37, s2, 0x6000a
+; GCN-NEXT:    s_bfe_u32 s36, s2, 0x5000b
+; GCN-NEXT:    s_bfe_u32 s35, s2, 0x4000c
+; GCN-NEXT:    s_bfe_u32 s34, s2, 0x3000d
+; GCN-NEXT:    s_bfe_u32 s33, s2, 0x2000e
+; GCN-NEXT:    s_bfe_u32 s31, s2, 0x1000f
+; GCN-NEXT:    s_bfe_u32 s30, s3, 0xf0001
+; GCN-NEXT:    s_bfe_u32 s29, s3, 0xe0002
+; GCN-NEXT:    s_bfe_u32 s28, s3, 0xd0003
+; GCN-NEXT:    s_bfe_u32 s27, s3, 0xc0004
+; GCN-NEXT:    s_bfe_u32 s26, s3, 0xb0005
+; GCN-NEXT:    s_bfe_u32 s25, s3, 0xa0006
+; GCN-NEXT:    s_bfe_u32 s24, s3, 0x90007
 ; GCN-NEXT:    s_bfe_u32 s22, s3, 0x80008
 ; GCN-NEXT:    s_bfe_u32 s21, s3, 0x70009
 ; GCN-NEXT:    s_bfe_u32 s18, s3, 0x6000a
@@ -4249,25 +4249,25 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_cselect_b32 s7, s23, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x74
-; GCN-NEXT:    s_cselect_b32 s8, s24, 1
+; GCN-NEXT:    s_cselect_b32 s8, vcc_hi, 1
 ; GCN-NEXT:    s_and_b32 s8, s8, 1
 ; GCN-NEXT:    s_or_b32 s7, s8, s7
 ; GCN-NEXT:    s_and_b32 s7, s7, 3
 ; GCN-NEXT:    s_or_b32 s5, s7, s5
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 4
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x73
-; GCN-NEXT:    s_cselect_b32 s7, s27, 1
+; GCN-NEXT:    s_cselect_b32 s7, vcc_lo, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x72
-; GCN-NEXT:    s_cselect_b32 s8, s28, 1
+; GCN-NEXT:    s_cselect_b32 s8, s95, 1
 ; GCN-NEXT:    s_and_b32 s8, s8, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 2
 ; GCN-NEXT:    s_or_b32 s7, s7, s8
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x71
-; GCN-NEXT:    s_cselect_b32 s8, s31, 1
+; GCN-NEXT:    s_cselect_b32 s8, s94, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x70
-; GCN-NEXT:    s_cselect_b32 s11, s33, 1
+; GCN-NEXT:    s_cselect_b32 s11, s93, 1
 ; GCN-NEXT:    s_and_b32 s11, s11, 1
 ; GCN-NEXT:    s_or_b32 s8, s11, s8
 ; GCN-NEXT:    s_and_b32 s8, s8, 3
@@ -4316,28 +4316,28 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 8
 ; GCN-NEXT:    s_or_b32 s5, s5, s7
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x67
-; GCN-NEXT:    s_cselect_b32 s7, s25, 1
+; GCN-NEXT:    s_cselect_b32 s7, s24, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x66
-; GCN-NEXT:    s_cselect_b32 s8, s26, 1
+; GCN-NEXT:    s_cselect_b32 s8, s25, 1
 ; GCN-NEXT:    s_and_b32 s8, s8, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 2
 ; GCN-NEXT:    s_or_b32 s7, s7, s8
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x65
-; GCN-NEXT:    s_cselect_b32 s8, s29, 1
+; GCN-NEXT:    s_cselect_b32 s8, s26, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x64
-; GCN-NEXT:    s_cselect_b32 s9, s30, 1
+; GCN-NEXT:    s_cselect_b32 s9, s27, 1
 ; GCN-NEXT:    s_and_b32 s9, s9, 1
 ; GCN-NEXT:    s_or_b32 s8, s9, s8
 ; GCN-NEXT:    s_and_b32 s8, s8, 3
 ; GCN-NEXT:    s_or_b32 s7, s8, s7
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 4
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x63
-; GCN-NEXT:    s_cselect_b32 s8, s34, 1
+; GCN-NEXT:    s_cselect_b32 s8, s28, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x62
-; GCN-NEXT:    s_cselect_b32 s9, s35, 1
+; GCN-NEXT:    s_cselect_b32 s9, s29, 1
 ; GCN-NEXT:    s_and_b32 s9, s9, 1
 ; GCN-NEXT:    s_lshl_b32 s9, s9, 2
 ; GCN-NEXT:    s_or_b32 s8, s8, s9
@@ -4345,7 +4345,7 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_cselect_b32 s3, s3, 1
 ; GCN-NEXT:    s_and_b32 s3, s3, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x61
-; GCN-NEXT:    s_cselect_b32 s9, s36, 1
+; GCN-NEXT:    s_cselect_b32 s9, s30, 1
 ; GCN-NEXT:    s_lshl_b32 s9, s9, 1
 ; GCN-NEXT:    s_or_b32 s3, s3, s9
 ; GCN-NEXT:    s_and_b32 s3, s3, 3
@@ -4357,36 +4357,36 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_and_b32 s3, s3, 0xffff
 ; GCN-NEXT:    s_or_b32 s3, s3, s4
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x5f
-; GCN-NEXT:    s_cselect_b32 s4, s37, 1
+; GCN-NEXT:    s_cselect_b32 s4, s92, 1
 ; GCN-NEXT:    s_lshl_b32 s4, s4, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x5e
-; GCN-NEXT:    s_cselect_b32 s5, s38, 1
+; GCN-NEXT:    s_cselect_b32 s5, s91, 1
 ; GCN-NEXT:    s_and_b32 s5, s5, 1
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 2
 ; GCN-NEXT:    s_or_b32 s4, s4, s5
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x5d
-; GCN-NEXT:    s_cselect_b32 s5, s39, 1
+; GCN-NEXT:    s_cselect_b32 s5, s90, 1
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x5c
-; GCN-NEXT:    s_cselect_b32 s7, vcc_hi, 1
+; GCN-NEXT:    s_cselect_b32 s7, s89, 1
 ; GCN-NEXT:    s_and_b32 s7, s7, 1
 ; GCN-NEXT:    s_or_b32 s5, s7, s5
 ; GCN-NEXT:    s_and_b32 s5, s5, 3
 ; GCN-NEXT:    s_or_b32 s4, s5, s4
 ; GCN-NEXT:    s_lshl_b32 s4, s4, 12
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x5b
-; GCN-NEXT:    s_cselect_b32 s5, s94, 1
+; GCN-NEXT:    s_cselect_b32 s5, s88, 1
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x5a
-; GCN-NEXT:    s_cselect_b32 s7, s93, 1
+; GCN-NEXT:    s_cselect_b32 s7, s87, 1
 ; GCN-NEXT:    s_and_b32 s7, s7, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 2
 ; GCN-NEXT:    s_or_b32 s5, s5, s7
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x59
-; GCN-NEXT:    s_cselect_b32 s7, s90, 1
+; GCN-NEXT:    s_cselect_b32 s7, s86, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x58
-; GCN-NEXT:    s_cselect_b32 s8, s89, 1
+; GCN-NEXT:    s_cselect_b32 s8, s85, 1
 ; GCN-NEXT:    s_and_b32 s8, s8, 1
 ; GCN-NEXT:    s_or_b32 s7, s8, s7
 ; GCN-NEXT:    s_and_b32 s7, s7, 3
@@ -4395,10 +4395,10 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 8
 ; GCN-NEXT:    s_or_b32 s4, s4, s5
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x57
-; GCN-NEXT:    s_cselect_b32 s5, s86, 1
+; GCN-NEXT:    s_cselect_b32 s5, s84, 1
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x56
-; GCN-NEXT:    s_cselect_b32 s7, s84, 1
+; GCN-NEXT:    s_cselect_b32 s7, s83, 1
 ; GCN-NEXT:    s_and_b32 s7, s7, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 2
 ; GCN-NEXT:    s_or_b32 s5, s5, s7
@@ -4435,36 +4435,36 @@ define amdgpu_kernel void @bit128_inselt(ptr addrspace(1) %out, <128 x i1> %vec,
 ; GCN-NEXT:    s_or_b32 s4, s5, s4
 ; GCN-NEXT:    s_lshl_b32 s4, s4, 16
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x4f
-; GCN-NEXT:    s_cselect_b32 s5, vcc_lo, 1
+; GCN-NEXT:    s_cselect_b32 s5, s31, 1
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x4e
-; GCN-NEXT:    s_cselect_b32 s7, s95, 1
+; GCN-NEXT:    s_cselect_b32 s7, s33, 1
 ; GCN-NEXT:    s_and_b32 s7, s7, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 2
 ; GCN-NEXT:    s_or_b32 s5, s5, s7
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x4d
-; GCN-NEXT:    s_cselect_b32 s7, s92, 1
+; GCN-NEXT:    s_cselect_b32 s7, s34, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x4c
-; GCN-NEXT:    s_cselect_b32 s8, s91, 1
+; GCN-NEXT:    s_cselect_b32 s8, s35, 1
 ; GCN-NEXT:    s_and_b32 s8, s8, 1
 ; GCN-NEXT:    s_or_b32 s7, s8, s7
 ; GCN-NEXT:    s_and_b32 s7, s7, 3
 ; GCN-NEXT:    s_or_b32 s5, s7, s5
 ; GCN-NEXT:    s_lshl_b32 s5, s5, 12
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x4b
-; GCN-NEXT:    s_cselect_b32 s7, s88, 1
+; GCN-NEXT:    s_cselect_b32 s7, s36, 1
 ; GCN-NEXT:    s_lshl_b32 s7, s7, 3
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x4a
-; GCN-NEXT:    s_cselect_b32 s8, s87, 1
+; GCN-NEXT:    s_cselect_b32 s8, s37, 1
 ; GCN-NEXT:    s_and_b32 s8, s8, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 2
 ; GCN-NEXT:    s_or_b32 s7, s7, s8
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x49
-; GCN-NEXT:    s_cselect_b32 s8, s85, 1
+; GCN-NEXT:    s_cselect_b32 s8, s38, 1
 ; GCN-NEXT:    s_lshl_b32 s8, s8, 1
 ; GCN-NEXT:    s_cmpk_lg_i32 s6, 0x48
-; GCN-NEXT:    s_cselect_b32 s9, s83, 1
+; GCN-NEXT:    s_cselect_b32 s9, s39, 1
 ; GCN-NEXT:    s_and_b32 s9, s9, 1
 ; GCN-NEXT:    s_or_b32 s8, s9, s8
 ; GCN-NEXT:    s_and_b32 s8, s8, 3

@@ -3340,20 +3340,20 @@ define <16 x i8> @trunc_ssat_v16i64_v16i8(ptr %p0) "min-legal-vector-width"="256
 ; SSE2-SSSE3-NEXT:    pcmpeqd %xmm10, %xmm13
 ; SSE2-SSSE3-NEXT:    movdqa %xmm9, %xmm14
 ; SSE2-SSSE3-NEXT:    pcmpgtd %xmm11, %xmm14
-; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm15 = xmm14[0,0,2,2]
-; SSE2-SSSE3-NEXT:    pand %xmm13, %xmm15
-; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm11 = xmm14[1,1,3,3]
-; SSE2-SSSE3-NEXT:    por %xmm15, %xmm11
-; SSE2-SSSE3-NEXT:    pand %xmm11, %xmm8
-; SSE2-SSSE3-NEXT:    pandn %xmm6, %xmm11
-; SSE2-SSSE3-NEXT:    por %xmm8, %xmm11
+; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm11 = xmm14[0,0,2,2]
+; SSE2-SSSE3-NEXT:    pand %xmm13, %xmm11
+; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm13 = xmm14[1,1,3,3]
+; SSE2-SSSE3-NEXT:    por %xmm11, %xmm13
+; SSE2-SSSE3-NEXT:    pand %xmm13, %xmm8
+; SSE2-SSSE3-NEXT:    pandn %xmm6, %xmm13
+; SSE2-SSSE3-NEXT:    por %xmm8, %xmm13
 ; SSE2-SSSE3-NEXT:    movdqa %xmm0, %xmm8
 ; SSE2-SSSE3-NEXT:    pxor %xmm1, %xmm8
-; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm13 = xmm8[1,1,3,3]
-; SSE2-SSSE3-NEXT:    pcmpeqd %xmm10, %xmm13
+; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm11 = xmm8[1,1,3,3]
+; SSE2-SSSE3-NEXT:    pcmpeqd %xmm10, %xmm11
 ; SSE2-SSSE3-NEXT:    pcmpgtd %xmm8, %xmm9
 ; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm8 = xmm9[0,0,2,2]
-; SSE2-SSSE3-NEXT:    pand %xmm13, %xmm8
+; SSE2-SSSE3-NEXT:    pand %xmm11, %xmm8
 ; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm10 = xmm9[1,1,3,3]
 ; SSE2-SSSE3-NEXT:    por %xmm8, %xmm10
 ; SSE2-SSSE3-NEXT:    pand %xmm10, %xmm0
@@ -3362,19 +3362,19 @@ define <16 x i8> @trunc_ssat_v16i64_v16i8(ptr %p0) "min-legal-vector-width"="256
 ; SSE2-SSSE3-NEXT:    movdqa {{.*#+}} xmm6 = [18446744073709551488,18446744073709551488]
 ; SSE2-SSSE3-NEXT:    movdqa %xmm10, %xmm0
 ; SSE2-SSSE3-NEXT:    pxor %xmm1, %xmm0
-; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm13 = xmm0[1,1,3,3]
+; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm11 = xmm0[1,1,3,3]
 ; SSE2-SSSE3-NEXT:    pcmpeqd %xmm8, %xmm8
-; SSE2-SSSE3-NEXT:    pcmpeqd %xmm8, %xmm13
+; SSE2-SSSE3-NEXT:    pcmpeqd %xmm8, %xmm11
 ; SSE2-SSSE3-NEXT:    movdqa {{.*#+}} xmm9 = [18446744071562067840,18446744071562067840]
 ; SSE2-SSSE3-NEXT:    pcmpgtd %xmm9, %xmm0
 ; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm14 = xmm0[0,0,2,2]
-; SSE2-SSSE3-NEXT:    pand %xmm13, %xmm14
-; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm13 = xmm0[1,1,3,3]
-; SSE2-SSSE3-NEXT:    por %xmm14, %xmm13
-; SSE2-SSSE3-NEXT:    pand %xmm13, %xmm10
-; SSE2-SSSE3-NEXT:    pandn %xmm6, %xmm13
-; SSE2-SSSE3-NEXT:    por %xmm10, %xmm13
-; SSE2-SSSE3-NEXT:    movdqa %xmm11, %xmm0
+; SSE2-SSSE3-NEXT:    pand %xmm11, %xmm14
+; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm11 = xmm0[1,1,3,3]
+; SSE2-SSSE3-NEXT:    por %xmm14, %xmm11
+; SSE2-SSSE3-NEXT:    pand %xmm11, %xmm10
+; SSE2-SSSE3-NEXT:    pandn %xmm6, %xmm11
+; SSE2-SSSE3-NEXT:    por %xmm10, %xmm11
+; SSE2-SSSE3-NEXT:    movdqa %xmm13, %xmm0
 ; SSE2-SSSE3-NEXT:    pxor %xmm1, %xmm0
 ; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm10 = xmm0[1,1,3,3]
 ; SSE2-SSSE3-NEXT:    pcmpeqd %xmm8, %xmm10
@@ -3383,10 +3383,10 @@ define <16 x i8> @trunc_ssat_v16i64_v16i8(ptr %p0) "min-legal-vector-width"="256
 ; SSE2-SSSE3-NEXT:    pand %xmm10, %xmm14
 ; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm0 = xmm0[1,1,3,3]
 ; SSE2-SSSE3-NEXT:    por %xmm14, %xmm0
-; SSE2-SSSE3-NEXT:    pand %xmm0, %xmm11
+; SSE2-SSSE3-NEXT:    pand %xmm0, %xmm13
 ; SSE2-SSSE3-NEXT:    pandn %xmm6, %xmm0
-; SSE2-SSSE3-NEXT:    por %xmm11, %xmm0
-; SSE2-SSSE3-NEXT:    packssdw %xmm13, %xmm0
+; SSE2-SSSE3-NEXT:    por %xmm13, %xmm0
+; SSE2-SSSE3-NEXT:    packssdw %xmm11, %xmm0
 ; SSE2-SSSE3-NEXT:    movdqa %xmm12, %xmm10
 ; SSE2-SSSE3-NEXT:    pxor %xmm1, %xmm10
 ; SSE2-SSSE3-NEXT:    pshufd {{.*#+}} xmm11 = xmm10[1,1,3,3]

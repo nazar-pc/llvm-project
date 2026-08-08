@@ -2960,10 +2960,10 @@ define bfloat @vreduce_fminimum_v128bf16(ptr %x) {
 ; CHECK-NEXT:    addi a3, a3, 16
 ; CHECK-NEXT:    vs8r.v v8, (a3) # vscale x 64-byte Folded Spill
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
-; CHECK-NEXT:    vslidedown.vx v16, v16, a2
+; CHECK-NEXT:    vslidedown.vx v24, v16, a2
 ; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m4, ta, ma
-; CHECK-NEXT:    vfwcvtbf16.f.f.v v8, v16
+; CHECK-NEXT:    vfwcvtbf16.f.f.v v8, v24
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
 ; CHECK-NEXT:    vle16.v v24, (a0)
 ; CHECK-NEXT:    vsetvli zero, a2, e32, m8, ta, ma
@@ -2972,15 +2972,15 @@ define bfloat @vreduce_fminimum_v128bf16(ptr %x) {
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vs8r.v v16, (a0) # vscale x 64-byte Folded Spill
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
-; CHECK-NEXT:    vslidedown.vx v24, v24, a2
+; CHECK-NEXT:    vslidedown.vx v16, v24, a2
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m4, ta, ma
-; CHECK-NEXT:    vfwcvtbf16.f.f.v v16, v24
+; CHECK-NEXT:    vfwcvtbf16.f.f.v v24, v16
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m8, ta, ma
-; CHECK-NEXT:    vmfeq.vv v7, v16, v16
-; CHECK-NEXT:    vmerge.vvm v24, v8, v16, v0
+; CHECK-NEXT:    vmfeq.vv v7, v24, v24
+; CHECK-NEXT:    vmerge.vvm v16, v8, v24, v0
 ; CHECK-NEXT:    vmv1r.v v0, v7
-; CHECK-NEXT:    vmerge.vvm v8, v16, v8, v0
-; CHECK-NEXT:    vfmin.vv v8, v8, v24
+; CHECK-NEXT:    vmerge.vvm v8, v24, v8, v0
+; CHECK-NEXT:    vfmin.vv v8, v8, v16
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vfncvtbf16.f.f.w v16, v8
 ; CHECK-NEXT:    vfwcvtbf16.f.f.v v8, v16
@@ -3150,10 +3150,10 @@ define bfloat @vreduce_fmaximum_v128bf16(ptr %x) {
 ; CHECK-NEXT:    addi a3, a3, 16
 ; CHECK-NEXT:    vs8r.v v8, (a3) # vscale x 64-byte Folded Spill
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
-; CHECK-NEXT:    vslidedown.vx v16, v16, a2
+; CHECK-NEXT:    vslidedown.vx v24, v16, a2
 ; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m4, ta, ma
-; CHECK-NEXT:    vfwcvtbf16.f.f.v v8, v16
+; CHECK-NEXT:    vfwcvtbf16.f.f.v v8, v24
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
 ; CHECK-NEXT:    vle16.v v24, (a0)
 ; CHECK-NEXT:    vsetvli zero, a2, e32, m8, ta, ma
@@ -3162,15 +3162,15 @@ define bfloat @vreduce_fmaximum_v128bf16(ptr %x) {
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vs8r.v v16, (a0) # vscale x 64-byte Folded Spill
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
-; CHECK-NEXT:    vslidedown.vx v24, v24, a2
+; CHECK-NEXT:    vslidedown.vx v16, v24, a2
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m4, ta, ma
-; CHECK-NEXT:    vfwcvtbf16.f.f.v v16, v24
+; CHECK-NEXT:    vfwcvtbf16.f.f.v v24, v16
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m8, ta, ma
-; CHECK-NEXT:    vmfeq.vv v7, v16, v16
-; CHECK-NEXT:    vmerge.vvm v24, v8, v16, v0
+; CHECK-NEXT:    vmfeq.vv v7, v24, v24
+; CHECK-NEXT:    vmerge.vvm v16, v8, v24, v0
 ; CHECK-NEXT:    vmv1r.v v0, v7
-; CHECK-NEXT:    vmerge.vvm v8, v16, v8, v0
-; CHECK-NEXT:    vfmax.vv v8, v8, v24
+; CHECK-NEXT:    vmerge.vvm v8, v24, v8, v0
+; CHECK-NEXT:    vfmax.vv v8, v8, v16
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vfncvtbf16.f.f.w v16, v8
 ; CHECK-NEXT:    vfwcvtbf16.f.f.v v8, v16

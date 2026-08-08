@@ -7849,65 +7849,65 @@ define amdgpu_kernel void @global_zextload_v32i8_to_v32i64(ptr addrspace(1) %out
 define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out, ptr addrspace(1) %in) #0 {
 ; GCN-NOHSA-SI-LABEL: global_sextload_v32i8_to_v32i64:
 ; GCN-NOHSA-SI:       ; %bb.0:
-; GCN-NOHSA-SI-NEXT:    s_load_dwordx4 s[4:7], s[4:5], 0x9
+; GCN-NOHSA-SI-NEXT:    s_load_dwordx4 s[16:19], s[4:5], 0x9
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s3, 0xf000
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s2, -1
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s10, s2
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s11, s3
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s6, s2
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s7, s3
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt lgkmcnt(0)
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s8, s6
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s9, s7
-; GCN-NOHSA-SI-NEXT:    buffer_load_dwordx4 v[0:3], off, s[8:11], 0 offset:16
-; GCN-NOHSA-SI-NEXT:    buffer_load_dwordx4 v[4:7], off, s[8:11], 0
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s4, s18
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s5, s19
+; GCN-NOHSA-SI-NEXT:    buffer_load_dwordx4 v[0:3], off, s[4:7], 0 offset:16
+; GCN-NOHSA-SI-NEXT:    buffer_load_dwordx4 v[4:7], off, s[4:7], 0
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s29, 0
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s1, s5
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s27, s29
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s23, s29
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s11, s29
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s7, s29
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s9, s29
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s5, s29
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s7, s29
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s11, s29
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s13, s29
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s15, s29
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s0, s4
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s0, s16
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s1, s17
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt vmcnt(1)
 ; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s43, v3
-; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s5, v1
+; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s15, v1
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s28, s43, 16
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s22, s5, 16
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s10, s5, 8
-; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s6, s43, 31
-; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s8, s43, 24
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s22, s15, 16
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s8, s15, 8
+; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s4, s43, 31
+; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s6, s43, 24
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[28:29], s[28:29], 0x80000
-; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s4, v0
+; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s14, v0
 ; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s42, v2
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s26, s43, 8
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s12, s43
-; GCN-NOHSA-SI-NEXT:    s_mov_b32 s30, s5
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s8
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s6
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s10, s43
+; GCN-NOHSA-SI-NEXT:    s_mov_b32 s30, s15
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s6
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s4
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s28
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s29
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[22:23], s[22:23], 0x80000
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[10:11], s[10:11], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[8:9], s[8:9], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s38, s42, 16
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s36, s42, 24
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s34, s42, 8
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s16, s4, 16
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s18, s4, 24
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[44:45], s[12:13], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s16, s14, 16
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s18, s14, 24
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[44:45], s[10:11], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[26:27], s[26:27], 0x80000
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v16, s22
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v17, s23
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[22:23], s[30:31], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:240
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s10
-; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s10, s5, 24
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s8
+; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s8, s15, 24
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt vmcnt(1)
 ; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s24, v4
 ; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s25, v5
 ; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s21, v7
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s40, s4, 8
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s40, s14, 8
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[42:43], s[42:43], 0x80000
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v8, s44
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v9, s45
@@ -7918,17 +7918,17 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[34:35], s[34:35], 0x80000
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s22
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s23
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s11
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v18, s10
-; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s10, s5, 31
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s9
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v18, s8
+; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s8, s15, 31
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[18:19], s[18:19], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[16:17], s[16:17], 0x80000
 ; GCN-NOHSA-SI-NEXT:    v_readfirstlane_b32 s20, v6
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s6, s21, 16
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s4, s21, 16
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v4, s42
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v5, s43
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s12, s25, 16
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s14, s25, 8
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s10, s25, 16
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s12, s25, 8
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v12, s38
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v13, s39
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s38, s25
@@ -7942,8 +7942,8 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s33, s25, 31
 ; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s43, s25, 24
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[22:23], s[24:25], 0x80000
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v19, s10
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[24:25], s[4:5], 0x80000
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v19, s8
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[24:25], s[14:15], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[40:41], s[40:41], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[8:11], off, s[0:3], 0 offset:224
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[12:15], off, s[0:3], 0 offset:208
@@ -7955,11 +7955,11 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s17
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s18
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s19
-; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s8, s21, 8
+; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s6, s21, 8
 ; GCN-NOHSA-SI-NEXT:    s_mov_b32 s42, s21
 ; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s45, s21, 31
 ; GCN-NOHSA-SI-NEXT:    s_ashr_i32 s47, s21, 24
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[6:7], s[6:7], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[4:5], s[4:5], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:144
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s24
@@ -7968,14 +7968,14 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s41
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s28, s20, 16
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s44, s20, 24
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[10:11], s[34:35], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[14:15], s[34:35], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[34:35], s[38:39], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[38:39], s[42:43], 0x80000
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[8:9], s[8:9], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[6:7], s[6:7], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:128
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s6
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s7
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s4
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s5
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s47
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s45
 ; GCN-NOHSA-SI-NEXT:    s_lshr_b32 s26, s20, 8
@@ -7986,8 +7986,8 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s38
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s39
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s8
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s9
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s6
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s7
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[20:21], s[20:21], 0x80000
 ; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[26:27], s[26:27], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:96
@@ -7996,39 +7996,39 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s29
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s36
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s37
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[12:13], s[12:13], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[10:11], s[10:11], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:80
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s20
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s21
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s26
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s27
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[14:15], s[14:15], 0x80000
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[12:13], s[12:13], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:64
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s12
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s13
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s10
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s11
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s43
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s33
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:48
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s34
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s35
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s14
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s15
-; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[4:5], s[46:47], 0x80000
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s12
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s13
+; GCN-NOHSA-SI-NEXT:    s_bfe_i64 s[8:9], s[46:47], 0x80000
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:32
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s30
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s31
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s10
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s11
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s14
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s15
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0 offset:16
 ; GCN-NOHSA-SI-NEXT:    s_waitcnt expcnt(0)
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v0, s22
 ; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v1, s23
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s4
-; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s5
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v2, s8
+; GCN-NOHSA-SI-NEXT:    v_mov_b32_e32 v3, s9
 ; GCN-NOHSA-SI-NEXT:    buffer_store_dwordx4 v[0:3], off, s[0:3], 0
 ; GCN-NOHSA-SI-NEXT:    s_endpgm
 ;
@@ -8062,10 +8062,10 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    v_readfirstlane_b32 s16, v6
 ; GCN-HSA-NEXT:    s_lshr_b32 s4, s17, 16
 ; GCN-HSA-NEXT:    s_lshr_b32 s8, s17, 8
-; GCN-HSA-NEXT:    s_mov_b32 s14, s17
+; GCN-HSA-NEXT:    s_mov_b32 s10, s17
 ; GCN-HSA-NEXT:    s_lshr_b32 s2, s13, 16
 ; GCN-HSA-NEXT:    s_lshr_b32 s6, s13, 8
-; GCN-HSA-NEXT:    s_mov_b32 s10, s13
+; GCN-HSA-NEXT:    s_mov_b32 s14, s13
 ; GCN-HSA-NEXT:    s_lshr_b32 s18, s12, 16
 ; GCN-HSA-NEXT:    s_lshr_b32 s22, s12, 24
 ; GCN-HSA-NEXT:    s_lshr_b32 s24, s12, 8
@@ -8078,16 +8078,16 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    s_waitcnt vmcnt(0)
 ; GCN-HSA-NEXT:    v_readfirstlane_b32 s38, v0
 ; GCN-HSA-NEXT:    v_readfirstlane_b32 s39, v1
-; GCN-HSA-NEXT:    v_readfirstlane_b32 s48, v2
-; GCN-HSA-NEXT:    v_readfirstlane_b32 s49, v3
+; GCN-HSA-NEXT:    v_readfirstlane_b32 s46, v2
+; GCN-HSA-NEXT:    v_readfirstlane_b32 s47, v3
 ; GCN-HSA-NEXT:    s_ashr_i32 s59, s17, 31
 ; GCN-HSA-NEXT:    s_ashr_i32 s60, s17, 24
-; GCN-HSA-NEXT:    s_bfe_i64 s[46:47], s[16:17], 0x80000
-; GCN-HSA-NEXT:    s_bfe_i64 s[16:17], s[14:15], 0x80000
+; GCN-HSA-NEXT:    s_bfe_i64 s[44:45], s[16:17], 0x80000
+; GCN-HSA-NEXT:    s_bfe_i64 s[16:17], s[10:11], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[28:29], s[24:25], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[34:35], s[22:23], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[36:37], s[18:19], 0x80000
-; GCN-HSA-NEXT:    s_bfe_i64 s[42:43], s[10:11], 0x80000
+; GCN-HSA-NEXT:    s_bfe_i64 s[48:49], s[14:15], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[40:41], s[6:7], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[50:51], s[2:3], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[52:53], s[30:31], 0x80000
@@ -8095,8 +8095,8 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    s_bfe_i64 s[56:57], s[12:13], 0x80000
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v4, s4
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v2, s8
-; GCN-HSA-NEXT:    s_lshr_b32 s30, s49, 16
-; GCN-HSA-NEXT:    s_lshr_b32 s26, s49, 8
+; GCN-HSA-NEXT:    s_lshr_b32 s30, s47, 16
+; GCN-HSA-NEXT:    s_lshr_b32 s26, s47, 8
 ; GCN-HSA-NEXT:    s_lshr_b32 s14, s39, 16
 ; GCN-HSA-NEXT:    s_lshr_b32 s10, s39, 8
 ; GCN-HSA-NEXT:    s_mov_b32 s12, s39
@@ -8104,21 +8104,21 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    s_lshr_b32 s6, s38, 24
 ; GCN-HSA-NEXT:    s_lshr_b32 s4, s38, 8
 ; GCN-HSA-NEXT:    s_bfe_i64 s[2:3], s[38:39], 0x80000
-; GCN-HSA-NEXT:    s_mov_b32 s38, s49
-; GCN-HSA-NEXT:    s_lshr_b32 s24, s48, 16
-; GCN-HSA-NEXT:    s_lshr_b32 s22, s48, 24
-; GCN-HSA-NEXT:    s_lshr_b32 s18, s48, 8
-; GCN-HSA-NEXT:    s_ashr_i32 s45, s13, 31
+; GCN-HSA-NEXT:    s_mov_b32 s38, s47
+; GCN-HSA-NEXT:    s_lshr_b32 s24, s46, 16
+; GCN-HSA-NEXT:    s_lshr_b32 s22, s46, 24
+; GCN-HSA-NEXT:    s_lshr_b32 s18, s46, 8
+; GCN-HSA-NEXT:    s_ashr_i32 s43, s13, 31
 ; GCN-HSA-NEXT:    s_ashr_i32 s58, s13, 24
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v5, s5
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v0, s16
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v1, s17
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v3, s9
 ; GCN-HSA-NEXT:    s_ashr_i32 s33, s39, 31
-; GCN-HSA-NEXT:    s_ashr_i32 s44, s39, 24
-; GCN-HSA-NEXT:    s_ashr_i32 s61, s49, 31
-; GCN-HSA-NEXT:    s_ashr_i32 s62, s49, 24
-; GCN-HSA-NEXT:    s_bfe_i64 s[16:17], s[48:49], 0x80000
+; GCN-HSA-NEXT:    s_ashr_i32 s42, s39, 24
+; GCN-HSA-NEXT:    s_ashr_i32 s61, s47, 31
+; GCN-HSA-NEXT:    s_ashr_i32 s62, s47, 24
+; GCN-HSA-NEXT:    s_bfe_i64 s[16:17], s[46:47], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[4:5], s[4:5], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[6:7], s[6:7], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[8:9], s[8:9], 0x80000
@@ -8131,24 +8131,24 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    s_bfe_i64 s[38:39], s[38:39], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[26:27], s[26:27], 0x80000
 ; GCN-HSA-NEXT:    s_bfe_i64 s[30:31], s[30:31], 0x80000
-; GCN-HSA-NEXT:    s_add_u32 s48, s0, 0x70
-; GCN-HSA-NEXT:    s_addc_u32 s49, s1, 0
-; GCN-HSA-NEXT:    v_mov_b32_e32 v18, s48
-; GCN-HSA-NEXT:    v_mov_b32_e32 v19, s49
-; GCN-HSA-NEXT:    s_add_u32 s48, s0, 0x60
-; GCN-HSA-NEXT:    s_addc_u32 s49, s1, 0
-; GCN-HSA-NEXT:    v_mov_b32_e32 v24, s48
-; GCN-HSA-NEXT:    v_mov_b32_e32 v25, s49
-; GCN-HSA-NEXT:    s_add_u32 s48, s0, 0x50
-; GCN-HSA-NEXT:    s_addc_u32 s49, s1, 0
-; GCN-HSA-NEXT:    v_mov_b32_e32 v12, s46
-; GCN-HSA-NEXT:    s_add_u32 s46, s0, 64
-; GCN-HSA-NEXT:    v_mov_b32_e32 v13, s47
+; GCN-HSA-NEXT:    s_add_u32 s46, s0, 0x70
 ; GCN-HSA-NEXT:    s_addc_u32 s47, s1, 0
-; GCN-HSA-NEXT:    v_mov_b32_e32 v20, s42
-; GCN-HSA-NEXT:    s_add_u32 s42, s0, 48
-; GCN-HSA-NEXT:    v_mov_b32_e32 v21, s43
-; GCN-HSA-NEXT:    s_addc_u32 s43, s1, 0
+; GCN-HSA-NEXT:    v_mov_b32_e32 v18, s46
+; GCN-HSA-NEXT:    v_mov_b32_e32 v19, s47
+; GCN-HSA-NEXT:    s_add_u32 s46, s0, 0x60
+; GCN-HSA-NEXT:    s_addc_u32 s47, s1, 0
+; GCN-HSA-NEXT:    v_mov_b32_e32 v24, s46
+; GCN-HSA-NEXT:    v_mov_b32_e32 v25, s47
+; GCN-HSA-NEXT:    s_add_u32 s46, s0, 0x50
+; GCN-HSA-NEXT:    s_addc_u32 s47, s1, 0
+; GCN-HSA-NEXT:    v_mov_b32_e32 v12, s44
+; GCN-HSA-NEXT:    s_add_u32 s44, s0, 64
+; GCN-HSA-NEXT:    v_mov_b32_e32 v13, s45
+; GCN-HSA-NEXT:    s_addc_u32 s45, s1, 0
+; GCN-HSA-NEXT:    v_mov_b32_e32 v28, s44
+; GCN-HSA-NEXT:    v_mov_b32_e32 v29, s45
+; GCN-HSA-NEXT:    s_add_u32 s44, s0, 48
+; GCN-HSA-NEXT:    s_addc_u32 s45, s1, 0
 ; GCN-HSA-NEXT:    flat_store_dwordx4 v[24:25], v[0:3]
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v6, s60
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v0, s36
@@ -8161,14 +8161,14 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v4, s20
 ; GCN-HSA-NEXT:    s_add_u32 s20, s0, 16
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v17, s51
-; GCN-HSA-NEXT:    v_mov_b32_e32 v30, s42
-; GCN-HSA-NEXT:    v_mov_b32_e32 v31, s43
+; GCN-HSA-NEXT:    v_mov_b32_e32 v30, s44
+; GCN-HSA-NEXT:    v_mov_b32_e32 v31, s45
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v18, s58
-; GCN-HSA-NEXT:    v_mov_b32_e32 v19, s45
+; GCN-HSA-NEXT:    v_mov_b32_e32 v19, s43
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v5, s21
 ; GCN-HSA-NEXT:    s_addc_u32 s21, s1, 0
 ; GCN-HSA-NEXT:    flat_store_dwordx4 v[30:31], v[16:19]
-; GCN-HSA-NEXT:    v_mov_b32_e32 v22, s40
+; GCN-HSA-NEXT:    v_mov_b32_e32 v20, s48
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v16, s20
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v17, s21
 ; GCN-HSA-NEXT:    s_add_u32 s20, s0, 0xf0
@@ -8176,6 +8176,8 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v18, s20
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v19, s21
 ; GCN-HSA-NEXT:    s_add_u32 s20, s0, 0xe0
+; GCN-HSA-NEXT:    v_mov_b32_e32 v21, s49
+; GCN-HSA-NEXT:    v_mov_b32_e32 v22, s40
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v23, s41
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v24, s36
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v25, s37
@@ -8190,12 +8192,10 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v9, s57
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v10, s54
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v11, s55
-; GCN-HSA-NEXT:    v_mov_b32_e32 v26, s48
-; GCN-HSA-NEXT:    v_mov_b32_e32 v27, s49
+; GCN-HSA-NEXT:    v_mov_b32_e32 v26, s46
+; GCN-HSA-NEXT:    v_mov_b32_e32 v27, s47
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v14, s52
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v15, s53
-; GCN-HSA-NEXT:    v_mov_b32_e32 v28, s46
-; GCN-HSA-NEXT:    v_mov_b32_e32 v29, s47
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v6, s28
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v7, s29
 ; GCN-HSA-NEXT:    flat_store_dwordx4 v[16:17], v[0:3]
@@ -8237,7 +8237,7 @@ define amdgpu_kernel void @global_sextload_v32i8_to_v32i64(ptr addrspace(1) %out
 ; GCN-HSA-NEXT:    s_add_u32 s14, s0, 0xb0
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v1, s15
 ; GCN-HSA-NEXT:    s_addc_u32 s15, s1, 0
-; GCN-HSA-NEXT:    v_mov_b32_e32 v2, s44
+; GCN-HSA-NEXT:    v_mov_b32_e32 v2, s42
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v3, s33
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v4, s14
 ; GCN-HSA-NEXT:    v_mov_b32_e32 v5, s15

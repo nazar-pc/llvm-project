@@ -87,18 +87,18 @@ define { i128, i8 } @muloti_test(i128 %l, i128 %r) unnamed_addr #0 {
 ; PPC32-NEXT:    addze. 29, 7
 ; PPC32-NEXT:    mcrf 1, 0
 ; PPC32-NEXT:    mulhwu. 29, 11, 6
-; PPC32-NEXT:    mcrf 6, 0
-; PPC32-NEXT:    mulhwu. 29, 12, 8
 ; PPC32-NEXT:    mcrf 5, 0
+; PPC32-NEXT:    mulhwu. 29, 12, 8
+; PPC32-NEXT:    mcrf 6, 0
 ; PPC32-NEXT:    cmpwi 12, 0
 ; PPC32-NEXT:    crnor 20, 2, 30
 ; PPC32-NEXT:    cmpwi 3, 0
 ; PPC32-NEXT:    cmpwi 7, 9, 0
 ; PPC32-NEXT:    crnor 24, 30, 2
 ; PPC32-NEXT:    mulhwu. 12, 3, 10
-; PPC32-NEXT:    crorc 20, 20, 26
-; PPC32-NEXT:    mcrf 7, 0
 ; PPC32-NEXT:    crorc 20, 20, 22
+; PPC32-NEXT:    mcrf 7, 0
+; PPC32-NEXT:    crorc 20, 20, 26
 ; PPC32-NEXT:    cmpwi 26, 0
 ; PPC32-NEXT:    crorc 28, 20, 2
 ; PPC32-NEXT:    mulhwu. 9, 9, 4

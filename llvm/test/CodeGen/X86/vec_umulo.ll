@@ -2114,16 +2114,16 @@ define <64 x i32> @umulo_v64i8(<64 x i8> %a0, <64 x i8> %a1, ptr %p2) nounwind {
 ; AVX1-NEXT:    vextractf128 $1, %ymm0, %xmm0
 ; AVX1-NEXT:    vpunpckhbw {{.*#+}} xmm10 = xmm0[8],xmm5[8],xmm0[9],xmm5[9],xmm0[10],xmm5[10],xmm0[11],xmm5[11],xmm0[12],xmm5[12],xmm0[13],xmm5[13],xmm0[14],xmm5[14],xmm0[15],xmm5[15]
 ; AVX1-NEXT:    vpmullw %xmm9, %xmm10, %xmm9
-; AVX1-NEXT:    vpand %xmm7, %xmm9, %xmm11
+; AVX1-NEXT:    vpand %xmm7, %xmm9, %xmm10
 ; AVX1-NEXT:    vpmovzxbw {{.*#+}} xmm2 = xmm2[0],zero,xmm2[1],zero,xmm2[2],zero,xmm2[3],zero,xmm2[4],zero,xmm2[5],zero,xmm2[6],zero,xmm2[7],zero
 ; AVX1-NEXT:    vpmovzxbw {{.*#+}} xmm0 = xmm0[0],zero,xmm0[1],zero,xmm0[2],zero,xmm0[3],zero,xmm0[4],zero,xmm0[5],zero,xmm0[6],zero,xmm0[7],zero
-; AVX1-NEXT:    vpmullw %xmm2, %xmm0, %xmm10
-; AVX1-NEXT:    vpand %xmm7, %xmm10, %xmm0
-; AVX1-NEXT:    vpackuswb %xmm11, %xmm0, %xmm0
+; AVX1-NEXT:    vpmullw %xmm2, %xmm0, %xmm11
+; AVX1-NEXT:    vpand %xmm7, %xmm11, %xmm0
+; AVX1-NEXT:    vpackuswb %xmm10, %xmm0, %xmm0
 ; AVX1-NEXT:    vpunpckhbw {{.*#+}} xmm2 = xmm3[8],xmm5[8],xmm3[9],xmm5[9],xmm3[10],xmm5[10],xmm3[11],xmm5[11],xmm3[12],xmm5[12],xmm3[13],xmm5[13],xmm3[14],xmm5[14],xmm3[15],xmm5[15]
-; AVX1-NEXT:    vpunpckhbw {{.*#+}} xmm11 = xmm1[8],xmm5[8],xmm1[9],xmm5[9],xmm1[10],xmm5[10],xmm1[11],xmm5[11],xmm1[12],xmm5[12],xmm1[13],xmm5[13],xmm1[14],xmm5[14],xmm1[15],xmm5[15]
-; AVX1-NEXT:    vpmullw %xmm2, %xmm11, %xmm11
-; AVX1-NEXT:    vpand %xmm7, %xmm11, %xmm2
+; AVX1-NEXT:    vpunpckhbw {{.*#+}} xmm10 = xmm1[8],xmm5[8],xmm1[9],xmm5[9],xmm1[10],xmm5[10],xmm1[11],xmm5[11],xmm1[12],xmm5[12],xmm1[13],xmm5[13],xmm1[14],xmm5[14],xmm1[15],xmm5[15]
+; AVX1-NEXT:    vpmullw %xmm2, %xmm10, %xmm10
+; AVX1-NEXT:    vpand %xmm7, %xmm10, %xmm2
 ; AVX1-NEXT:    vpmovzxbw {{.*#+}} xmm12 = xmm3[0],zero,xmm3[1],zero,xmm3[2],zero,xmm3[3],zero,xmm3[4],zero,xmm3[5],zero,xmm3[6],zero,xmm3[7],zero
 ; AVX1-NEXT:    vpmovzxbw {{.*#+}} xmm13 = xmm1[0],zero,xmm1[1],zero,xmm1[2],zero,xmm1[3],zero,xmm1[4],zero,xmm1[5],zero,xmm1[6],zero,xmm1[7],zero
 ; AVX1-NEXT:    vpmullw %xmm12, %xmm13, %xmm12
@@ -2143,11 +2143,11 @@ define <64 x i32> @umulo_v64i8(<64 x i8> %a0, <64 x i8> %a1, ptr %p2) nounwind {
 ; AVX1-NEXT:    vpsrlw $8, %xmm13, %xmm3
 ; AVX1-NEXT:    vpsrlw $8, %xmm1, %xmm1
 ; AVX1-NEXT:    vpackuswb %xmm3, %xmm1, %xmm1
-; AVX1-NEXT:    vpsrlw $8, %xmm11, %xmm3
-; AVX1-NEXT:    vpsrlw $8, %xmm12, %xmm11
-; AVX1-NEXT:    vpackuswb %xmm3, %xmm11, %xmm3
+; AVX1-NEXT:    vpsrlw $8, %xmm10, %xmm3
+; AVX1-NEXT:    vpsrlw $8, %xmm12, %xmm10
+; AVX1-NEXT:    vpackuswb %xmm3, %xmm10, %xmm3
 ; AVX1-NEXT:    vpsrlw $8, %xmm9, %xmm9
-; AVX1-NEXT:    vpsrlw $8, %xmm10, %xmm10
+; AVX1-NEXT:    vpsrlw $8, %xmm11, %xmm10
 ; AVX1-NEXT:    vpackuswb %xmm9, %xmm10, %xmm9
 ; AVX1-NEXT:    vpsrlw $8, %xmm6, %xmm6
 ; AVX1-NEXT:    vpsrlw $8, %xmm8, %xmm8

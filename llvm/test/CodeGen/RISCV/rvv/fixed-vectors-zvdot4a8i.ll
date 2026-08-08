@@ -931,8 +931,8 @@ define <2 x i32> @vdot4a_vv_partial_reduce_v2i32_v64i8(<64 x i8> %a, <64 x i8> %
 ; CHECK-NEXT:    vslidedown.vi v12, v16, 12
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vs4r.v v12, (a0) # vscale x 32-byte Folded Spill
-; CHECK-NEXT:    vslidedown.vi v12, v16, 10
-; CHECK-NEXT:    vslidedown.vi v28, v16, 8
+; CHECK-NEXT:    vslidedown.vi v28, v16, 10
+; CHECK-NEXT:    vslidedown.vi v12, v16, 8
 ; CHECK-NEXT:    vslidedown.vi v20, v8, 14
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
@@ -1054,18 +1054,18 @@ define <2 x i32> @vdot4a_vv_partial_reduce_v2i32_v64i8(<64 x i8> %a, <64 x i8> %
 ; CHECK-NEXT:    vadd.vv v17, v20, v0
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vl4r.v v20, (a0) # vscale x 32-byte Folded Reload
-; CHECK-NEXT:    vadd.vv v12, v12, v20
-; CHECK-NEXT:    vadd.vv v10, v10, v28
+; CHECK-NEXT:    vadd.vv v19, v28, v20
+; CHECK-NEXT:    vadd.vv v10, v10, v12
 ; CHECK-NEXT:    vadd.vv v9, v9, v14
 ; CHECK-NEXT:    vadd.vv v11, v13, v11
-; CHECK-NEXT:    vadd.vv v13, v16, v15
-; CHECK-NEXT:    vadd.vv v12, v12, v17
+; CHECK-NEXT:    vadd.vv v12, v16, v15
+; CHECK-NEXT:    vadd.vv v13, v19, v17
 ; CHECK-NEXT:    vadd.vv v9, v9, v10
 ; CHECK-NEXT:    vsetivli zero, 2, e32, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v10, v8, 2
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
-; CHECK-NEXT:    vadd.vv v11, v13, v11
-; CHECK-NEXT:    vadd.vv v9, v9, v12
+; CHECK-NEXT:    vadd.vv v11, v12, v11
+; CHECK-NEXT:    vadd.vv v9, v9, v13
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    mv a1, a0

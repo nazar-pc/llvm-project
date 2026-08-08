@@ -649,11 +649,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    evlddx 23, 30, 3
 ; CHECK-NEXT:    efdmul 23, 23, 26
-; CHECK-NEXT:    efdadd 23, 23, 24
-; CHECK-NEXT:    addi 24, 31, 568
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    li 23, 832
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
+; CHECK-NEXT:    addi 23, 31, 568
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    li 24, 832
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 22, 584
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 816
@@ -661,60 +661,60 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 20, 600
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdmul 23, 23, 22
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdmul 24, 24, 22
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    li 22, 800
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 616
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    li 22, 784
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 632
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    li 22, 768
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 648
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 22, 22, 23
-; CHECK-NEXT:    addi 23, 31, 552
-; CHECK-NEXT:    evstddx 22, 23, 3
-; CHECK-NEXT:    li 22, 832
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    efdadd 24, 22, 24
+; CHECK-NEXT:    addi 22, 31, 552
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    li 24, 832
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    evlddx 21, 4, 3
 ; CHECK-NEXT:    li 20, 816
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    evlddx 19, 6, 3
 ; CHECK-NEXT:    efdmul 20, 20, 19
-; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 22, 22, 20
+; CHECK-NEXT:    efdmul 24, 24, 21
+; CHECK-NEXT:    efdadd 24, 24, 20
 ; CHECK-NEXT:    li 21, 800
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 8, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 22, 21, 22
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    li 21, 784
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 10, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 22, 21, 22
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    li 21, 768
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 12, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 22, 21, 22
-; CHECK-NEXT:    efdneg 22, 22
+; CHECK-NEXT:    efdadd 24, 21, 24
+; CHECK-NEXT:    efdneg 24, 24
 ; CHECK-NEXT:    li 21, 552
-; CHECK-NEXT:    evstddx 22, 31, 21
-; CHECK-NEXT:    li 22, 568
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    evstddx 24, 31, 21
+; CHECK-NEXT:    li 24, 568
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 21, 552
 ; CHECK-NEXT:    evlddx 21, 31, 21
-; CHECK-NEXT:    efdadd 22, 22, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -722,10 +722,10 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 19, 19, 18
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    evstddx 22, 21, 20
-; CHECK-NEXT:    evlddx 22, 24, 3
-; CHECK-NEXT:    evlddx 21, 23, 3
-; CHECK-NEXT:    efdadd 22, 22, 21
+; CHECK-NEXT:    evstddx 24, 21, 20
+; CHECK-NEXT:    evlddx 24, 23, 3
+; CHECK-NEXT:    evlddx 21, 22, 3
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -734,12 +734,12 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
 ; CHECK-NEXT:    add 21, 21, 20
-; CHECK-NEXT:    evstddx 22, 21, 3
-; CHECK-NEXT:    li 22, 568
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    evstddx 24, 21, 3
+; CHECK-NEXT:    li 24, 568
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 21, 552
 ; CHECK-NEXT:    evlddx 21, 31, 21
-; CHECK-NEXT:    efdsub 22, 22, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -748,9 +748,9 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 19, 19, 18
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    evstddx 22, 21, 20
-; CHECK-NEXT:    evlddx 24, 24, 3
-; CHECK-NEXT:    evlddx 23, 23, 3
+; CHECK-NEXT:    evstddx 24, 21, 20
+; CHECK-NEXT:    evlddx 24, 23, 3
+; CHECK-NEXT:    evlddx 23, 22, 3
 ; CHECK-NEXT:    efdsub 24, 24, 23
 ; CHECK-NEXT:    lwz 23, 864(31)
 ; CHECK-NEXT:    lwz 22, 876(31)
@@ -801,11 +801,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    evlddx 23, 30, 3
 ; CHECK-NEXT:    efdmul 23, 23, 0
-; CHECK-NEXT:    efdadd 23, 23, 24
-; CHECK-NEXT:    addi 24, 31, 536
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    li 23, 816
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
+; CHECK-NEXT:    addi 23, 31, 536
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    li 24, 816
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 22, 584
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 784
@@ -813,60 +813,60 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 20, 600
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdmul 23, 23, 22
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdmul 24, 24, 22
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    li 22, 768
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 616
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    li 22, 800
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 632
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    li 22, 832
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 648
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 22, 23, 22
-; CHECK-NEXT:    addi 23, 31, 520
-; CHECK-NEXT:    evstddx 22, 23, 3
-; CHECK-NEXT:    li 22, 816
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
+; CHECK-NEXT:    addi 22, 31, 520
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    li 24, 816
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    evlddx 21, 4, 3
 ; CHECK-NEXT:    li 20, 784
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    evlddx 19, 6, 3
 ; CHECK-NEXT:    efdmul 20, 20, 19
-; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 22, 22, 20
+; CHECK-NEXT:    efdmul 24, 24, 21
+; CHECK-NEXT:    efdadd 24, 24, 20
 ; CHECK-NEXT:    li 21, 768
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 8, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 22, 22, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 21, 800
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 10, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 22, 22, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 21, 832
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 12, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 22, 22, 21
-; CHECK-NEXT:    efdneg 22, 22
+; CHECK-NEXT:    efdsub 24, 24, 21
+; CHECK-NEXT:    efdneg 24, 24
 ; CHECK-NEXT:    li 21, 520
-; CHECK-NEXT:    evstddx 22, 31, 21
-; CHECK-NEXT:    li 22, 536
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    evstddx 24, 31, 21
+; CHECK-NEXT:    li 24, 536
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 21, 520
 ; CHECK-NEXT:    evlddx 21, 31, 21
-; CHECK-NEXT:    efdadd 22, 22, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -875,10 +875,10 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 19, 19, 18
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    evstddx 22, 21, 20
-; CHECK-NEXT:    evlddx 22, 24, 3
-; CHECK-NEXT:    evlddx 21, 23, 3
-; CHECK-NEXT:    efdadd 22, 22, 21
+; CHECK-NEXT:    evstddx 24, 21, 20
+; CHECK-NEXT:    evlddx 24, 23, 3
+; CHECK-NEXT:    evlddx 21, 22, 3
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -888,12 +888,12 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
 ; CHECK-NEXT:    add 21, 21, 20
-; CHECK-NEXT:    evstddx 22, 21, 3
-; CHECK-NEXT:    li 22, 536
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    evstddx 24, 21, 3
+; CHECK-NEXT:    li 24, 536
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 21, 520
 ; CHECK-NEXT:    evlddx 21, 31, 21
-; CHECK-NEXT:    efdsub 22, 22, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -902,9 +902,9 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 19, 19, 18
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    evstddx 22, 21, 20
-; CHECK-NEXT:    evlddx 24, 24, 3
-; CHECK-NEXT:    evlddx 23, 23, 3
+; CHECK-NEXT:    evstddx 24, 21, 20
+; CHECK-NEXT:    evlddx 24, 23, 3
+; CHECK-NEXT:    evlddx 23, 22, 3
 ; CHECK-NEXT:    efdsub 24, 24, 23
 ; CHECK-NEXT:    lwz 23, 864(31)
 ; CHECK-NEXT:    lwz 22, 876(31)
@@ -955,11 +955,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    evlddx 23, 30, 3
 ; CHECK-NEXT:    efdmul 23, 23, 25
-; CHECK-NEXT:    efdadd 23, 23, 24
-; CHECK-NEXT:    addi 24, 31, 504
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    li 23, 800
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
+; CHECK-NEXT:    addi 23, 31, 504
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    li 24, 800
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 22, 584
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 768
@@ -967,60 +967,60 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 20, 600
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdmul 23, 23, 22
-; CHECK-NEXT:    efdsub 23, 23, 21
+; CHECK-NEXT:    efdmul 24, 24, 22
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 22, 816
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 616
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    li 22, 832
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 632
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    li 22, 784
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 648
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 22, 22, 23
-; CHECK-NEXT:    addi 23, 31, 488
-; CHECK-NEXT:    evstddx 22, 23, 3
-; CHECK-NEXT:    li 22, 800
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    efdadd 24, 22, 24
+; CHECK-NEXT:    addi 22, 31, 488
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    li 24, 800
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    evlddx 21, 4, 3
 ; CHECK-NEXT:    li 20, 768
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    evlddx 19, 6, 3
 ; CHECK-NEXT:    efdmul 20, 20, 19
-; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 22, 22, 20
+; CHECK-NEXT:    efdmul 24, 24, 21
+; CHECK-NEXT:    efdsub 24, 24, 20
 ; CHECK-NEXT:    li 21, 816
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 8, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 22, 22, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 21, 832
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 10, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 22, 21, 22
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    li 21, 784
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 12, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 22, 21, 22
-; CHECK-NEXT:    efdneg 22, 22
+; CHECK-NEXT:    efdadd 24, 21, 24
+; CHECK-NEXT:    efdneg 24, 24
 ; CHECK-NEXT:    li 21, 488
-; CHECK-NEXT:    evstddx 22, 31, 21
-; CHECK-NEXT:    li 22, 504
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    evstddx 24, 31, 21
+; CHECK-NEXT:    li 24, 504
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 21, 488
 ; CHECK-NEXT:    evlddx 21, 31, 21
-; CHECK-NEXT:    efdadd 22, 22, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -1029,10 +1029,10 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 19, 19, 18
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    evstddx 22, 21, 20
-; CHECK-NEXT:    evlddx 22, 24, 3
-; CHECK-NEXT:    evlddx 21, 23, 3
-; CHECK-NEXT:    efdadd 22, 22, 21
+; CHECK-NEXT:    evstddx 24, 21, 20
+; CHECK-NEXT:    evlddx 24, 23, 3
+; CHECK-NEXT:    evlddx 21, 22, 3
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -1042,12 +1042,12 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
 ; CHECK-NEXT:    add 21, 21, 20
-; CHECK-NEXT:    evstddx 22, 21, 3
-; CHECK-NEXT:    li 22, 504
-; CHECK-NEXT:    evlddx 22, 31, 22
+; CHECK-NEXT:    evstddx 24, 21, 3
+; CHECK-NEXT:    li 24, 504
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 21, 488
 ; CHECK-NEXT:    evlddx 21, 31, 21
-; CHECK-NEXT:    efdsub 22, 22, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
@@ -1056,9 +1056,9 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 19, 19, 18
 ; CHECK-NEXT:    mullw 20, 20, 19
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    evstddx 22, 21, 20
-; CHECK-NEXT:    evlddx 24, 24, 3
-; CHECK-NEXT:    evlddx 23, 23, 3
+; CHECK-NEXT:    evstddx 24, 21, 20
+; CHECK-NEXT:    evlddx 24, 23, 3
+; CHECK-NEXT:    evlddx 23, 22, 3
 ; CHECK-NEXT:    efdsub 24, 24, 23
 ; CHECK-NEXT:    lwz 23, 864(31)
 ; CHECK-NEXT:    lwz 22, 876(31)
@@ -1109,11 +1109,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 5, 7, 5
 ; CHECK-NEXT:    evlddx 7, 30, 3
 ; CHECK-NEXT:    efdmul 7, 7, 28
-; CHECK-NEXT:    efdadd 7, 7, 5
-; CHECK-NEXT:    addi 5, 31, 472
-; CHECK-NEXT:    evstddx 7, 5, 3
-; CHECK-NEXT:    li 7, 784
-; CHECK-NEXT:    evlddx 7, 31, 7
+; CHECK-NEXT:    efdadd 5, 7, 5
+; CHECK-NEXT:    addi 7, 31, 472
+; CHECK-NEXT:    evstddx 5, 7, 3
+; CHECK-NEXT:    li 5, 784
+; CHECK-NEXT:    evlddx 5, 31, 5
 ; CHECK-NEXT:    li 9, 584
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 800
@@ -1121,98 +1121,98 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 30, 600
 ; CHECK-NEXT:    evlddx 0, 31, 30
 ; CHECK-NEXT:    efdmul 11, 11, 0
-; CHECK-NEXT:    efdmul 7, 7, 9
-; CHECK-NEXT:    efdsub 7, 7, 11
+; CHECK-NEXT:    efdmul 5, 5, 9
+; CHECK-NEXT:    efdsub 5, 5, 11
 ; CHECK-NEXT:    li 9, 832
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 616
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    efdmul 9, 9, 11
-; CHECK-NEXT:    efdadd 7, 9, 7
+; CHECK-NEXT:    efdadd 5, 9, 5
 ; CHECK-NEXT:    li 9, 768
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 632
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    efdmul 9, 9, 11
-; CHECK-NEXT:    efdadd 7, 9, 7
+; CHECK-NEXT:    efdadd 5, 9, 5
 ; CHECK-NEXT:    li 9, 816
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 648
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    efdmul 9, 9, 11
-; CHECK-NEXT:    efdsub 9, 7, 9
-; CHECK-NEXT:    addi 7, 31, 456
-; CHECK-NEXT:    evstddx 9, 7, 3
-; CHECK-NEXT:    li 9, 784
-; CHECK-NEXT:    evlddx 9, 31, 9
+; CHECK-NEXT:    efdsub 5, 5, 9
+; CHECK-NEXT:    addi 9, 31, 456
+; CHECK-NEXT:    evstddx 5, 9, 3
+; CHECK-NEXT:    li 5, 784
+; CHECK-NEXT:    evlddx 5, 31, 5
 ; CHECK-NEXT:    evlddx 4, 4, 3
 ; CHECK-NEXT:    li 11, 800
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    evlddx 6, 6, 3
 ; CHECK-NEXT:    efdmul 6, 11, 6
-; CHECK-NEXT:    efdmul 4, 9, 4
+; CHECK-NEXT:    efdmul 4, 5, 4
 ; CHECK-NEXT:    efdsub 4, 4, 6
-; CHECK-NEXT:    li 6, 832
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    evlddx 8, 8, 3
-; CHECK-NEXT:    efdmul 6, 6, 8
-; CHECK-NEXT:    efdadd 4, 6, 4
-; CHECK-NEXT:    li 6, 768
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    evlddx 8, 10, 3
-; CHECK-NEXT:    efdmul 6, 6, 8
-; CHECK-NEXT:    efdadd 4, 6, 4
-; CHECK-NEXT:    li 6, 816
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    evlddx 8, 12, 3
-; CHECK-NEXT:    efdmul 6, 6, 8
-; CHECK-NEXT:    efdsub 4, 4, 6
+; CHECK-NEXT:    li 5, 832
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    evlddx 6, 8, 3
+; CHECK-NEXT:    efdmul 5, 5, 6
+; CHECK-NEXT:    efdadd 4, 5, 4
+; CHECK-NEXT:    li 5, 768
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    evlddx 6, 10, 3
+; CHECK-NEXT:    efdmul 5, 5, 6
+; CHECK-NEXT:    efdadd 4, 5, 4
+; CHECK-NEXT:    li 5, 816
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    evlddx 6, 12, 3
+; CHECK-NEXT:    efdmul 5, 5, 6
+; CHECK-NEXT:    efdsub 4, 4, 5
 ; CHECK-NEXT:    efdneg 4, 4
-; CHECK-NEXT:    li 6, 456
-; CHECK-NEXT:    evstddx 4, 31, 6
+; CHECK-NEXT:    li 5, 456
+; CHECK-NEXT:    evstddx 4, 31, 5
 ; CHECK-NEXT:    li 4, 472
 ; CHECK-NEXT:    evlddx 4, 31, 4
-; CHECK-NEXT:    li 6, 456
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    efdadd 4, 4, 6
-; CHECK-NEXT:    lwz 6, 864(31)
-; CHECK-NEXT:    lwz 8, 876(31)
-; CHECK-NEXT:    lwz 9, 764(31)
+; CHECK-NEXT:    li 5, 456
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    efdadd 4, 4, 5
+; CHECK-NEXT:    lwz 5, 864(31)
+; CHECK-NEXT:    lwz 6, 876(31)
+; CHECK-NEXT:    lwz 8, 764(31)
 ; CHECK-NEXT:    lwz 10, 872(31)
 ; CHECK-NEXT:    slwi 10, 10, 2
-; CHECK-NEXT:    add 9, 9, 10
-; CHECK-NEXT:    mullw 8, 8, 9
-; CHECK-NEXT:    slwi 8, 8, 4
-; CHECK-NEXT:    evstddx 4, 6, 8
-; CHECK-NEXT:    evlddx 4, 5, 3
-; CHECK-NEXT:    evlddx 6, 7, 3
-; CHECK-NEXT:    efdadd 4, 4, 6
-; CHECK-NEXT:    lwz 6, 864(31)
-; CHECK-NEXT:    lwz 8, 876(31)
-; CHECK-NEXT:    lwz 9, 764(31)
+; CHECK-NEXT:    add 8, 8, 10
+; CHECK-NEXT:    mullw 6, 6, 8
+; CHECK-NEXT:    slwi 6, 6, 4
+; CHECK-NEXT:    evstddx 4, 5, 6
+; CHECK-NEXT:    evlddx 4, 7, 3
+; CHECK-NEXT:    evlddx 5, 9, 3
+; CHECK-NEXT:    efdadd 4, 4, 5
+; CHECK-NEXT:    lwz 5, 864(31)
+; CHECK-NEXT:    lwz 6, 876(31)
+; CHECK-NEXT:    lwz 8, 764(31)
 ; CHECK-NEXT:    lwz 10, 872(31)
 ; CHECK-NEXT:    slwi 10, 10, 2
-; CHECK-NEXT:    add 9, 9, 10
-; CHECK-NEXT:    mullw 8, 8, 9
-; CHECK-NEXT:    slwi 8, 8, 4
-; CHECK-NEXT:    add 6, 6, 8
-; CHECK-NEXT:    evstddx 4, 6, 3
+; CHECK-NEXT:    add 8, 8, 10
+; CHECK-NEXT:    mullw 6, 6, 8
+; CHECK-NEXT:    slwi 6, 6, 4
+; CHECK-NEXT:    add 5, 5, 6
+; CHECK-NEXT:    evstddx 4, 5, 3
 ; CHECK-NEXT:    li 4, 472
 ; CHECK-NEXT:    evlddx 4, 31, 4
-; CHECK-NEXT:    li 6, 456
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    efdsub 4, 4, 6
-; CHECK-NEXT:    lwz 6, 864(31)
-; CHECK-NEXT:    lwz 8, 876(31)
-; CHECK-NEXT:    lwz 9, 764(31)
+; CHECK-NEXT:    li 5, 456
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    efdsub 4, 4, 5
+; CHECK-NEXT:    lwz 5, 864(31)
+; CHECK-NEXT:    lwz 6, 876(31)
+; CHECK-NEXT:    lwz 8, 764(31)
 ; CHECK-NEXT:    lwz 10, 872(31)
 ; CHECK-NEXT:    mulli 10, 10, 7
-; CHECK-NEXT:    add 9, 9, 10
-; CHECK-NEXT:    mullw 8, 8, 9
-; CHECK-NEXT:    slwi 8, 8, 4
-; CHECK-NEXT:    evstddx 4, 6, 8
-; CHECK-NEXT:    evlddx 4, 5, 3
-; CHECK-NEXT:    evlddx 5, 7, 3
+; CHECK-NEXT:    add 8, 8, 10
+; CHECK-NEXT:    mullw 6, 6, 8
+; CHECK-NEXT:    slwi 6, 6, 4
+; CHECK-NEXT:    evstddx 4, 5, 6
+; CHECK-NEXT:    evlddx 4, 7, 3
+; CHECK-NEXT:    evlddx 5, 9, 3
 ; CHECK-NEXT:    efdsub 4, 4, 5
 ; CHECK-NEXT:    lwz 5, 864(31)
 ; CHECK-NEXT:    lwz 6, 876(31)
@@ -1731,11 +1731,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    evlddx 23, 30, 3
 ; CHECK-NEXT:    efdmul 23, 23, 26
-; CHECK-NEXT:    efdadd 23, 23, 24
-; CHECK-NEXT:    addi 24, 31, 224
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    li 23, 832
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
+; CHECK-NEXT:    addi 23, 31, 224
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    li 24, 832
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 22, 272
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 816
@@ -1743,91 +1743,91 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 20, 288
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdmul 23, 23, 22
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdmul 24, 24, 22
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    li 22, 800
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 304
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    li 22, 784
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 320
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    li 22, 768
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 336
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    addi 22, 31, 208
-; CHECK-NEXT:    evstddx 23, 22, 3
-; CHECK-NEXT:    li 23, 832
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    li 24, 832
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    evlddx 21, 4, 3
 ; CHECK-NEXT:    li 20, 816
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    evlddx 19, 6, 3
 ; CHECK-NEXT:    efdmul 20, 20, 19
-; CHECK-NEXT:    efdmul 23, 23, 21
-; CHECK-NEXT:    efdadd 23, 23, 20
+; CHECK-NEXT:    efdmul 24, 24, 21
+; CHECK-NEXT:    efdadd 24, 24, 20
 ; CHECK-NEXT:    li 21, 800
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 8, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 23, 21, 23
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    li 21, 784
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 10, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 23, 21, 23
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    li 21, 768
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 12, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 23, 21, 23
-; CHECK-NEXT:    efdneg 23, 23
-; CHECK-NEXT:    evstdd 23, 208(31)
-; CHECK-NEXT:    evldd 23, 224(31)
+; CHECK-NEXT:    efdadd 24, 21, 24
+; CHECK-NEXT:    efdneg 24, 24
+; CHECK-NEXT:    evstdd 24, 208(31)
+; CHECK-NEXT:    evldd 24, 224(31)
 ; CHECK-NEXT:    evldd 21, 208(31)
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    li 21, 256
-; CHECK-NEXT:    evstddx 23, 31, 21
-; CHECK-NEXT:    evlddx 23, 24, 3
+; CHECK-NEXT:    evstddx 24, 31, 21
+; CHECK-NEXT:    evlddx 24, 23, 3
 ; CHECK-NEXT:    evlddx 21, 22, 3
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    addi 21, 31, 256
-; CHECK-NEXT:    evstddx 23, 21, 3
-; CHECK-NEXT:    evldd 23, 224(31)
+; CHECK-NEXT:    evstddx 24, 21, 3
+; CHECK-NEXT:    evldd 24, 224(31)
 ; CHECK-NEXT:    evldd 20, 208(31)
-; CHECK-NEXT:    efdsub 23, 23, 20
-; CHECK-NEXT:    evstdd 23, 240(31)
-; CHECK-NEXT:    evlddx 24, 24, 3
+; CHECK-NEXT:    efdsub 24, 24, 20
+; CHECK-NEXT:    evstdd 24, 240(31)
+; CHECK-NEXT:    evlddx 24, 23, 3
 ; CHECK-NEXT:    evlddx 23, 22, 3
-; CHECK-NEXT:    efdsub 23, 24, 23
-; CHECK-NEXT:    addi 24, 31, 240
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    efdsub 24, 24, 23
+; CHECK-NEXT:    addi 23, 31, 240
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    slwi 20, 22, 4
 ; CHECK-NEXT:    lwz 19, 876(31)
-; CHECK-NEXT:    add 23, 20, 23
+; CHECK-NEXT:    add 24, 20, 24
 ; CHECK-NEXT:    li 20, -16
-; CHECK-NEXT:    evlddx 18, 23, 20
+; CHECK-NEXT:    evlddx 18, 24, 20
 ; CHECK-NEXT:    li 17, 256
 ; CHECK-NEXT:    evlddx 17, 31, 17
 ; CHECK-NEXT:    lwz 16, 856(31)
 ; CHECK-NEXT:    efdcfsi 16, 16
 ; CHECK-NEXT:    li 15, -8
-; CHECK-NEXT:    evlddx 23, 23, 15
-; CHECK-NEXT:    efdmul 23, 16, 23
+; CHECK-NEXT:    evlddx 24, 24, 15
+; CHECK-NEXT:    efdmul 24, 16, 24
 ; CHECK-NEXT:    evlddx 16, 21, 3
-; CHECK-NEXT:    efdmul 23, 23, 16
+; CHECK-NEXT:    efdmul 24, 24, 16
 ; CHECK-NEXT:    efdmul 18, 18, 17
-; CHECK-NEXT:    efdsub 23, 18, 23
+; CHECK-NEXT:    efdsub 24, 18, 24
 ; CHECK-NEXT:    lwz 18, 864(31)
 ; CHECK-NEXT:    lwz 17, 764(31)
 ; CHECK-NEXT:    lwz 16, 872(31)
@@ -1835,23 +1835,23 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 19, 19, 17
 ; CHECK-NEXT:    add 22, 22, 19
 ; CHECK-NEXT:    slwi 22, 22, 4
-; CHECK-NEXT:    evstddx 23, 18, 22
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 18, 22
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    slwi 19, 22, 4
 ; CHECK-NEXT:    lwz 18, 876(31)
-; CHECK-NEXT:    add 23, 19, 23
-; CHECK-NEXT:    evlddx 20, 23, 20
+; CHECK-NEXT:    add 24, 19, 24
+; CHECK-NEXT:    evlddx 20, 24, 20
 ; CHECK-NEXT:    evlddx 21, 21, 3
 ; CHECK-NEXT:    lwz 19, 856(31)
 ; CHECK-NEXT:    efdcfsi 19, 19
-; CHECK-NEXT:    evlddx 23, 23, 15
-; CHECK-NEXT:    efdmul 23, 19, 23
+; CHECK-NEXT:    evlddx 24, 24, 15
+; CHECK-NEXT:    efdmul 24, 19, 24
 ; CHECK-NEXT:    li 19, 256
 ; CHECK-NEXT:    evlddx 19, 31, 19
-; CHECK-NEXT:    efdmul 23, 23, 19
+; CHECK-NEXT:    efdmul 24, 24, 19
 ; CHECK-NEXT:    efdmul 21, 20, 21
-; CHECK-NEXT:    efdadd 23, 21, 23
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 20, 764(31)
 ; CHECK-NEXT:    lwz 19, 872(31)
@@ -1860,26 +1860,26 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 22, 22, 20
 ; CHECK-NEXT:    slwi 22, 22, 4
 ; CHECK-NEXT:    add 22, 21, 22
-; CHECK-NEXT:    evstddx 23, 22, 3
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 21, 876(31)
 ; CHECK-NEXT:    mulli 20, 21, 9
 ; CHECK-NEXT:    add 20, 20, 22
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    add 23, 20, 23
+; CHECK-NEXT:    add 24, 20, 24
 ; CHECK-NEXT:    li 20, -160
-; CHECK-NEXT:    evlddx 19, 23, 20
+; CHECK-NEXT:    evlddx 19, 24, 20
 ; CHECK-NEXT:    evldd 18, 240(31)
 ; CHECK-NEXT:    lwz 17, 856(31)
 ; CHECK-NEXT:    efdcfsi 17, 17
 ; CHECK-NEXT:    li 16, -152
-; CHECK-NEXT:    evlddx 23, 23, 16
-; CHECK-NEXT:    efdmul 23, 17, 23
-; CHECK-NEXT:    evlddx 17, 24, 3
-; CHECK-NEXT:    efdmul 23, 23, 17
+; CHECK-NEXT:    evlddx 24, 24, 16
+; CHECK-NEXT:    efdmul 24, 17, 24
+; CHECK-NEXT:    evlddx 17, 23, 3
+; CHECK-NEXT:    efdmul 24, 24, 17
 ; CHECK-NEXT:    efdmul 19, 19, 18
-; CHECK-NEXT:    efdsub 23, 19, 23
+; CHECK-NEXT:    efdsub 24, 19, 24
 ; CHECK-NEXT:    lwz 19, 864(31)
 ; CHECK-NEXT:    lwz 18, 764(31)
 ; CHECK-NEXT:    lwz 17, 872(31)
@@ -1888,24 +1888,24 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 21, 21, 18
 ; CHECK-NEXT:    add 22, 22, 21
 ; CHECK-NEXT:    slwi 22, 22, 4
-; CHECK-NEXT:    evstddx 23, 19, 22
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 19, 22
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 21, 876(31)
 ; CHECK-NEXT:    mulli 19, 21, 9
 ; CHECK-NEXT:    add 19, 19, 22
 ; CHECK-NEXT:    slwi 19, 19, 4
-; CHECK-NEXT:    add 23, 19, 23
-; CHECK-NEXT:    evlddx 20, 23, 20
-; CHECK-NEXT:    evlddx 24, 24, 3
+; CHECK-NEXT:    add 24, 19, 24
+; CHECK-NEXT:    evlddx 20, 24, 20
+; CHECK-NEXT:    evlddx 23, 23, 3
 ; CHECK-NEXT:    lwz 19, 856(31)
 ; CHECK-NEXT:    efdcfsi 19, 19
-; CHECK-NEXT:    evlddx 23, 23, 16
-; CHECK-NEXT:    efdmul 23, 19, 23
+; CHECK-NEXT:    evlddx 24, 24, 16
+; CHECK-NEXT:    efdmul 24, 19, 24
 ; CHECK-NEXT:    evldd 19, 240(31)
-; CHECK-NEXT:    efdmul 23, 23, 19
-; CHECK-NEXT:    efdmul 24, 20, 24
-; CHECK-NEXT:    efdadd 24, 24, 23
+; CHECK-NEXT:    efdmul 24, 24, 19
+; CHECK-NEXT:    efdmul 23, 20, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    lwz 23, 864(31)
 ; CHECK-NEXT:    lwz 20, 764(31)
 ; CHECK-NEXT:    lwz 19, 872(31)
@@ -1954,11 +1954,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    evlddx 23, 30, 3
 ; CHECK-NEXT:    efdmul 23, 23, 0
-; CHECK-NEXT:    efdadd 23, 23, 24
-; CHECK-NEXT:    addi 24, 31, 160
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    li 23, 816
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
+; CHECK-NEXT:    addi 23, 31, 160
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    li 24, 816
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 22, 272
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 784
@@ -1966,90 +1966,90 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 20, 288
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdmul 23, 23, 22
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdmul 24, 24, 22
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    li 22, 768
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 304
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    li 22, 800
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 320
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    li 22, 832
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 336
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    addi 22, 31, 144
-; CHECK-NEXT:    evstddx 23, 22, 3
-; CHECK-NEXT:    li 23, 816
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    li 24, 816
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    evlddx 21, 4, 3
 ; CHECK-NEXT:    li 20, 784
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    evlddx 19, 6, 3
 ; CHECK-NEXT:    efdmul 20, 20, 19
-; CHECK-NEXT:    efdmul 23, 23, 21
-; CHECK-NEXT:    efdadd 23, 23, 20
+; CHECK-NEXT:    efdmul 24, 24, 21
+; CHECK-NEXT:    efdadd 24, 24, 20
 ; CHECK-NEXT:    li 21, 768
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 8, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 23, 23, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 21, 800
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 10, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 23, 23, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 21, 832
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 12, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 23, 23, 21
-; CHECK-NEXT:    efdneg 23, 23
-; CHECK-NEXT:    evstdd 23, 144(31)
-; CHECK-NEXT:    evldd 23, 160(31)
+; CHECK-NEXT:    efdsub 24, 24, 21
+; CHECK-NEXT:    efdneg 24, 24
+; CHECK-NEXT:    evstdd 24, 144(31)
+; CHECK-NEXT:    evldd 24, 160(31)
 ; CHECK-NEXT:    evldd 21, 144(31)
-; CHECK-NEXT:    efdadd 23, 23, 21
-; CHECK-NEXT:    evstdd 23, 192(31)
-; CHECK-NEXT:    evlddx 23, 24, 3
+; CHECK-NEXT:    efdadd 24, 24, 21
+; CHECK-NEXT:    evstdd 24, 192(31)
+; CHECK-NEXT:    evlddx 24, 23, 3
 ; CHECK-NEXT:    evlddx 21, 22, 3
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    addi 21, 31, 192
-; CHECK-NEXT:    evstddx 23, 21, 3
-; CHECK-NEXT:    evldd 23, 160(31)
+; CHECK-NEXT:    evstddx 24, 21, 3
+; CHECK-NEXT:    evldd 24, 160(31)
 ; CHECK-NEXT:    evldd 20, 144(31)
-; CHECK-NEXT:    efdsub 23, 23, 20
-; CHECK-NEXT:    evstdd 23, 176(31)
-; CHECK-NEXT:    evlddx 24, 24, 3
+; CHECK-NEXT:    efdsub 24, 24, 20
+; CHECK-NEXT:    evstdd 24, 176(31)
+; CHECK-NEXT:    evlddx 24, 23, 3
 ; CHECK-NEXT:    evlddx 23, 22, 3
-; CHECK-NEXT:    efdsub 23, 24, 23
-; CHECK-NEXT:    addi 24, 31, 176
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    efdsub 24, 24, 23
+; CHECK-NEXT:    addi 23, 31, 176
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    add 19, 20, 22
 ; CHECK-NEXT:    slwi 19, 19, 4
-; CHECK-NEXT:    add 23, 19, 23
+; CHECK-NEXT:    add 24, 19, 24
 ; CHECK-NEXT:    li 19, -32
-; CHECK-NEXT:    evlddx 18, 23, 19
+; CHECK-NEXT:    evlddx 18, 24, 19
 ; CHECK-NEXT:    evldd 17, 192(31)
 ; CHECK-NEXT:    lwz 16, 856(31)
 ; CHECK-NEXT:    efdcfsi 16, 16
 ; CHECK-NEXT:    li 15, -24
-; CHECK-NEXT:    evlddx 23, 23, 15
-; CHECK-NEXT:    efdmul 23, 16, 23
+; CHECK-NEXT:    evlddx 24, 24, 15
+; CHECK-NEXT:    efdmul 24, 16, 24
 ; CHECK-NEXT:    evlddx 16, 21, 3
-; CHECK-NEXT:    efdmul 23, 23, 16
+; CHECK-NEXT:    efdmul 24, 24, 16
 ; CHECK-NEXT:    efdmul 18, 18, 17
-; CHECK-NEXT:    efdsub 23, 18, 23
+; CHECK-NEXT:    efdsub 24, 18, 24
 ; CHECK-NEXT:    lwz 18, 864(31)
 ; CHECK-NEXT:    lwz 17, 764(31)
 ; CHECK-NEXT:    lwz 16, 872(31)
@@ -2058,23 +2058,23 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 20, 20, 17
 ; CHECK-NEXT:    add 22, 22, 20
 ; CHECK-NEXT:    slwi 22, 22, 4
-; CHECK-NEXT:    evstddx 23, 18, 22
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 18, 22
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    add 18, 20, 22
 ; CHECK-NEXT:    slwi 18, 18, 4
-; CHECK-NEXT:    add 23, 18, 23
-; CHECK-NEXT:    evlddx 19, 23, 19
+; CHECK-NEXT:    add 24, 18, 24
+; CHECK-NEXT:    evlddx 19, 24, 19
 ; CHECK-NEXT:    evlddx 21, 21, 3
 ; CHECK-NEXT:    lwz 18, 856(31)
 ; CHECK-NEXT:    efdcfsi 18, 18
-; CHECK-NEXT:    evlddx 23, 23, 15
-; CHECK-NEXT:    efdmul 23, 18, 23
+; CHECK-NEXT:    evlddx 24, 24, 15
+; CHECK-NEXT:    efdmul 24, 18, 24
 ; CHECK-NEXT:    evldd 18, 192(31)
-; CHECK-NEXT:    efdmul 23, 23, 18
+; CHECK-NEXT:    efdmul 24, 24, 18
 ; CHECK-NEXT:    efdmul 21, 19, 21
-; CHECK-NEXT:    efdadd 23, 21, 23
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
 ; CHECK-NEXT:    lwz 18, 872(31)
@@ -2084,26 +2084,26 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 22, 22, 20
 ; CHECK-NEXT:    slwi 22, 22, 4
 ; CHECK-NEXT:    add 22, 21, 22
-; CHECK-NEXT:    evstddx 23, 22, 3
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 21, 876(31)
 ; CHECK-NEXT:    slwi 20, 21, 3
 ; CHECK-NEXT:    add 20, 20, 22
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    add 23, 20, 23
+; CHECK-NEXT:    add 24, 20, 24
 ; CHECK-NEXT:    li 20, -144
-; CHECK-NEXT:    evlddx 19, 23, 20
+; CHECK-NEXT:    evlddx 19, 24, 20
 ; CHECK-NEXT:    evldd 18, 176(31)
 ; CHECK-NEXT:    lwz 17, 856(31)
 ; CHECK-NEXT:    efdcfsi 17, 17
 ; CHECK-NEXT:    li 16, -136
-; CHECK-NEXT:    evlddx 23, 23, 16
-; CHECK-NEXT:    efdmul 23, 17, 23
-; CHECK-NEXT:    evlddx 17, 24, 3
-; CHECK-NEXT:    efdmul 23, 23, 17
+; CHECK-NEXT:    evlddx 24, 24, 16
+; CHECK-NEXT:    efdmul 24, 17, 24
+; CHECK-NEXT:    evlddx 17, 23, 3
+; CHECK-NEXT:    efdmul 24, 24, 17
 ; CHECK-NEXT:    efdmul 19, 19, 18
-; CHECK-NEXT:    efdsub 23, 19, 23
+; CHECK-NEXT:    efdsub 24, 19, 24
 ; CHECK-NEXT:    lwz 19, 864(31)
 ; CHECK-NEXT:    lwz 18, 764(31)
 ; CHECK-NEXT:    lwz 17, 872(31)
@@ -2112,24 +2112,24 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 21, 21, 18
 ; CHECK-NEXT:    add 22, 22, 21
 ; CHECK-NEXT:    slwi 22, 22, 4
-; CHECK-NEXT:    evstddx 23, 19, 22
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 19, 22
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 21, 876(31)
 ; CHECK-NEXT:    slwi 19, 21, 3
 ; CHECK-NEXT:    add 19, 19, 22
 ; CHECK-NEXT:    slwi 19, 19, 4
-; CHECK-NEXT:    add 23, 19, 23
-; CHECK-NEXT:    evlddx 20, 23, 20
-; CHECK-NEXT:    evlddx 24, 24, 3
+; CHECK-NEXT:    add 24, 19, 24
+; CHECK-NEXT:    evlddx 20, 24, 20
+; CHECK-NEXT:    evlddx 23, 23, 3
 ; CHECK-NEXT:    lwz 19, 856(31)
 ; CHECK-NEXT:    efdcfsi 19, 19
-; CHECK-NEXT:    evlddx 23, 23, 16
-; CHECK-NEXT:    efdmul 23, 19, 23
+; CHECK-NEXT:    evlddx 24, 24, 16
+; CHECK-NEXT:    efdmul 24, 19, 24
 ; CHECK-NEXT:    evldd 19, 176(31)
-; CHECK-NEXT:    efdmul 23, 23, 19
-; CHECK-NEXT:    efdmul 24, 20, 24
-; CHECK-NEXT:    efdadd 24, 24, 23
+; CHECK-NEXT:    efdmul 24, 24, 19
+; CHECK-NEXT:    efdmul 23, 20, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    lwz 23, 864(31)
 ; CHECK-NEXT:    lwz 20, 764(31)
 ; CHECK-NEXT:    lwz 19, 872(31)
@@ -2178,11 +2178,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    evlddx 23, 30, 3
 ; CHECK-NEXT:    efdmul 23, 23, 25
-; CHECK-NEXT:    efdadd 23, 23, 24
-; CHECK-NEXT:    addi 24, 31, 96
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    li 23, 800
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
+; CHECK-NEXT:    addi 23, 31, 96
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    li 24, 800
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    li 22, 272
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 768
@@ -2190,91 +2190,91 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 20, 288
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdmul 23, 23, 22
-; CHECK-NEXT:    efdsub 23, 23, 21
+; CHECK-NEXT:    efdmul 24, 24, 22
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 22, 816
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 304
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdsub 23, 23, 22
+; CHECK-NEXT:    efdsub 24, 24, 22
 ; CHECK-NEXT:    li 22, 832
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 320
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    li 22, 784
 ; CHECK-NEXT:    evlddx 22, 31, 22
 ; CHECK-NEXT:    li 21, 336
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    efdmul 22, 22, 21
-; CHECK-NEXT:    efdadd 23, 22, 23
+; CHECK-NEXT:    efdadd 24, 22, 24
 ; CHECK-NEXT:    addi 22, 31, 80
-; CHECK-NEXT:    evstddx 23, 22, 3
-; CHECK-NEXT:    li 23, 800
-; CHECK-NEXT:    evlddx 23, 31, 23
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    li 24, 800
+; CHECK-NEXT:    evlddx 24, 31, 24
 ; CHECK-NEXT:    evlddx 21, 4, 3
 ; CHECK-NEXT:    li 20, 768
 ; CHECK-NEXT:    evlddx 20, 31, 20
 ; CHECK-NEXT:    evlddx 19, 6, 3
 ; CHECK-NEXT:    efdmul 20, 20, 19
-; CHECK-NEXT:    efdmul 23, 23, 21
-; CHECK-NEXT:    efdsub 23, 23, 20
+; CHECK-NEXT:    efdmul 24, 24, 21
+; CHECK-NEXT:    efdsub 24, 24, 20
 ; CHECK-NEXT:    li 21, 816
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 8, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdsub 23, 23, 21
+; CHECK-NEXT:    efdsub 24, 24, 21
 ; CHECK-NEXT:    li 21, 832
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 10, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 23, 21, 23
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    li 21, 784
 ; CHECK-NEXT:    evlddx 21, 31, 21
 ; CHECK-NEXT:    evlddx 20, 12, 3
 ; CHECK-NEXT:    efdmul 21, 21, 20
-; CHECK-NEXT:    efdadd 23, 21, 23
-; CHECK-NEXT:    efdneg 23, 23
-; CHECK-NEXT:    evstdd 23, 80(31)
-; CHECK-NEXT:    evldd 23, 96(31)
+; CHECK-NEXT:    efdadd 24, 21, 24
+; CHECK-NEXT:    efdneg 24, 24
+; CHECK-NEXT:    evstdd 24, 80(31)
+; CHECK-NEXT:    evldd 24, 96(31)
 ; CHECK-NEXT:    evldd 21, 80(31)
-; CHECK-NEXT:    efdadd 23, 23, 21
-; CHECK-NEXT:    evstdd 23, 128(31)
-; CHECK-NEXT:    evlddx 23, 24, 3
+; CHECK-NEXT:    efdadd 24, 24, 21
+; CHECK-NEXT:    evstdd 24, 128(31)
+; CHECK-NEXT:    evlddx 24, 23, 3
 ; CHECK-NEXT:    evlddx 21, 22, 3
-; CHECK-NEXT:    efdadd 23, 23, 21
+; CHECK-NEXT:    efdadd 24, 24, 21
 ; CHECK-NEXT:    addi 21, 31, 128
-; CHECK-NEXT:    evstddx 23, 21, 3
-; CHECK-NEXT:    evldd 23, 96(31)
+; CHECK-NEXT:    evstddx 24, 21, 3
+; CHECK-NEXT:    evldd 24, 96(31)
 ; CHECK-NEXT:    evldd 20, 80(31)
-; CHECK-NEXT:    efdsub 23, 23, 20
-; CHECK-NEXT:    evstdd 23, 112(31)
-; CHECK-NEXT:    evlddx 24, 24, 3
+; CHECK-NEXT:    efdsub 24, 24, 20
+; CHECK-NEXT:    evstdd 24, 112(31)
+; CHECK-NEXT:    evlddx 24, 23, 3
 ; CHECK-NEXT:    evlddx 23, 22, 3
-; CHECK-NEXT:    efdsub 23, 24, 23
-; CHECK-NEXT:    addi 24, 31, 112
-; CHECK-NEXT:    evstddx 23, 24, 3
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    efdsub 24, 24, 23
+; CHECK-NEXT:    addi 23, 31, 112
+; CHECK-NEXT:    evstddx 24, 23, 3
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    slwi 19, 20, 1
 ; CHECK-NEXT:    add 19, 19, 22
 ; CHECK-NEXT:    slwi 19, 19, 4
-; CHECK-NEXT:    add 23, 19, 23
+; CHECK-NEXT:    add 24, 19, 24
 ; CHECK-NEXT:    li 19, -48
-; CHECK-NEXT:    evlddx 18, 23, 19
+; CHECK-NEXT:    evlddx 18, 24, 19
 ; CHECK-NEXT:    evldd 17, 128(31)
 ; CHECK-NEXT:    lwz 16, 856(31)
 ; CHECK-NEXT:    efdcfsi 16, 16
 ; CHECK-NEXT:    li 15, -40
-; CHECK-NEXT:    evlddx 23, 23, 15
-; CHECK-NEXT:    efdmul 23, 16, 23
+; CHECK-NEXT:    evlddx 24, 24, 15
+; CHECK-NEXT:    efdmul 24, 16, 24
 ; CHECK-NEXT:    evlddx 16, 21, 3
-; CHECK-NEXT:    efdmul 23, 23, 16
+; CHECK-NEXT:    efdmul 24, 24, 16
 ; CHECK-NEXT:    efdmul 18, 18, 17
-; CHECK-NEXT:    efdsub 23, 18, 23
+; CHECK-NEXT:    efdsub 24, 18, 24
 ; CHECK-NEXT:    lwz 18, 864(31)
 ; CHECK-NEXT:    lwz 17, 764(31)
 ; CHECK-NEXT:    lwz 16, 872(31)
@@ -2283,24 +2283,24 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 20, 20, 17
 ; CHECK-NEXT:    add 22, 22, 20
 ; CHECK-NEXT:    slwi 22, 22, 4
-; CHECK-NEXT:    evstddx 23, 18, 22
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 18, 22
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 20, 876(31)
 ; CHECK-NEXT:    slwi 18, 20, 1
 ; CHECK-NEXT:    add 18, 18, 22
 ; CHECK-NEXT:    slwi 18, 18, 4
-; CHECK-NEXT:    add 23, 18, 23
-; CHECK-NEXT:    evlddx 19, 23, 19
+; CHECK-NEXT:    add 24, 18, 24
+; CHECK-NEXT:    evlddx 19, 24, 19
 ; CHECK-NEXT:    evlddx 21, 21, 3
 ; CHECK-NEXT:    lwz 18, 856(31)
 ; CHECK-NEXT:    efdcfsi 18, 18
-; CHECK-NEXT:    evlddx 23, 23, 15
-; CHECK-NEXT:    efdmul 23, 18, 23
+; CHECK-NEXT:    evlddx 24, 24, 15
+; CHECK-NEXT:    efdmul 24, 18, 24
 ; CHECK-NEXT:    evldd 18, 128(31)
-; CHECK-NEXT:    efdmul 23, 23, 18
+; CHECK-NEXT:    efdmul 24, 24, 18
 ; CHECK-NEXT:    efdmul 21, 19, 21
-; CHECK-NEXT:    efdadd 23, 21, 23
+; CHECK-NEXT:    efdadd 24, 21, 24
 ; CHECK-NEXT:    lwz 21, 864(31)
 ; CHECK-NEXT:    lwz 19, 764(31)
 ; CHECK-NEXT:    lwz 18, 872(31)
@@ -2310,26 +2310,26 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    add 22, 22, 20
 ; CHECK-NEXT:    slwi 22, 22, 4
 ; CHECK-NEXT:    add 22, 21, 22
-; CHECK-NEXT:    evstddx 23, 22, 3
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 22, 3
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 21, 876(31)
 ; CHECK-NEXT:    mulli 20, 21, 7
 ; CHECK-NEXT:    add 20, 20, 22
 ; CHECK-NEXT:    slwi 20, 20, 4
-; CHECK-NEXT:    add 23, 20, 23
+; CHECK-NEXT:    add 24, 20, 24
 ; CHECK-NEXT:    li 20, -128
-; CHECK-NEXT:    evlddx 19, 23, 20
+; CHECK-NEXT:    evlddx 19, 24, 20
 ; CHECK-NEXT:    evldd 18, 112(31)
 ; CHECK-NEXT:    lwz 17, 856(31)
 ; CHECK-NEXT:    efdcfsi 17, 17
 ; CHECK-NEXT:    li 16, -120
-; CHECK-NEXT:    evlddx 23, 23, 16
-; CHECK-NEXT:    efdmul 23, 17, 23
-; CHECK-NEXT:    evlddx 17, 24, 3
-; CHECK-NEXT:    efdmul 23, 23, 17
+; CHECK-NEXT:    evlddx 24, 24, 16
+; CHECK-NEXT:    efdmul 24, 17, 24
+; CHECK-NEXT:    evlddx 17, 23, 3
+; CHECK-NEXT:    efdmul 24, 24, 17
 ; CHECK-NEXT:    efdmul 19, 19, 18
-; CHECK-NEXT:    efdsub 23, 19, 23
+; CHECK-NEXT:    efdsub 24, 19, 24
 ; CHECK-NEXT:    lwz 19, 864(31)
 ; CHECK-NEXT:    lwz 18, 764(31)
 ; CHECK-NEXT:    lwz 17, 872(31)
@@ -2338,24 +2338,24 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 21, 21, 18
 ; CHECK-NEXT:    add 22, 22, 21
 ; CHECK-NEXT:    slwi 22, 22, 4
-; CHECK-NEXT:    evstddx 23, 19, 22
-; CHECK-NEXT:    lwz 23, 860(31)
+; CHECK-NEXT:    evstddx 24, 19, 22
+; CHECK-NEXT:    lwz 24, 860(31)
 ; CHECK-NEXT:    lwz 22, 452(31)
 ; CHECK-NEXT:    lwz 21, 876(31)
 ; CHECK-NEXT:    mulli 19, 21, 7
 ; CHECK-NEXT:    add 19, 19, 22
 ; CHECK-NEXT:    slwi 19, 19, 4
-; CHECK-NEXT:    add 23, 19, 23
-; CHECK-NEXT:    evlddx 20, 23, 20
-; CHECK-NEXT:    evlddx 24, 24, 3
+; CHECK-NEXT:    add 24, 19, 24
+; CHECK-NEXT:    evlddx 20, 24, 20
+; CHECK-NEXT:    evlddx 23, 23, 3
 ; CHECK-NEXT:    lwz 19, 856(31)
 ; CHECK-NEXT:    efdcfsi 19, 19
-; CHECK-NEXT:    evlddx 23, 23, 16
-; CHECK-NEXT:    efdmul 23, 19, 23
+; CHECK-NEXT:    evlddx 24, 24, 16
+; CHECK-NEXT:    efdmul 24, 19, 24
 ; CHECK-NEXT:    evldd 19, 112(31)
-; CHECK-NEXT:    efdmul 23, 23, 19
-; CHECK-NEXT:    efdmul 24, 20, 24
-; CHECK-NEXT:    efdadd 24, 24, 23
+; CHECK-NEXT:    efdmul 24, 24, 19
+; CHECK-NEXT:    efdmul 23, 20, 23
+; CHECK-NEXT:    efdadd 24, 23, 24
 ; CHECK-NEXT:    lwz 23, 864(31)
 ; CHECK-NEXT:    lwz 20, 764(31)
 ; CHECK-NEXT:    lwz 19, 872(31)
@@ -2404,11 +2404,11 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    efdadd 5, 7, 5
 ; CHECK-NEXT:    evlddx 7, 30, 3
 ; CHECK-NEXT:    efdmul 7, 7, 28
-; CHECK-NEXT:    efdadd 7, 7, 5
-; CHECK-NEXT:    addi 5, 31, 32
-; CHECK-NEXT:    evstddx 7, 5, 3
-; CHECK-NEXT:    li 7, 784
-; CHECK-NEXT:    evlddx 7, 31, 7
+; CHECK-NEXT:    efdadd 5, 7, 5
+; CHECK-NEXT:    addi 7, 31, 32
+; CHECK-NEXT:    evstddx 5, 7, 3
+; CHECK-NEXT:    li 5, 784
+; CHECK-NEXT:    evlddx 5, 31, 5
 ; CHECK-NEXT:    li 9, 272
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 800
@@ -2416,91 +2416,91 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    li 30, 288
 ; CHECK-NEXT:    evlddx 0, 31, 30
 ; CHECK-NEXT:    efdmul 11, 11, 0
-; CHECK-NEXT:    efdmul 7, 7, 9
-; CHECK-NEXT:    efdsub 7, 7, 11
+; CHECK-NEXT:    efdmul 5, 5, 9
+; CHECK-NEXT:    efdsub 5, 5, 11
 ; CHECK-NEXT:    li 9, 832
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 304
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    efdmul 9, 9, 11
-; CHECK-NEXT:    efdadd 7, 9, 7
+; CHECK-NEXT:    efdadd 5, 9, 5
 ; CHECK-NEXT:    li 9, 768
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 320
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    efdmul 9, 9, 11
-; CHECK-NEXT:    efdadd 7, 9, 7
+; CHECK-NEXT:    efdadd 5, 9, 5
 ; CHECK-NEXT:    li 9, 816
 ; CHECK-NEXT:    evlddx 9, 31, 9
 ; CHECK-NEXT:    li 11, 336
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    efdmul 9, 9, 11
-; CHECK-NEXT:    efdsub 7, 7, 9
+; CHECK-NEXT:    efdsub 5, 5, 9
 ; CHECK-NEXT:    addi 9, 31, 16
-; CHECK-NEXT:    evstddx 7, 9, 3
-; CHECK-NEXT:    li 7, 784
-; CHECK-NEXT:    evlddx 7, 31, 7
+; CHECK-NEXT:    evstddx 5, 9, 3
+; CHECK-NEXT:    li 5, 784
+; CHECK-NEXT:    evlddx 5, 31, 5
 ; CHECK-NEXT:    evlddx 4, 4, 3
 ; CHECK-NEXT:    li 11, 800
 ; CHECK-NEXT:    evlddx 11, 31, 11
 ; CHECK-NEXT:    evlddx 6, 6, 3
 ; CHECK-NEXT:    efdmul 6, 11, 6
-; CHECK-NEXT:    efdmul 4, 7, 4
+; CHECK-NEXT:    efdmul 4, 5, 4
 ; CHECK-NEXT:    efdsub 4, 4, 6
-; CHECK-NEXT:    li 6, 832
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    evlddx 7, 8, 3
-; CHECK-NEXT:    efdmul 6, 6, 7
-; CHECK-NEXT:    efdadd 4, 6, 4
-; CHECK-NEXT:    li 6, 768
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    evlddx 7, 10, 3
-; CHECK-NEXT:    efdmul 6, 6, 7
-; CHECK-NEXT:    efdadd 4, 6, 4
-; CHECK-NEXT:    li 6, 816
-; CHECK-NEXT:    evlddx 6, 31, 6
-; CHECK-NEXT:    evlddx 7, 12, 3
-; CHECK-NEXT:    efdmul 6, 6, 7
-; CHECK-NEXT:    efdsub 4, 4, 6
+; CHECK-NEXT:    li 5, 832
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    evlddx 6, 8, 3
+; CHECK-NEXT:    efdmul 5, 5, 6
+; CHECK-NEXT:    efdadd 4, 5, 4
+; CHECK-NEXT:    li 5, 768
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    evlddx 6, 10, 3
+; CHECK-NEXT:    efdmul 5, 5, 6
+; CHECK-NEXT:    efdadd 4, 5, 4
+; CHECK-NEXT:    li 5, 816
+; CHECK-NEXT:    evlddx 5, 31, 5
+; CHECK-NEXT:    evlddx 6, 12, 3
+; CHECK-NEXT:    efdmul 5, 5, 6
+; CHECK-NEXT:    efdsub 4, 4, 5
 ; CHECK-NEXT:    efdneg 4, 4
 ; CHECK-NEXT:    evstdd 4, 16(31)
 ; CHECK-NEXT:    evldd 4, 32(31)
-; CHECK-NEXT:    evldd 6, 16(31)
-; CHECK-NEXT:    efdadd 4, 4, 6
+; CHECK-NEXT:    evldd 5, 16(31)
+; CHECK-NEXT:    efdadd 4, 4, 5
 ; CHECK-NEXT:    evstdd 4, 64(31)
-; CHECK-NEXT:    evlddx 4, 5, 3
-; CHECK-NEXT:    evlddx 6, 9, 3
-; CHECK-NEXT:    efdadd 4, 4, 6
-; CHECK-NEXT:    addi 6, 31, 64
-; CHECK-NEXT:    evstddx 4, 6, 3
-; CHECK-NEXT:    evldd 4, 32(31)
-; CHECK-NEXT:    evldd 7, 16(31)
-; CHECK-NEXT:    efdsub 4, 4, 7
-; CHECK-NEXT:    evstdd 4, 48(31)
-; CHECK-NEXT:    evlddx 4, 5, 3
+; CHECK-NEXT:    evlddx 4, 7, 3
 ; CHECK-NEXT:    evlddx 5, 9, 3
-; CHECK-NEXT:    efdsub 5, 4, 5
-; CHECK-NEXT:    addi 4, 31, 48
-; CHECK-NEXT:    evstddx 5, 4, 3
-; CHECK-NEXT:    lwz 5, 860(31)
+; CHECK-NEXT:    efdadd 4, 4, 5
+; CHECK-NEXT:    addi 5, 31, 64
+; CHECK-NEXT:    evstddx 4, 5, 3
+; CHECK-NEXT:    evldd 4, 32(31)
+; CHECK-NEXT:    evldd 6, 16(31)
+; CHECK-NEXT:    efdsub 4, 4, 6
+; CHECK-NEXT:    evstdd 4, 48(31)
+; CHECK-NEXT:    evlddx 4, 7, 3
+; CHECK-NEXT:    evlddx 6, 9, 3
+; CHECK-NEXT:    efdsub 4, 4, 6
+; CHECK-NEXT:    addi 6, 31, 48
+; CHECK-NEXT:    evstddx 4, 6, 3
+; CHECK-NEXT:    lwz 4, 860(31)
 ; CHECK-NEXT:    lwz 7, 452(31)
 ; CHECK-NEXT:    lwz 8, 876(31)
 ; CHECK-NEXT:    mulli 9, 8, 3
 ; CHECK-NEXT:    add 9, 9, 7
 ; CHECK-NEXT:    slwi 9, 9, 4
-; CHECK-NEXT:    add 5, 9, 5
+; CHECK-NEXT:    add 4, 9, 4
 ; CHECK-NEXT:    li 9, -64
-; CHECK-NEXT:    evlddx 10, 5, 9
+; CHECK-NEXT:    evlddx 10, 4, 9
 ; CHECK-NEXT:    evldd 11, 64(31)
 ; CHECK-NEXT:    lwz 12, 856(31)
 ; CHECK-NEXT:    efdcfsi 12, 12
 ; CHECK-NEXT:    li 0, -56
-; CHECK-NEXT:    evlddx 5, 5, 0
-; CHECK-NEXT:    efdmul 5, 12, 5
-; CHECK-NEXT:    evlddx 12, 6, 3
-; CHECK-NEXT:    efdmul 5, 5, 12
+; CHECK-NEXT:    evlddx 4, 4, 0
+; CHECK-NEXT:    efdmul 4, 12, 4
+; CHECK-NEXT:    evlddx 12, 5, 3
+; CHECK-NEXT:    efdmul 4, 4, 12
 ; CHECK-NEXT:    efdmul 10, 10, 11
-; CHECK-NEXT:    efdsub 5, 10, 5
+; CHECK-NEXT:    efdsub 4, 10, 4
 ; CHECK-NEXT:    lwz 10, 864(31)
 ; CHECK-NEXT:    lwz 11, 764(31)
 ; CHECK-NEXT:    lwz 12, 872(31)
@@ -2509,25 +2509,25 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 8, 8, 11
 ; CHECK-NEXT:    add 7, 7, 8
 ; CHECK-NEXT:    slwi 7, 7, 4
-; CHECK-NEXT:    evstddx 5, 10, 7
-; CHECK-NEXT:    lwz 5, 860(31)
+; CHECK-NEXT:    evstddx 4, 10, 7
+; CHECK-NEXT:    lwz 4, 860(31)
 ; CHECK-NEXT:    lwz 7, 452(31)
 ; CHECK-NEXT:    lwz 8, 876(31)
 ; CHECK-NEXT:    mulli 10, 8, 3
 ; CHECK-NEXT:    add 10, 10, 7
 ; CHECK-NEXT:    slwi 10, 10, 4
-; CHECK-NEXT:    add 5, 10, 5
-; CHECK-NEXT:    evlddx 9, 5, 9
-; CHECK-NEXT:    evlddx 6, 6, 3
+; CHECK-NEXT:    add 4, 10, 4
+; CHECK-NEXT:    evlddx 9, 4, 9
+; CHECK-NEXT:    evlddx 5, 5, 3
 ; CHECK-NEXT:    lwz 10, 856(31)
 ; CHECK-NEXT:    efdcfsi 10, 10
-; CHECK-NEXT:    evlddx 5, 5, 0
-; CHECK-NEXT:    efdmul 5, 10, 5
+; CHECK-NEXT:    evlddx 4, 4, 0
+; CHECK-NEXT:    efdmul 4, 10, 4
 ; CHECK-NEXT:    evldd 10, 64(31)
-; CHECK-NEXT:    efdmul 5, 5, 10
-; CHECK-NEXT:    efdmul 6, 9, 6
-; CHECK-NEXT:    efdadd 5, 6, 5
-; CHECK-NEXT:    lwz 6, 864(31)
+; CHECK-NEXT:    efdmul 4, 4, 10
+; CHECK-NEXT:    efdmul 5, 9, 5
+; CHECK-NEXT:    efdadd 4, 5, 4
+; CHECK-NEXT:    lwz 5, 864(31)
 ; CHECK-NEXT:    lwz 9, 764(31)
 ; CHECK-NEXT:    lwz 10, 872(31)
 ; CHECK-NEXT:    slwi 10, 10, 2
@@ -2535,62 +2535,62 @@ define internal void @pass11(i32 noundef %0, i32 noundef %1, ptr noalias noundef
 ; CHECK-NEXT:    mullw 8, 8, 9
 ; CHECK-NEXT:    add 7, 7, 8
 ; CHECK-NEXT:    slwi 7, 7, 4
-; CHECK-NEXT:    add 6, 6, 7
-; CHECK-NEXT:    evstddx 5, 6, 3
-; CHECK-NEXT:    lwz 5, 860(31)
-; CHECK-NEXT:    lwz 6, 452(31)
+; CHECK-NEXT:    add 5, 5, 7
+; CHECK-NEXT:    evstddx 4, 5, 3
+; CHECK-NEXT:    lwz 4, 860(31)
+; CHECK-NEXT:    lwz 5, 452(31)
 ; CHECK-NEXT:    lwz 7, 876(31)
 ; CHECK-NEXT:    mulli 8, 7, 6
-; CHECK-NEXT:    add 8, 8, 6
+; CHECK-NEXT:    add 8, 8, 5
 ; CHECK-NEXT:    slwi 8, 8, 4
-; CHECK-NEXT:    add 5, 8, 5
+; CHECK-NEXT:    add 4, 8, 4
 ; CHECK-NEXT:    li 8, -112
-; CHECK-NEXT:    evlddx 9, 5, 8
+; CHECK-NEXT:    evlddx 9, 4, 8
 ; CHECK-NEXT:    evldd 10, 48(31)
 ; CHECK-NEXT:    lwz 11, 856(31)
 ; CHECK-NEXT:    efdcfsi 11, 11
 ; CHECK-NEXT:    li 12, -104
-; CHECK-NEXT:    evlddx 5, 5, 12
-; CHECK-NEXT:    efdmul 5, 11, 5
-; CHECK-NEXT:    evlddx 11, 4, 3
-; CHECK-NEXT:    efdmul 5, 5, 11
+; CHECK-NEXT:    evlddx 4, 4, 12
+; CHECK-NEXT:    efdmul 4, 11, 4
+; CHECK-NEXT:    evlddx 11, 6, 3
+; CHECK-NEXT:    efdmul 4, 4, 11
 ; CHECK-NEXT:    efdmul 9, 9, 10
-; CHECK-NEXT:    efdsub 5, 9, 5
+; CHECK-NEXT:    efdsub 4, 9, 4
 ; CHECK-NEXT:    lwz 9, 864(31)
 ; CHECK-NEXT:    lwz 10, 764(31)
 ; CHECK-NEXT:    lwz 11, 872(31)
 ; CHECK-NEXT:    mulli 11, 11, 7
 ; CHECK-NEXT:    add 10, 10, 11
 ; CHECK-NEXT:    mullw 7, 7, 10
-; CHECK-NEXT:    add 6, 6, 7
-; CHECK-NEXT:    slwi 6, 6, 4
-; CHECK-NEXT:    evstddx 5, 9, 6
-; CHECK-NEXT:    lwz 5, 860(31)
-; CHECK-NEXT:    lwz 6, 452(31)
+; CHECK-NEXT:    add 5, 5, 7
+; CHECK-NEXT:    slwi 5, 5, 4
+; CHECK-NEXT:    evstddx 4, 9, 5
+; CHECK-NEXT:    lwz 4, 860(31)
+; CHECK-NEXT:    lwz 5, 452(31)
 ; CHECK-NEXT:    lwz 7, 876(31)
 ; CHECK-NEXT:    mulli 9, 7, 6
-; CHECK-NEXT:    add 9, 9, 6
+; CHECK-NEXT:    add 9, 9, 5
 ; CHECK-NEXT:    slwi 9, 9, 4
-; CHECK-NEXT:    add 5, 9, 5
-; CHECK-NEXT:    evlddx 8, 5, 8
-; CHECK-NEXT:    evlddx 4, 4, 3
+; CHECK-NEXT:    add 4, 9, 4
+; CHECK-NEXT:    evlddx 8, 4, 8
+; CHECK-NEXT:    evlddx 6, 6, 3
 ; CHECK-NEXT:    lwz 9, 856(31)
 ; CHECK-NEXT:    efdcfsi 9, 9
-; CHECK-NEXT:    evlddx 5, 5, 12
-; CHECK-NEXT:    efdmul 5, 9, 5
+; CHECK-NEXT:    evlddx 4, 4, 12
+; CHECK-NEXT:    efdmul 4, 9, 4
 ; CHECK-NEXT:    evldd 9, 48(31)
-; CHECK-NEXT:    efdmul 5, 5, 9
-; CHECK-NEXT:    efdmul 4, 8, 4
-; CHECK-NEXT:    efdadd 4, 4, 5
-; CHECK-NEXT:    lwz 5, 864(31)
+; CHECK-NEXT:    efdmul 4, 4, 9
+; CHECK-NEXT:    efdmul 6, 8, 6
+; CHECK-NEXT:    efdadd 4, 6, 4
+; CHECK-NEXT:    lwz 6, 864(31)
 ; CHECK-NEXT:    lwz 8, 764(31)
 ; CHECK-NEXT:    lwz 9, 872(31)
 ; CHECK-NEXT:    mulli 9, 9, 7
 ; CHECK-NEXT:    add 8, 8, 9
 ; CHECK-NEXT:    mullw 7, 7, 8
-; CHECK-NEXT:    add 6, 6, 7
-; CHECK-NEXT:    slwi 6, 6, 4
-; CHECK-NEXT:    add 5, 5, 6
+; CHECK-NEXT:    add 5, 5, 7
+; CHECK-NEXT:    slwi 5, 5, 4
+; CHECK-NEXT:    add 5, 6, 5
 ; CHECK-NEXT:    evstddx 4, 5, 3
 ; CHECK-NEXT:    b .LBB1_5
 ; CHECK-NEXT:  .LBB1_5:

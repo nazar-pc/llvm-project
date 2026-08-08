@@ -253,20 +253,20 @@ define void @fma_v16f16(ptr %a, ptr %b, ptr %c) {
 ; NONEON-NOSVE-NEXT:    ldr h12, [sp, #72]
 ; NONEON-NOSVE-NEXT:    ldr h9, [sp, #86]
 ; NONEON-NOSVE-NEXT:    ldr h10, [sp, #70]
-; NONEON-NOSVE-NEXT:    fmul s30, s21, s20
+; NONEON-NOSVE-NEXT:    fmul s28, s21, s20
 ; NONEON-NOSVE-NEXT:    fcvt s0, h0
 ; NONEON-NOSVE-NEXT:    ldr h31, [sp, #84]
 ; NONEON-NOSVE-NEXT:    ldr h8, [sp, #68]
-; NONEON-NOSVE-NEXT:    ldr h28, [sp, #82]
-; NONEON-NOSVE-NEXT:    ldr h29, [sp, #66]
+; NONEON-NOSVE-NEXT:    ldr h29, [sp, #82]
+; NONEON-NOSVE-NEXT:    ldr h30, [sp, #66]
 ; NONEON-NOSVE-NEXT:    ldr h26, [sp, #80]
 ; NONEON-NOSVE-NEXT:    ldr h27, [sp, #64]
 ; NONEON-NOSVE-NEXT:    ldr h22, [sp, #44]
 ; NONEON-NOSVE-NEXT:    ldr h23, [sp, #28]
 ; NONEON-NOSVE-NEXT:    ldr h20, [sp, #42]
 ; NONEON-NOSVE-NEXT:    ldr h21, [sp, #26]
-; NONEON-NOSVE-NEXT:    fcvt h19, s30
-; NONEON-NOSVE-NEXT:    fcvt s30, h15
+; NONEON-NOSVE-NEXT:    fcvt h19, s28
+; NONEON-NOSVE-NEXT:    fcvt s28, h15
 ; NONEON-NOSVE-NEXT:    ldr h16, [sp, #40]
 ; NONEON-NOSVE-NEXT:    ldr h17, [sp, #24]
 ; NONEON-NOSVE-NEXT:    ldr h6, [sp, #38]
@@ -278,8 +278,8 @@ define void @fma_v16f16(ptr %a, ptr %b, ptr %c) {
 ; NONEON-NOSVE-NEXT:    fcvt s6, h6
 ; NONEON-NOSVE-NEXT:    fcvt s7, h7
 ; NONEON-NOSVE-NEXT:    fcvt s19, h19
-; NONEON-NOSVE-NEXT:    fmul s0, s0, s30
-; NONEON-NOSVE-NEXT:    fcvt s30, h14
+; NONEON-NOSVE-NEXT:    fmul s0, s0, s28
+; NONEON-NOSVE-NEXT:    fcvt s28, h14
 ; NONEON-NOSVE-NEXT:    fcvt s4, h4
 ; NONEON-NOSVE-NEXT:    fcvt s5, h5
 ; NONEON-NOSVE-NEXT:    ldr h2, [sp, #34]
@@ -313,9 +313,9 @@ define void @fma_v16f16(ptr %a, ptr %b, ptr %c) {
 ; NONEON-NOSVE-NEXT:    fmul s1, s1, s3
 ; NONEON-NOSVE-NEXT:    fcvt s2, h2
 ; NONEON-NOSVE-NEXT:    fadd s0, s0, s18
-; NONEON-NOSVE-NEXT:    fmul s18, s30, s19
+; NONEON-NOSVE-NEXT:    fmul s18, s28, s19
 ; NONEON-NOSVE-NEXT:    fcvt s19, h11
-; NONEON-NOSVE-NEXT:    fcvt s30, h12
+; NONEON-NOSVE-NEXT:    fcvt s28, h12
 ; NONEON-NOSVE-NEXT:    fcvt h1, s1
 ; NONEON-NOSVE-NEXT:    ldp d13, d12, [sp, #160] // 16-byte Folded Reload
 ; NONEON-NOSVE-NEXT:    fcvt h0, s0
@@ -326,9 +326,9 @@ define void @fma_v16f16(ptr %a, ptr %b, ptr %c) {
 ; NONEON-NOSVE-NEXT:    fcvt s18, h18
 ; NONEON-NOSVE-NEXT:    fcvt s0, h0
 ; NONEON-NOSVE-NEXT:    fadd s0, s18, s0
-; NONEON-NOSVE-NEXT:    fmul s18, s30, s19
+; NONEON-NOSVE-NEXT:    fmul s18, s28, s19
 ; NONEON-NOSVE-NEXT:    fcvt s19, h9
-; NONEON-NOSVE-NEXT:    fcvt s30, h10
+; NONEON-NOSVE-NEXT:    fcvt s28, h10
 ; NONEON-NOSVE-NEXT:    ldp d11, d10, [sp, #176] // 16-byte Folded Reload
 ; NONEON-NOSVE-NEXT:    fcvt h0, s0
 ; NONEON-NOSVE-NEXT:    fcvt h18, s18
@@ -337,9 +337,9 @@ define void @fma_v16f16(ptr %a, ptr %b, ptr %c) {
 ; NONEON-NOSVE-NEXT:    fcvt s18, h18
 ; NONEON-NOSVE-NEXT:    fcvt s0, h0
 ; NONEON-NOSVE-NEXT:    fadd s0, s18, s0
-; NONEON-NOSVE-NEXT:    fmul s18, s30, s19
+; NONEON-NOSVE-NEXT:    fmul s18, s28, s19
 ; NONEON-NOSVE-NEXT:    fcvt s19, h31
-; NONEON-NOSVE-NEXT:    fcvt s30, h8
+; NONEON-NOSVE-NEXT:    fcvt s28, h8
 ; NONEON-NOSVE-NEXT:    ldp d9, d8, [sp, #192] // 16-byte Folded Reload
 ; NONEON-NOSVE-NEXT:    fcvt h0, s0
 ; NONEON-NOSVE-NEXT:    fcvt h18, s18
@@ -348,9 +348,9 @@ define void @fma_v16f16(ptr %a, ptr %b, ptr %c) {
 ; NONEON-NOSVE-NEXT:    fcvt s18, h18
 ; NONEON-NOSVE-NEXT:    fcvt s0, h0
 ; NONEON-NOSVE-NEXT:    fadd s0, s18, s0
-; NONEON-NOSVE-NEXT:    fmul s18, s30, s19
-; NONEON-NOSVE-NEXT:    fcvt s19, h28
-; NONEON-NOSVE-NEXT:    fcvt s28, h29
+; NONEON-NOSVE-NEXT:    fmul s18, s28, s19
+; NONEON-NOSVE-NEXT:    fcvt s19, h29
+; NONEON-NOSVE-NEXT:    fcvt s28, h30
 ; NONEON-NOSVE-NEXT:    fcvt h0, s0
 ; NONEON-NOSVE-NEXT:    fcvt h18, s18
 ; NONEON-NOSVE-NEXT:    str h0, [sp, #134]

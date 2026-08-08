@@ -945,7 +945,7 @@ define void @test_masked_store_multiple_v8i64(<8 x i64> %x, <8 x i64> %y, ptr %p
 ; SVE-LABEL: test_masked_store_multiple_v8i64:
 ; SVE:       // %bb.0:
 ; SVE-NEXT:    ldp d16, d17, [sp]
-; SVE-NEXT:    ptrue p1.d, vl2
+; SVE-NEXT:    ptrue p0.d, vl2
 ; SVE-NEXT:    mov x9, #4 // =0x4
 ; SVE-NEXT:    // kill: def $q3 killed $q3 def $z3
 ; SVE-NEXT:    // kill: def $q2 killed $q2 def $z2
@@ -978,18 +978,18 @@ define void @test_masked_store_multiple_v8i64(<8 x i64> %x, <8 x i64> %y, ptr %p
 ; SVE-NEXT:    shl v17.2d, v17.2d, #63
 ; SVE-NEXT:    shl v19.2d, v19.2d, #63
 ; SVE-NEXT:    shl v21.2d, v21.2d, #63
-; SVE-NEXT:    cmpne p0.d, p1/z, z16.d, #0
+; SVE-NEXT:    cmpne p1.d, p0/z, z16.d, #0
 ; SVE-NEXT:    ushll v16.2d, v22.2s, #0
 ; SVE-NEXT:    shl v18.2d, v18.2d, #63
 ; SVE-NEXT:    ushll v22.2d, v24.2s, #0
 ; SVE-NEXT:    shl v20.2d, v20.2d, #63
-; SVE-NEXT:    cmpne p2.d, p1/z, z17.d, #0
-; SVE-NEXT:    cmpne p3.d, p1/z, z19.d, #0
+; SVE-NEXT:    cmpne p2.d, p0/z, z17.d, #0
+; SVE-NEXT:    cmpne p3.d, p0/z, z19.d, #0
 ; SVE-NEXT:    shl v16.2d, v16.2d, #63
 ; SVE-NEXT:    cmlt v17.2d, v18.2d, #0
 ; SVE-NEXT:    shl v18.2d, v22.2d, #63
 ; SVE-NEXT:    ldp q19, q22, [x1, #32]
-; SVE-NEXT:    cmpne p4.d, p1/z, z16.d, #0
+; SVE-NEXT:    cmpne p4.d, p0/z, z16.d, #0
 ; SVE-NEXT:    cmlt v16.2d, v20.2d, #0
 ; SVE-NEXT:    cmlt v20.2d, v21.2d, #0
 ; SVE-NEXT:    cmlt v18.2d, v18.2d, #0
@@ -1002,7 +1002,7 @@ define void @test_masked_store_multiple_v8i64(<8 x i64> %x, <8 x i64> %y, ptr %p
 ; SVE-NEXT:    mov v3.16b, v20.16b
 ; SVE-NEXT:    st1d { z1.d }, p4, [x0, x9, lsl #3]
 ; SVE-NEXT:    mov v1.16b, v18.16b
-; SVE-NEXT:    st1d { z0.d }, p0, [x0]
+; SVE-NEXT:    st1d { z0.d }, p1, [x0]
 ; SVE-NEXT:    bsl v2.16b, v7.16b, v22.16b
 ; SVE-NEXT:    bsl v3.16b, v4.16b, v17.16b
 ; SVE-NEXT:    bsl v1.16b, v5.16b, v19.16b

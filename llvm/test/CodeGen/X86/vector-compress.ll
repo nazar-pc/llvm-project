@@ -3712,9 +3712,9 @@ define <32 x i16> @test_compress_v32i16(<32 x i16> %vec, <32 x i1> %mask, <32 x 
 ; AVX512VL-ONLY-NEXT:    kmovd %k6, %eax
 ; AVX512VL-ONLY-NEXT:    movl %eax, {{[-0-9]+}}(%r{{[sb]}}p) # 4-byte Spill
 ; AVX512VL-ONLY-NEXT:    kshiftrd $12, %k7, %k6
-; AVX512VL-ONLY-NEXT:    vpextrw $1, %xmm1, %eax
-; AVX512VL-ONLY-NEXT:    vmovd %xmm1, %ecx
-; AVX512VL-ONLY-NEXT:    addl %eax, %ecx
+; AVX512VL-ONLY-NEXT:    vpextrw $1, %xmm1, %r10d
+; AVX512VL-ONLY-NEXT:    vmovd %xmm1, %eax
+; AVX512VL-ONLY-NEXT:    addl %r10d, %eax
 ; AVX512VL-ONLY-NEXT:    kmovd %k6, %r10d
 ; AVX512VL-ONLY-NEXT:    kshiftrd $11, %k7, %k6
 ; AVX512VL-ONLY-NEXT:    kmovd %k6, %r11d
@@ -3739,12 +3739,12 @@ define <32 x i16> @test_compress_v32i16(<32 x i16> %vec, <32 x i1> %mask, <32 x 
 ; AVX512VL-ONLY-NEXT:    kshiftrd $1, %k7, %k6
 ; AVX512VL-ONLY-NEXT:    kmovd %k6, %edx
 ; AVX512VL-ONLY-NEXT:    kshiftrd $25, %k7, %k6
-; AVX512VL-ONLY-NEXT:    kmovd %k7, %eax
+; AVX512VL-ONLY-NEXT:    kmovd %k7, %ecx
 ; AVX512VL-ONLY-NEXT:    kshiftrd $24, %k7, %k7
 ; AVX512VL-ONLY-NEXT:    vmovaps %zmm2, (%rsp)
-; AVX512VL-ONLY-NEXT:    andl $31, %ecx
-; AVX512VL-ONLY-NEXT:    movq %rcx, {{[-0-9]+}}(%r{{[sb]}}p) # 8-byte Spill
-; AVX512VL-ONLY-NEXT:    movzbl %al, %eax
+; AVX512VL-ONLY-NEXT:    andl $31, %eax
+; AVX512VL-ONLY-NEXT:    movq %rax, {{[-0-9]+}}(%r{{[sb]}}p) # 8-byte Spill
+; AVX512VL-ONLY-NEXT:    movzbl %cl, %eax
 ; AVX512VL-ONLY-NEXT:    andl $1, %eax
 ; AVX512VL-ONLY-NEXT:    movq %rax, {{[-0-9]+}}(%r{{[sb]}}p) # 8-byte Spill
 ; AVX512VL-ONLY-NEXT:    movzbl %dl, %ecx

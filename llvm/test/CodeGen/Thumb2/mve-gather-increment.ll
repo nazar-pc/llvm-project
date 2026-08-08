@@ -757,16 +757,16 @@ define arm_aapcs_vfpcc void @gather_inc_v8i16_complex(ptr noalias nocapture read
 ; CHECK-NEXT:    @ => This Inner Loop Header: Depth=2
 ; CHECK-NEXT:    vstrw.32 q1, [r4]
 ; CHECK-NEXT:    mov r1, r5
-; CHECK-NEXT:    vldrh.s32 q0, [r4, #8]
+; CHECK-NEXT:    vldrh.s32 q4, [r4, #8]
 ; CHECK-NEXT:    mov r11, r4
 ; CHECK-NEXT:    mov r5, r7
-; CHECK-NEXT:    vshl.i32 q0, q0, #1
-; CHECK-NEXT:    vadd.i32 q0, q0, r0
-; CHECK-NEXT:    vmov r2, r3, d0
-; CHECK-NEXT:    vmov r6, r10, d1
-; CHECK-NEXT:    vldrh.s32 q0, [r4]
-; CHECK-NEXT:    vshl.i32 q0, q0, #1
-; CHECK-NEXT:    vadd.i32 q6, q0, r0
+; CHECK-NEXT:    vshl.i32 q4, q4, #1
+; CHECK-NEXT:    vadd.i32 q4, q4, r0
+; CHECK-NEXT:    vmov r2, r3, d8
+; CHECK-NEXT:    vmov r6, r10, d9
+; CHECK-NEXT:    vldrh.s32 q4, [r4]
+; CHECK-NEXT:    vshl.i32 q4, q4, #1
+; CHECK-NEXT:    vadd.i32 q6, q4, r0
 ; CHECK-NEXT:    vmov r7, r4, d12
 ; CHECK-NEXT:    ldrh.w r9, [r2]
 ; CHECK-NEXT:    ldrh.w r2, [r10]
@@ -777,17 +777,17 @@ define arm_aapcs_vfpcc void @gather_inc_v8i16_complex(ptr noalias nocapture read
 ; CHECK-NEXT:    mov r7, r5
 ; CHECK-NEXT:    ldrh r4, [r4]
 ; CHECK-NEXT:    vstrw.32 q3, [r7]
-; CHECK-NEXT:    vldrh.s32 q0, [r7]
+; CHECK-NEXT:    vldrh.s32 q4, [r7]
+; CHECK-NEXT:    mov r5, r1
+; CHECK-NEXT:    vldrh.s32 q7, [r7, #8]
+; CHECK-NEXT:    vshl.i32 q4, q4, #1
+; CHECK-NEXT:    vadd.i32 q5, q4, r0
 ; CHECK-NEXT:    vmov.16 q4[0], r2
 ; CHECK-NEXT:    vmov.16 q4[1], r4
-; CHECK-NEXT:    mov r5, r1
-; CHECK-NEXT:    vshl.i32 q0, q0, #1
-; CHECK-NEXT:    vadd.i32 q0, q0, r0
-; CHECK-NEXT:    vmov r4, r6, d0
-; CHECK-NEXT:    vmov r1, r2, d1
-; CHECK-NEXT:    vldrh.s32 q0, [r7, #8]
-; CHECK-NEXT:    vshl.i32 q0, q0, #1
-; CHECK-NEXT:    vadd.i32 q0, q0, r0
+; CHECK-NEXT:    vmov r4, r6, d10
+; CHECK-NEXT:    vmov r1, r2, d11
+; CHECK-NEXT:    vshl.i32 q7, q7, #1
+; CHECK-NEXT:    vadd.i32 q7, q7, r0
 ; CHECK-NEXT:    ldrh r4, [r4]
 ; CHECK-NEXT:    ldrh r1, [r1]
 ; CHECK-NEXT:    vmov.16 q5[0], r4
@@ -795,21 +795,21 @@ define arm_aapcs_vfpcc void @gather_inc_v8i16_complex(ptr noalias nocapture read
 ; CHECK-NEXT:    ldrh r2, [r2]
 ; CHECK-NEXT:    vmov.16 q5[1], r4
 ; CHECK-NEXT:    vmov.16 q5[2], r1
-; CHECK-NEXT:    vmov r1, r4, d0
+; CHECK-NEXT:    vmov r1, r4, d14
 ; CHECK-NEXT:    vmov.16 q5[3], r2
 ; CHECK-NEXT:    ldrh r1, [r1]
 ; CHECK-NEXT:    ldrh r4, [r4]
 ; CHECK-NEXT:    vmov.16 q5[4], r1
-; CHECK-NEXT:    vmov r1, r2, d1
+; CHECK-NEXT:    vmov r1, r2, d15
 ; CHECK-NEXT:    vmov.16 q5[5], r4
 ; CHECK-NEXT:    ldrh r1, [r1]
 ; CHECK-NEXT:    ldrh r2, [r2]
 ; CHECK-NEXT:    vstrw.32 q2, [r5]
-; CHECK-NEXT:    vldrh.s32 q0, [r5]
+; CHECK-NEXT:    vldrh.s32 q7, [r5]
 ; CHECK-NEXT:    vmov.16 q5[6], r1
 ; CHECK-NEXT:    vmov.16 q5[7], r2
-; CHECK-NEXT:    vshl.i32 q0, q0, #1
-; CHECK-NEXT:    vadd.i32 q0, q0, r0
+; CHECK-NEXT:    vshl.i32 q7, q7, #1
+; CHECK-NEXT:    vadd.i32 q0, q7, r0
 ; CHECK-NEXT:    vmov r1, r2, d0
 ; CHECK-NEXT:    ldrh r1, [r1]
 ; CHECK-NEXT:    ldrh r2, [r2]
@@ -988,92 +988,92 @@ define arm_aapcs_vfpcc void @gather_inc_v16i8_complex(ptr noalias nocapture read
 ; CHECK-NEXT:    @ Parent Loop BB16_2 Depth=1
 ; CHECK-NEXT:    @ => This Inner Loop Header: Depth=2
 ; CHECK-NEXT:    vadd.i32 q6, q5, r0
-; CHECK-NEXT:    vstrw.32 q7, [sp, #16] @ 16-byte Spill
-; CHECK-NEXT:    vadd.i32 q7, q7, r0
-; CHECK-NEXT:    vmov r10, r1, d13
-; CHECK-NEXT:    vmov r7, r11, d14
 ; CHECK-NEXT:    vstrw.32 q5, [sp, #32] @ 16-byte Spill
 ; CHECK-NEXT:    vadd.i32 q5, q2, r0
+; CHECK-NEXT:    vmov r10, r11, d13
+; CHECK-NEXT:    vmov r3, r1, d10
 ; CHECK-NEXT:    vldrw.u32 q0, [sp, #112] @ 16-byte Reload
-; CHECK-NEXT:    vmov r5, r3, d11
-; CHECK-NEXT:    vstrw.32 q4, [sp, #48] @ 16-byte Spill
+; CHECK-NEXT:    vmov r4, r5, d11
+; CHECK-NEXT:    vstrw.32 q7, [sp, #16] @ 16-byte Spill
+; CHECK-NEXT:    vadd.i32 q7, q7, r0
 ; CHECK-NEXT:    vadd.i32 q0, q0, r0
+; CHECK-NEXT:    vmov r6, r7, d14
+; CHECK-NEXT:    vstrw.32 q4, [sp, #48] @ 16-byte Spill
 ; CHECK-NEXT:    vldrw.u32 q4, [sp, #48] @ 16-byte Reload
 ; CHECK-NEXT:    vstrw.32 q1, [sp] @ 16-byte Spill
-; CHECK-NEXT:    subs.w r9, r9, #16
 ; CHECK-NEXT:    vldrw.u32 q1, [sp] @ 16-byte Reload
-; CHECK-NEXT:    ldrb r6, [r1]
-; CHECK-NEXT:    ldrb r1, [r7]
-; CHECK-NEXT:    vmov r7, r4, d10
-; CHECK-NEXT:    ldrb r5, [r5]
+; CHECK-NEXT:    subs.w r9, r9, #16
+; CHECK-NEXT:    ldrb.w r11, [r11]
 ; CHECK-NEXT:    ldrb r3, [r3]
+; CHECK-NEXT:    ldrb r1, [r1]
+; CHECK-NEXT:    vmov.8 q5[0], r3
+; CHECK-NEXT:    ldrb r4, [r4]
+; CHECK-NEXT:    vmov.8 q5[1], r1
+; CHECK-NEXT:    vmov r1, r3, d12
+; CHECK-NEXT:    ldrb r5, [r5]
+; CHECK-NEXT:    vmov.8 q5[2], r4
+; CHECK-NEXT:    ldrb.w r4, [r10]
+; CHECK-NEXT:    vmov.8 q5[3], r5
+; CHECK-NEXT:    ldrb r6, [r6]
 ; CHECK-NEXT:    ldrb r7, [r7]
-; CHECK-NEXT:    ldrb r4, [r4]
-; CHECK-NEXT:    vmov.8 q5[0], r7
-; CHECK-NEXT:    vmov.8 q5[1], r4
-; CHECK-NEXT:    vmov.8 q5[2], r5
-; CHECK-NEXT:    vmov r4, r5, d12
-; CHECK-NEXT:    vmov.8 q5[3], r3
-; CHECK-NEXT:    ldrb r4, [r4]
-; CHECK-NEXT:    ldrb r7, [r5]
-; CHECK-NEXT:    vmov.8 q6[0], r4
-; CHECK-NEXT:    ldrb.w r5, [r10]
-; CHECK-NEXT:    vmov.8 q6[1], r7
-; CHECK-NEXT:    vmov r3, r4, d0
-; CHECK-NEXT:    vmov.8 q6[2], r5
-; CHECK-NEXT:    vmov r5, r10, d1
-; CHECK-NEXT:    vmov.8 q6[3], r6
+; CHECK-NEXT:    ldrb r1, [r1]
+; CHECK-NEXT:    ldrb r3, [r3]
+; CHECK-NEXT:    vmov.8 q6[0], r1
+; CHECK-NEXT:    vmov r1, r5, d0
+; CHECK-NEXT:    vmov.8 q6[1], r3
+; CHECK-NEXT:    vmov.8 q6[2], r4
+; CHECK-NEXT:    vmov r4, r10, d1
+; CHECK-NEXT:    vmov.8 q6[3], r11
 ; CHECK-NEXT:    vldrw.u32 q0, [sp, #96] @ 16-byte Reload
-; CHECK-NEXT:    vmov.8 q6[4], r1
-; CHECK-NEXT:    ldrb.w r7, [r11]
+; CHECK-NEXT:    vmov.8 q6[4], r6
 ; CHECK-NEXT:    vadd.i32 q0, q0, r0
 ; CHECK-NEXT:    vmov.8 q6[5], r7
-; CHECK-NEXT:    ldrb r4, [r4]
-; CHECK-NEXT:    ldrb r6, [r5]
-; CHECK-NEXT:    vmov r1, r5, d15
+; CHECK-NEXT:    ldrb r3, [r5]
+; CHECK-NEXT:    vmov r6, r5, d15
+; CHECK-NEXT:    ldrb r1, [r1]
 ; CHECK-NEXT:    vldrw.u32 q7, [sp, #64] @ 16-byte Reload
-; CHECK-NEXT:    ldrb r1, [r1]
+; CHECK-NEXT:    ldrb r4, [r4]
+; CHECK-NEXT:    ldrb r6, [r6]
 ; CHECK-NEXT:    ldrb r5, [r5]
-; CHECK-NEXT:    vmov.8 q6[6], r1
-; CHECK-NEXT:    vmov r1, r7, d0
+; CHECK-NEXT:    vmov.8 q6[6], r6
+; CHECK-NEXT:    vmov r6, r7, d0
 ; CHECK-NEXT:    vmov.8 q6[7], r5
-; CHECK-NEXT:    ldrb r1, [r1]
+; CHECK-NEXT:    ldrb r6, [r6]
 ; CHECK-NEXT:    ldrb r7, [r7]
-; CHECK-NEXT:    vmov.8 q5[4], r1
-; CHECK-NEXT:    vmov r1, r5, d1
+; CHECK-NEXT:    vmov.8 q5[4], r6
+; CHECK-NEXT:    vmov r5, r6, d1
 ; CHECK-NEXT:    vmov.8 q5[5], r7
 ; CHECK-NEXT:    vadd.i32 q0, q4, r0
-; CHECK-NEXT:    ldrb r1, [r1]
 ; CHECK-NEXT:    ldrb r5, [r5]
-; CHECK-NEXT:    vmov.8 q5[6], r1
-; CHECK-NEXT:    ldrb r1, [r3]
-; CHECK-NEXT:    vmov.8 q5[7], r5
-; CHECK-NEXT:    vmov r3, r7, d0
+; CHECK-NEXT:    ldrb r6, [r6]
+; CHECK-NEXT:    vmov.8 q5[6], r5
+; CHECK-NEXT:    vmov r5, r7, d0
+; CHECK-NEXT:    vmov.8 q5[7], r6
+; CHECK-NEXT:    ldrb.w r6, [r10]
 ; CHECK-NEXT:    vmov.8 q5[8], r1
 ; CHECK-NEXT:    vmov r1, r11, d1
 ; CHECK-NEXT:    vldrw.u32 q0, [sp, #144] @ 16-byte Reload
-; CHECK-NEXT:    vmov.8 q5[9], r4
-; CHECK-NEXT:    vmov.8 q5[10], r6
+; CHECK-NEXT:    vmov.8 q5[9], r3
+; CHECK-NEXT:    vmov.8 q5[10], r4
 ; CHECK-NEXT:    vadd.i32 q0, q0, r0
-; CHECK-NEXT:    vmov r5, r6, d0
-; CHECK-NEXT:    ldrb r4, [r7]
-; CHECK-NEXT:    ldrb.w r7, [r10]
-; CHECK-NEXT:    ldrb r3, [r3]
-; CHECK-NEXT:    vmov.8 q5[11], r7
-; CHECK-NEXT:    ldrb r1, [r1]
+; CHECK-NEXT:    vmov.8 q5[11], r6
+; CHECK-NEXT:    ldrb r3, [r7]
+; CHECK-NEXT:    vmov r4, r7, d0
 ; CHECK-NEXT:    ldrb r5, [r5]
-; CHECK-NEXT:    ldrb r6, [r6]
-; CHECK-NEXT:    vmov.8 q6[8], r5
-; CHECK-NEXT:    vmov r5, r7, d1
-; CHECK-NEXT:    vmov.8 q6[9], r6
+; CHECK-NEXT:    ldrb r1, [r1]
+; CHECK-NEXT:    ldrb r4, [r4]
+; CHECK-NEXT:    ldrb r7, [r7]
+; CHECK-NEXT:    vmov.8 q6[8], r4
+; CHECK-NEXT:    vmov r4, r6, d1
+; CHECK-NEXT:    vmov.8 q6[9], r7
 ; CHECK-NEXT:    vldrw.u32 q0, [sp, #128] @ 16-byte Reload
 ; CHECK-NEXT:    vadd.i32 q0, q0, r0
-; CHECK-NEXT:    ldrb r5, [r5]
-; CHECK-NEXT:    ldrb r7, [r7]
-; CHECK-NEXT:    vmov.8 q6[10], r5
-; CHECK-NEXT:    vmov.8 q6[11], r7
-; CHECK-NEXT:    vmov.8 q6[12], r3
-; CHECK-NEXT:    vmov.8 q6[13], r4
+; CHECK-NEXT:    ldrb r4, [r4]
+; CHECK-NEXT:    ldrb r6, [r6]
+; CHECK-NEXT:    vmov.8 q6[10], r4
+; CHECK-NEXT:    vmov.8 q6[11], r6
+; CHECK-NEXT:    vmov.8 q6[12], r5
+; CHECK-NEXT:    vmov.8 q6[13], r3
 ; CHECK-NEXT:    vmov.8 q6[14], r1
 ; CHECK-NEXT:    vmov r1, r3, d0
 ; CHECK-NEXT:    ldrb r1, [r1]

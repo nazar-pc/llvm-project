@@ -133,6 +133,14 @@ static cl::opt<bool> GreedyRegClassPriorityTrumpsGlobalness(
              "more important then whether the range is global"),
     cl::Hidden);
 
+static cl::opt<unsigned> GreedyLocalRangeBlockCoverage(
+    "greedy-local-range-block-coverage",
+    cl::desc("A local live range is only given global allocation priority when "
+             "it covers more than this percentage of its basic block. Zero "
+             "restores the previous behaviour of looking at the range length "
+             "alone"),
+    cl::init(25), cl::Hidden);
+
 static cl::opt<bool> GreedyReverseLocalAssignment(
     "greedy-reverse-local-assignment",
     cl::desc("Reverse allocation order of local live ranges, such that "
@@ -436,6 +444,27 @@ void RAGreedy::enqueue(PQueue &CurQueue, const LiveInterval *LI) {
   CurQueue.push(std::make_pair(Ret, ~Reg.id()));
 }
 
+/// Does \p LI cover more than GreedyLocalRangeBlockCoverage percent of the
+/// basic block that its def lives in?
+///
+/// This qualifies the "giant live range" test in getPriority(). A range's
+/// length compared against a multiple of the register file size says nothing
+/// about how much of the surrounding code it actually spans: in a large block
+/// a range a couple of register files long is still a short range, and taking
+/// it out of linear assignment order there costs the optimal coloring that
+/// order provides without buying anything.
+bool DefaultPriorityAdvisor::coversEnoughOfItsBlock(const LiveInterval &LI) const {
+  if (!GreedyLocalRangeBlockCoverage || LI.empty())
+    return true;
+  const MachineBasicBlock *MBB = LIS->getMBBFromIndex(LI.beginIndex());
+  if (!MBB)
+    return true;
+  uint64_t BlockSize =
+      LIS->getMBBStartIdx(MBB).distance(LIS->getMBBEndIdx(MBB));
+  return (uint64_t)LI.getSize() * 100 >
+         BlockSize * GreedyLocalRangeBlockCoverage;
+}
+
 unsigned DefaultPriorityAdvisor::getPriority(const LiveInterval &LI) const {
   const unsigned Size = LI.getSize();
   const Register Reg = LI.reg();
@@ -450,10 +479,12 @@ unsigned DefaultPriorityAdvisor::getPriority(const LiveInterval &LI) const {
     // Giant live ranges fall back to the global assignment heuristic, which
     // prevents excessive spilling in pathological cases.
     const TargetRegisterClass &RC = *MRI->getRegClass(Reg);
-    bool ForceGlobal = RC.GlobalPriority ||
-                       (!ReverseLocalAssignment &&
-                        (Size / SlotIndex::InstrDist) >
-                            (2 * RegClassInfo.getNumAllocatableRegs(&RC)));
+    bool ForceGlobal =
+        RC.GlobalPriority ||
+        (!ReverseLocalAssignment &&
+         (Size / SlotIndex::InstrDist) >
+             (2 * RegClassInfo.getNumAllocatableRegs(&RC)) &&
+         coversEnoughOfItsBlock(LI));
     unsigned GlobalBit = 0;
 
     if (Stage == RS_Assign && !ForceGlobal && !LI.empty() &&

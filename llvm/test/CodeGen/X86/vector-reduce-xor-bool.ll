@@ -854,14 +854,14 @@ define zeroext i1 @trunc_v32i16_v32i1(<32 x i16>) nounwind {
 ; X64-SSE2-NEXT:    pand %xmm4, %xmm0
 ; X64-SSE2-NEXT:    packuswb %xmm1, %xmm0
 ; X64-SSE2-NEXT:    psllw $7, %xmm0
-; X64-SSE2-NEXT:    pmovmskb %xmm0, %ecx
+; X64-SSE2-NEXT:    pmovmskb %xmm0, %eax
 ; X64-SSE2-NEXT:    psllw $7, %xmm2
-; X64-SSE2-NEXT:    pmovmskb %xmm2, %edx
-; X64-SSE2-NEXT:    movl %edx, %eax
-; X64-SSE2-NEXT:    shll $16, %eax
-; X64-SSE2-NEXT:    orl %ecx, %eax
-; X64-SSE2-NEXT:    xorl %edx, %eax
-; X64-SSE2-NEXT:    xorb %ah, %al
+; X64-SSE2-NEXT:    pmovmskb %xmm2, %ecx
+; X64-SSE2-NEXT:    movl %ecx, %edx
+; X64-SSE2-NEXT:    shll $16, %edx
+; X64-SSE2-NEXT:    orl %eax, %edx
+; X64-SSE2-NEXT:    xorl %ecx, %edx
+; X64-SSE2-NEXT:    xorb %dh, %dl
 ; X64-SSE2-NEXT:    setnp %al
 ; X64-SSE2-NEXT:    retq
 ;
@@ -902,14 +902,14 @@ define zeroext i1 @trunc_v32i16_v32i1(<32 x i16>) nounwind {
 ; X64-SSE4-NEXT:    pand %xmm4, %xmm0
 ; X64-SSE4-NEXT:    packuswb %xmm1, %xmm0
 ; X64-SSE4-NEXT:    psllw $7, %xmm0
-; X64-SSE4-NEXT:    pmovmskb %xmm0, %ecx
+; X64-SSE4-NEXT:    pmovmskb %xmm0, %eax
 ; X64-SSE4-NEXT:    psllw $7, %xmm2
-; X64-SSE4-NEXT:    pmovmskb %xmm2, %edx
-; X64-SSE4-NEXT:    movl %edx, %eax
-; X64-SSE4-NEXT:    shll $16, %eax
-; X64-SSE4-NEXT:    orl %ecx, %eax
-; X64-SSE4-NEXT:    xorl %edx, %eax
-; X64-SSE4-NEXT:    xorb %ah, %al
+; X64-SSE4-NEXT:    pmovmskb %xmm2, %ecx
+; X64-SSE4-NEXT:    movl %ecx, %edx
+; X64-SSE4-NEXT:    shll $16, %edx
+; X64-SSE4-NEXT:    orl %eax, %edx
+; X64-SSE4-NEXT:    xorl %ecx, %edx
+; X64-SSE4-NEXT:    xorb %dh, %dl
 ; X64-SSE4-NEXT:    setnp %al
 ; X64-SSE4-NEXT:    retq
 ;

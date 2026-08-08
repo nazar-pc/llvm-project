@@ -57,20 +57,20 @@ define void @test(ptr %0, ptr %1, i64 %2) {
 ; NOREMAT-NEXT:    add a2, a0, a2
 ; NOREMAT-NEXT:    vle32.v v20, (a2)
 ; NOREMAT-NEXT:    vle32.v v22, (a2)
-; NOREMAT-NEXT:    li a3, 5
-; NOREMAT-NEXT:    slli a2, a3, 9
-; NOREMAT-NEXT:    sd a2, 216(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a2, a0, a2
-; NOREMAT-NEXT:    vle32.v v24, (a2)
-; NOREMAT-NEXT:    vle32.v v26, (a2)
-; NOREMAT-NEXT:    li a4, 3
-; NOREMAT-NEXT:    slli a2, a4, 10
-; NOREMAT-NEXT:    sd a2, 208(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a2, a0, a2
-; NOREMAT-NEXT:    vle32.v v28, (a2)
-; NOREMAT-NEXT:    vle32.v v30, (a2)
-; NOREMAT-NEXT:    li a2, 7
-; NOREMAT-NEXT:    slli a5, a2, 9
+; NOREMAT-NEXT:    li a2, 5
+; NOREMAT-NEXT:    slli a3, a2, 9
+; NOREMAT-NEXT:    sd a3, 216(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v24, (a3)
+; NOREMAT-NEXT:    vle32.v v26, (a3)
+; NOREMAT-NEXT:    li a3, 3
+; NOREMAT-NEXT:    slli a4, a3, 10
+; NOREMAT-NEXT:    sd a4, 208(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a4, a0, a4
+; NOREMAT-NEXT:    vle32.v v28, (a4)
+; NOREMAT-NEXT:    vle32.v v30, (a4)
+; NOREMAT-NEXT:    li a4, 7
+; NOREMAT-NEXT:    slli a5, a4, 9
 ; NOREMAT-NEXT:    sd a5, 200(sp) # 8-byte Folded Spill
 ; NOREMAT-NEXT:    add a5, a0, a5
 ; NOREMAT-NEXT:    vle32.v v6, (a5)
@@ -122,7 +122,7 @@ define void @test(ptr %0, ptr %1, i64 %2) {
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a5, a3, 10
+; NOREMAT-NEXT:    slli a5, a2, 10
 ; NOREMAT-NEXT:    sd a5, 184(sp) # 8-byte Folded Spill
 ; NOREMAT-NEXT:    add a5, a0, a5
 ; NOREMAT-NEXT:    vle32.v v6, (a5)
@@ -157,287 +157,287 @@ define void @test(ptr %0, ptr %1, i64 %2) {
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a4, a4, 11
-; NOREMAT-NEXT:    sd a4, 168(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    slli a3, a3, 11
+; NOREMAT-NEXT:    sd a3, 168(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 176
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 174
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 174
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
 ; NOREMAT-NEXT:    li t4, 13
-; NOREMAT-NEXT:    slli a4, t4, 9
-; NOREMAT-NEXT:    sd a4, 160(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    slli a3, t4, 9
+; NOREMAT-NEXT:    sd a3, 160(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 172
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 170
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 170
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a4, a2, 10
-; NOREMAT-NEXT:    sd a4, 152(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    slli a3, a4, 10
+; NOREMAT-NEXT:    sd a3, 152(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 168
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 166
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 166
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    li a4, 15
-; NOREMAT-NEXT:    slli a4, a4, 9
+; NOREMAT-NEXT:    li a3, 15
+; NOREMAT-NEXT:    slli a3, a3, 9
 ; NOREMAT-NEXT:    li a6, 15
-; NOREMAT-NEXT:    sd a4, 144(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    sd a3, 144(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 164
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 162
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 162
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    lui a4, 2
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    lui a3, 2
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 158
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 160
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 160
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    li a4, 17
-; NOREMAT-NEXT:    slli a4, a4, 9
-; NOREMAT-NEXT:    sd a4, 136(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    li a3, 17
+; NOREMAT-NEXT:    slli a3, a3, 9
+; NOREMAT-NEXT:    sd a3, 136(sp) # 8-byte Folded Spill
 ; NOREMAT-NEXT:    li s10, 17
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 156
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 154
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 154
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a4, s7, 10
-; NOREMAT-NEXT:    sd a4, 128(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    slli a3, s7, 10
+; NOREMAT-NEXT:    sd a3, 128(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a5, 152
 ; NOREMAT-NEXT:    mul a1, a1, a5
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 150
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a3, 150
+; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    li a4, 19
-; NOREMAT-NEXT:    slli a4, a4, 9
-; NOREMAT-NEXT:    sd a4, 120(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    li a3, 19
+; NOREMAT-NEXT:    slli a3, a3, 9
+; NOREMAT-NEXT:    sd a3, 120(sp) # 8-byte Folded Spill
 ; NOREMAT-NEXT:    li a5, 19
-; NOREMAT-NEXT:    add a4, a0, a4
-; NOREMAT-NEXT:    vle32.v v6, (a4)
+; NOREMAT-NEXT:    add a3, a0, a3
+; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    li a7, 148
 ; NOREMAT-NEXT:    mul a1, a1, a7
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a4)
-; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 146
-; NOREMAT-NEXT:    mul a1, a1, a4
-; NOREMAT-NEXT:    add a1, sp, a1
-; NOREMAT-NEXT:    addi a1, a1, 240
-; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a3, a3, 11
-; NOREMAT-NEXT:    sd a3, 112(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
 ; NOREMAT-NEXT:    vle32.v v6, (a3)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 144
-; NOREMAT-NEXT:    mul a1, a1, a4
-; NOREMAT-NEXT:    add a1, sp, a1
-; NOREMAT-NEXT:    addi a1, a1, 240
-; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
-; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 142
+; NOREMAT-NEXT:    li a3, 146
 ; NOREMAT-NEXT:    mul a1, a1, a3
+; NOREMAT-NEXT:    add a1, sp, a1
+; NOREMAT-NEXT:    addi a1, a1, 240
+; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
+; NOREMAT-NEXT:    slli a2, a2, 11
+; NOREMAT-NEXT:    sd a2, 112(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
+; NOREMAT-NEXT:    csrr a1, vlenb
+; NOREMAT-NEXT:    li a3, 144
+; NOREMAT-NEXT:    mul a1, a1, a3
+; NOREMAT-NEXT:    add a1, sp, a1
+; NOREMAT-NEXT:    addi a1, a1, 240
+; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
+; NOREMAT-NEXT:    vle32.v v6, (a2)
+; NOREMAT-NEXT:    csrr a1, vlenb
+; NOREMAT-NEXT:    li a2, 142
+; NOREMAT-NEXT:    mul a1, a1, a2
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
 ; NOREMAT-NEXT:    li s4, 21
-; NOREMAT-NEXT:    slli a3, s4, 9
-; NOREMAT-NEXT:    sd a3, 104(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    slli a2, s4, 9
+; NOREMAT-NEXT:    sd a2, 104(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 140
-; NOREMAT-NEXT:    mul a1, a1, a4
-; NOREMAT-NEXT:    add a1, sp, a1
-; NOREMAT-NEXT:    addi a1, a1, 240
-; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
-; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 138
+; NOREMAT-NEXT:    li a3, 140
 ; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a3, s2, 10
-; NOREMAT-NEXT:    sd a3, 96(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 136
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a2, 138
+; NOREMAT-NEXT:    mul a1, a1, a2
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    slli a2, s2, 10
+; NOREMAT-NEXT:    sd a2, 96(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 134
+; NOREMAT-NEXT:    li a3, 136
 ; NOREMAT-NEXT:    mul a1, a1, a3
+; NOREMAT-NEXT:    add a1, sp, a1
+; NOREMAT-NEXT:    addi a1, a1, 240
+; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
+; NOREMAT-NEXT:    vle32.v v6, (a2)
+; NOREMAT-NEXT:    csrr a1, vlenb
+; NOREMAT-NEXT:    li a2, 134
+; NOREMAT-NEXT:    mul a1, a1, a2
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
 ; NOREMAT-NEXT:    li s1, 23
-; NOREMAT-NEXT:    slli a3, s1, 9
-; NOREMAT-NEXT:    sd a3, 88(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    slli a2, s1, 9
+; NOREMAT-NEXT:    sd a2, 88(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 132
-; NOREMAT-NEXT:    mul a1, a1, a4
-; NOREMAT-NEXT:    add a1, sp, a1
-; NOREMAT-NEXT:    addi a1, a1, 240
-; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
-; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 130
+; NOREMAT-NEXT:    li a3, 132
 ; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    lui a3, 3
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 126
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a2, 130
+; NOREMAT-NEXT:    mul a1, a1, a2
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    lui a2, 3
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
+; NOREMAT-NEXT:    csrr a1, vlenb
+; NOREMAT-NEXT:    li a3, 126
+; NOREMAT-NEXT:    mul a1, a1, a3
+; NOREMAT-NEXT:    add a1, sp, a1
+; NOREMAT-NEXT:    addi a1, a1, 240
+; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
 ; NOREMAT-NEXT:    slli a1, a1, 7
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
 ; NOREMAT-NEXT:    li t6, 25
-; NOREMAT-NEXT:    slli a3, t6, 9
-; NOREMAT-NEXT:    sd a3, 80(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    slli a2, t6, 9
+; NOREMAT-NEXT:    sd a2, 80(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 124
-; NOREMAT-NEXT:    mul a1, a1, a4
-; NOREMAT-NEXT:    add a1, sp, a1
-; NOREMAT-NEXT:    addi a1, a1, 240
-; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
-; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 122
+; NOREMAT-NEXT:    li a3, 124
 ; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a3, t4, 10
-; NOREMAT-NEXT:    sd a3, 72(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 120
-; NOREMAT-NEXT:    mul a1, a1, a4
+; NOREMAT-NEXT:    li a2, 122
+; NOREMAT-NEXT:    mul a1, a1, a2
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    slli a2, t4, 10
+; NOREMAT-NEXT:    sd a2, 72(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 118
+; NOREMAT-NEXT:    li a3, 120
 ; NOREMAT-NEXT:    mul a1, a1, a3
+; NOREMAT-NEXT:    add a1, sp, a1
+; NOREMAT-NEXT:    addi a1, a1, 240
+; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
+; NOREMAT-NEXT:    vle32.v v6, (a2)
+; NOREMAT-NEXT:    csrr a1, vlenb
+; NOREMAT-NEXT:    li a2, 118
+; NOREMAT-NEXT:    mul a1, a1, a2
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
 ; NOREMAT-NEXT:    li t3, 27
-; NOREMAT-NEXT:    slli a3, t3, 9
-; NOREMAT-NEXT:    sd a3, 64(sp) # 8-byte Folded Spill
-; NOREMAT-NEXT:    add a3, a0, a3
-; NOREMAT-NEXT:    vle32.v v6, (a3)
+; NOREMAT-NEXT:    slli a2, t3, 9
+; NOREMAT-NEXT:    sd a2, 64(sp) # 8-byte Folded Spill
+; NOREMAT-NEXT:    add a2, a0, a2
+; NOREMAT-NEXT:    vle32.v v6, (a2)
 ; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a4, 116
-; NOREMAT-NEXT:    mul a1, a1, a4
-; NOREMAT-NEXT:    add a1, sp, a1
-; NOREMAT-NEXT:    addi a1, a1, 240
-; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    vle32.v v6, (a3)
-; NOREMAT-NEXT:    csrr a1, vlenb
-; NOREMAT-NEXT:    li a3, 114
+; NOREMAT-NEXT:    li a3, 116
 ; NOREMAT-NEXT:    mul a1, a1, a3
 ; NOREMAT-NEXT:    add a1, sp, a1
 ; NOREMAT-NEXT:    addi a1, a1, 240
 ; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
-; NOREMAT-NEXT:    slli a2, a2, 11
+; NOREMAT-NEXT:    vle32.v v6, (a2)
+; NOREMAT-NEXT:    csrr a1, vlenb
+; NOREMAT-NEXT:    li a2, 114
+; NOREMAT-NEXT:    mul a1, a1, a2
+; NOREMAT-NEXT:    add a1, sp, a1
+; NOREMAT-NEXT:    addi a1, a1, 240
+; NOREMAT-NEXT:    vs2r.v v6, (a1) # vscale x 16-byte Folded Spill
+; NOREMAT-NEXT:    slli a2, a4, 11
 ; NOREMAT-NEXT:    sd a2, 56(sp) # 8-byte Folded Spill
 ; NOREMAT-NEXT:    add a2, a0, a2
 ; NOREMAT-NEXT:    vle32.v v6, (a2)

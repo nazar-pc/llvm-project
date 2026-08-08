@@ -2736,9 +2736,9 @@ define i32 @test_ctlz_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    orq %rcx, %rdx
 ; SSE-NEXT:    cmovnel %r14d, %r10d
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rcx
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rdi
-; SSE-NEXT:    orq %r11, %r9
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rsi
+; SSE-NEXT:    orq %r11, %r9
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rdi
 ; SSE-NEXT:    orq %rax, %r8
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rax
 ; SSE-NEXT:    addl $256, %r10d # imm = 0x100
@@ -2747,40 +2747,40 @@ define i32 @test_ctlz_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    addl $512, %r10d # imm = 0x200
 ; SSE-NEXT:    bsrq %rax, %rdx
 ; SSE-NEXT:    xorl $63, %edx
-; SSE-NEXT:    bsrq %rsi, %r9
-; SSE-NEXT:    xorl $63, %r9d
-; SSE-NEXT:    orl $64, %r9d
-; SSE-NEXT:    testq %rax, %rax
-; SSE-NEXT:    cmovnel %edx, %r9d
 ; SSE-NEXT:    bsrq %rdi, %r8
 ; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
+; SSE-NEXT:    testq %rax, %rax
+; SSE-NEXT:    cmovnel %edx, %r8d
+; SSE-NEXT:    bsrq %rsi, %r9
+; SSE-NEXT:    xorl $63, %r9d
 ; SSE-NEXT:    bsrq {{[0-9]+}}(%rsp), %rdx
 ; SSE-NEXT:    xorl $63, %edx
 ; SSE-NEXT:    orl $64, %edx
-; SSE-NEXT:    testq %rdi, %rdi
-; SSE-NEXT:    cmovnel %r8d, %edx
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rdi
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r8
-; SSE-NEXT:    subl $-128, %edx
-; SSE-NEXT:    orq %rax, %rsi
+; SSE-NEXT:    testq %rsi, %rsi
 ; SSE-NEXT:    cmovnel %r9d, %edx
-; SSE-NEXT:    bsrq %r8, %rax
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rsi
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r9
+; SSE-NEXT:    subl $-128, %edx
+; SSE-NEXT:    orq %rax, %rdi
+; SSE-NEXT:    cmovnel %r8d, %edx
+; SSE-NEXT:    bsrq %r9, %rax
 ; SSE-NEXT:    xorl $63, %eax
-; SSE-NEXT:    bsrq %rdi, %rsi
-; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    orl $64, %esi
-; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    cmovnel %eax, %esi
-; SSE-NEXT:    bsrq %rcx, %r9
-; SSE-NEXT:    xorl $63, %r9d
+; SSE-NEXT:    bsrq %rsi, %rdi
+; SSE-NEXT:    xorl $63, %edi
+; SSE-NEXT:    orl $64, %edi
+; SSE-NEXT:    testq %r9, %r9
+; SSE-NEXT:    cmovnel %eax, %edi
+; SSE-NEXT:    bsrq %rcx, %r8
+; SSE-NEXT:    xorl $63, %r8d
 ; SSE-NEXT:    bsrq {{[0-9]+}}(%rsp), %rax
 ; SSE-NEXT:    xorl $63, %eax
 ; SSE-NEXT:    orl $64, %eax
 ; SSE-NEXT:    testq %rcx, %rcx
-; SSE-NEXT:    cmovnel %r9d, %eax
+; SSE-NEXT:    cmovnel %r8d, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %r8, %rdi
-; SSE-NEXT:    cmovnel %esi, %eax
+; SSE-NEXT:    orq %r9, %rsi
+; SSE-NEXT:    cmovnel %edi, %eax
 ; SSE-NEXT:    movdqa {{[0-9]+}}(%rsp), %xmm0
 ; SSE-NEXT:    movdqa {{[0-9]+}}(%rsp), %xmm1
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
@@ -2808,44 +2808,44 @@ define i32 @test_ctlz_i1024(i1024 %a0) nounwind {
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rax
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r10
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r11
-; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r15
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    lzcntq %r15, %rbx
-; AVX2-NEXT:    xorl %r12d, %r12d
-; AVX2-NEXT:    lzcntq %r11, %r12
-; AVX2-NEXT:    addl $64, %r12d
-; AVX2-NEXT:    testq %r15, %r15
-; AVX2-NEXT:    cmovnel %ebx, %r12d
+; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
+; AVX2-NEXT:    xorl %r14d, %r14d
+; AVX2-NEXT:    lzcntq %rbx, %r14
+; AVX2-NEXT:    xorl %r15d, %r15d
+; AVX2-NEXT:    lzcntq %r11, %r15
+; AVX2-NEXT:    addl $64, %r15d
+; AVX2-NEXT:    testq %rbx, %rbx
+; AVX2-NEXT:    cmovnel %r14d, %r15d
 ; AVX2-NEXT:    xorl %r14d, %r14d
 ; AVX2-NEXT:    lzcntq {{[0-9]+}}(%rsp), %r14
-; AVX2-NEXT:    xorl %r13d, %r13d
-; AVX2-NEXT:    lzcntq %r10, %r13
+; AVX2-NEXT:    xorl %r12d, %r12d
+; AVX2-NEXT:    lzcntq %r10, %r12
 ; AVX2-NEXT:    addl $64, %r14d
 ; AVX2-NEXT:    testq %r10, %r10
-; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
-; AVX2-NEXT:    cmovnel %r13d, %r14d
-; AVX2-NEXT:    subl $-128, %r14d
-; AVX2-NEXT:    orq %r15, %r11
+; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r13
 ; AVX2-NEXT:    cmovnel %r12d, %r14d
+; AVX2-NEXT:    subl $-128, %r14d
+; AVX2-NEXT:    orq %rbx, %r11
+; AVX2-NEXT:    cmovnel %r15d, %r14d
 ; AVX2-NEXT:    xorl %r10d, %r10d
-; AVX2-NEXT:    lzcntq %rbx, %r10
+; AVX2-NEXT:    lzcntq %r13, %r10
 ; AVX2-NEXT:    xorl %r15d, %r15d
 ; AVX2-NEXT:    lzcntq %rax, %r15
 ; AVX2-NEXT:    addl $64, %r15d
-; AVX2-NEXT:    testq %rbx, %rbx
+; AVX2-NEXT:    testq %r13, %r13
 ; AVX2-NEXT:    cmovnel %r10d, %r15d
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r11
-; AVX2-NEXT:    xorl %r12d, %r12d
-; AVX2-NEXT:    lzcntq %r11, %r12
+; AVX2-NEXT:    xorl %ebx, %ebx
+; AVX2-NEXT:    lzcntq %r11, %rbx
 ; AVX2-NEXT:    xorl %r10d, %r10d
 ; AVX2-NEXT:    lzcntq {{[0-9]+}}(%rsp), %r10
 ; AVX2-NEXT:    addl $64, %r10d
 ; AVX2-NEXT:    testq %r11, %r11
-; AVX2-NEXT:    cmovnel %r12d, %r10d
+; AVX2-NEXT:    cmovnel %ebx, %r10d
 ; AVX2-NEXT:    vmovdqu {{[0-9]+}}(%rsp), %ymm0
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r11
 ; AVX2-NEXT:    subl $-128, %r10d
-; AVX2-NEXT:    orq %rbx, %rax
+; AVX2-NEXT:    orq %r13, %rax
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
 ; AVX2-NEXT:    cmovnel %r15d, %r10d
 ; AVX2-NEXT:    addl $256, %r10d # imm = 0x100
@@ -3061,92 +3061,92 @@ define i32 @load_ctlz_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    pushq %rbx
 ; SSE-NEXT:    movq 8(%rdi), %rcx
 ; SSE-NEXT:    movq 72(%rdi), %rax
-; SSE-NEXT:    movq 104(%rdi), %r9
-; SSE-NEXT:    movq 112(%rdi), %rdx
-; SSE-NEXT:    movq 120(%rdi), %r8
-; SSE-NEXT:    bsrq %r8, %rsi
+; SSE-NEXT:    movq 104(%rdi), %rdx
+; SSE-NEXT:    movq 112(%rdi), %r8
+; SSE-NEXT:    movq 120(%rdi), %r9
+; SSE-NEXT:    bsrq %r9, %rsi
 ; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    bsrq %rdx, %r11
-; SSE-NEXT:    xorl $63, %r11d
-; SSE-NEXT:    orl $64, %r11d
-; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    cmovnel %esi, %r11d
-; SSE-NEXT:    bsrq %r9, %r10
-; SSE-NEXT:    xorl $63, %r10d
-; SSE-NEXT:    bsrq 96(%rdi), %rsi
-; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    orl $64, %esi
-; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    cmovnel %r10d, %esi
-; SSE-NEXT:    movq 80(%rdi), %r9
-; SSE-NEXT:    movq 88(%rdi), %r10
-; SSE-NEXT:    subl $-128, %esi
-; SSE-NEXT:    orq %r8, %rdx
-; SSE-NEXT:    cmovnel %r11d, %esi
-; SSE-NEXT:    bsrq %r10, %rdx
-; SSE-NEXT:    xorl $63, %edx
-; SSE-NEXT:    bsrq %r9, %r11
-; SSE-NEXT:    xorl $63, %r11d
-; SSE-NEXT:    orl $64, %r11d
-; SSE-NEXT:    testq %r10, %r10
-; SSE-NEXT:    cmovnel %edx, %r11d
-; SSE-NEXT:    bsrq %rax, %rbx
-; SSE-NEXT:    xorl $63, %ebx
-; SSE-NEXT:    bsrq 64(%rdi), %rdx
-; SSE-NEXT:    xorl $63, %edx
-; SSE-NEXT:    orl $64, %edx
-; SSE-NEXT:    testq %rax, %rax
-; SSE-NEXT:    movq 40(%rdi), %r8
-; SSE-NEXT:    cmovnel %ebx, %edx
-; SSE-NEXT:    movq 48(%rdi), %rax
-; SSE-NEXT:    movdqa 112(%rdi), %xmm0
-; SSE-NEXT:    movdqa 96(%rdi), %xmm1
-; SSE-NEXT:    subl $-128, %edx
-; SSE-NEXT:    orq %r10, %r9
-; SSE-NEXT:    cmovnel %r11d, %edx
-; SSE-NEXT:    addl $256, %edx # imm = 0x100
-; SSE-NEXT:    movdqa %xmm1, %xmm2
-; SSE-NEXT:    por %xmm0, %xmm2
-; SSE-NEXT:    ptest %xmm2, %xmm2
-; SSE-NEXT:    movq 56(%rdi), %r10
-; SSE-NEXT:    cmovnel %esi, %edx
-; SSE-NEXT:    bsrq %r10, %rsi
-; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    bsrq %rax, %r11
-; SSE-NEXT:    xorl $63, %r11d
-; SSE-NEXT:    orl $64, %r11d
-; SSE-NEXT:    testq %r10, %r10
-; SSE-NEXT:    cmovnel %esi, %r11d
-; SSE-NEXT:    bsrq %r8, %r9
-; SSE-NEXT:    xorl $63, %r9d
-; SSE-NEXT:    bsrq 32(%rdi), %rsi
-; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    orl $64, %esi
-; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    cmovnel %r9d, %esi
-; SSE-NEXT:    movq 16(%rdi), %r8
-; SSE-NEXT:    movq 24(%rdi), %r9
-; SSE-NEXT:    subl $-128, %esi
-; SSE-NEXT:    orq %r10, %rax
-; SSE-NEXT:    cmovnel %r11d, %esi
-; SSE-NEXT:    bsrq %r9, %rax
-; SSE-NEXT:    xorl $63, %eax
 ; SSE-NEXT:    bsrq %r8, %r10
 ; SSE-NEXT:    xorl $63, %r10d
 ; SSE-NEXT:    orl $64, %r10d
 ; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    cmovnel %eax, %r10d
-; SSE-NEXT:    bsrq %rcx, %r11
+; SSE-NEXT:    cmovnel %esi, %r10d
+; SSE-NEXT:    bsrq %rdx, %r11
 ; SSE-NEXT:    xorl $63, %r11d
+; SSE-NEXT:    bsrq 96(%rdi), %rsi
+; SSE-NEXT:    xorl $63, %esi
+; SSE-NEXT:    orl $64, %esi
+; SSE-NEXT:    testq %rdx, %rdx
+; SSE-NEXT:    cmovnel %r11d, %esi
+; SSE-NEXT:    movq 80(%rdi), %r11
+; SSE-NEXT:    movq 88(%rdi), %rbx
+; SSE-NEXT:    subl $-128, %esi
+; SSE-NEXT:    orq %r9, %r8
+; SSE-NEXT:    cmovnel %r10d, %esi
+; SSE-NEXT:    bsrq %rbx, %rdx
+; SSE-NEXT:    xorl $63, %edx
+; SSE-NEXT:    bsrq %r11, %r8
+; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
+; SSE-NEXT:    testq %rbx, %rbx
+; SSE-NEXT:    cmovnel %edx, %r8d
+; SSE-NEXT:    bsrq %rax, %r9
+; SSE-NEXT:    xorl $63, %r9d
+; SSE-NEXT:    bsrq 64(%rdi), %rdx
+; SSE-NEXT:    xorl $63, %edx
+; SSE-NEXT:    orl $64, %edx
+; SSE-NEXT:    testq %rax, %rax
+; SSE-NEXT:    movq 40(%rdi), %r10
+; SSE-NEXT:    cmovnel %r9d, %edx
+; SSE-NEXT:    movq 48(%rdi), %rax
+; SSE-NEXT:    movdqa 112(%rdi), %xmm0
+; SSE-NEXT:    movdqa 96(%rdi), %xmm1
+; SSE-NEXT:    subl $-128, %edx
+; SSE-NEXT:    orq %rbx, %r11
+; SSE-NEXT:    cmovnel %r8d, %edx
+; SSE-NEXT:    addl $256, %edx # imm = 0x100
+; SSE-NEXT:    movdqa %xmm1, %xmm2
+; SSE-NEXT:    por %xmm0, %xmm2
+; SSE-NEXT:    ptest %xmm2, %xmm2
+; SSE-NEXT:    movq 56(%rdi), %r8
+; SSE-NEXT:    cmovnel %esi, %edx
+; SSE-NEXT:    bsrq %r8, %rsi
+; SSE-NEXT:    xorl $63, %esi
+; SSE-NEXT:    bsrq %rax, %r9
+; SSE-NEXT:    xorl $63, %r9d
+; SSE-NEXT:    orl $64, %r9d
+; SSE-NEXT:    testq %r8, %r8
+; SSE-NEXT:    cmovnel %esi, %r9d
+; SSE-NEXT:    bsrq %r10, %r11
+; SSE-NEXT:    xorl $63, %r11d
+; SSE-NEXT:    bsrq 32(%rdi), %rsi
+; SSE-NEXT:    xorl $63, %esi
+; SSE-NEXT:    orl $64, %esi
+; SSE-NEXT:    testq %r10, %r10
+; SSE-NEXT:    cmovnel %r11d, %esi
+; SSE-NEXT:    movq 16(%rdi), %r10
+; SSE-NEXT:    movq 24(%rdi), %r11
+; SSE-NEXT:    subl $-128, %esi
+; SSE-NEXT:    orq %r8, %rax
+; SSE-NEXT:    cmovnel %r9d, %esi
+; SSE-NEXT:    bsrq %r11, %rax
+; SSE-NEXT:    xorl $63, %eax
+; SSE-NEXT:    bsrq %r10, %r8
+; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
+; SSE-NEXT:    testq %r11, %r11
+; SSE-NEXT:    cmovnel %eax, %r8d
+; SSE-NEXT:    bsrq %rcx, %r9
+; SSE-NEXT:    xorl $63, %r9d
 ; SSE-NEXT:    movl $127, %eax
 ; SSE-NEXT:    bsrq (%rdi), %rax
 ; SSE-NEXT:    xorl $63, %eax
 ; SSE-NEXT:    addl $64, %eax
 ; SSE-NEXT:    testq %rcx, %rcx
-; SSE-NEXT:    cmovnel %r11d, %eax
+; SSE-NEXT:    cmovnel %r9d, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %r9, %r8
-; SSE-NEXT:    cmovnel %r10d, %eax
+; SSE-NEXT:    orq %r11, %r10
+; SSE-NEXT:    cmovnel %r8d, %eax
 ; SSE-NEXT:    movdqa 32(%rdi), %xmm2
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
 ; SSE-NEXT:    por 48(%rdi), %xmm2
@@ -3169,31 +3169,30 @@ define i32 @load_ctlz_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    movq 72(%rdi), %rsi
 ; AVX2-NEXT:    movq 104(%rdi), %rdx
 ; AVX2-NEXT:    movq 112(%rdi), %r8
-; AVX2-NEXT:    movq 120(%rdi), %r10
-; AVX2-NEXT:    lzcntq %r10, %rax
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    lzcntq %r8, %rbx
-; AVX2-NEXT:    addl $64, %ebx
-; AVX2-NEXT:    testq %r10, %r10
-; AVX2-NEXT:    cmovnel %eax, %ebx
+; AVX2-NEXT:    movq 120(%rdi), %r9
+; AVX2-NEXT:    lzcntq %r9, %rax
+; AVX2-NEXT:    lzcntq %r8, %r10
+; AVX2-NEXT:    addl $64, %r10d
+; AVX2-NEXT:    testq %r9, %r9
+; AVX2-NEXT:    cmovnel %eax, %r10d
 ; AVX2-NEXT:    lzcntq %rdx, %r11
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    lzcntq 96(%rdi), %rax
 ; AVX2-NEXT:    addl $64, %eax
 ; AVX2-NEXT:    testq %rdx, %rdx
-; AVX2-NEXT:    movq 80(%rdi), %r9
+; AVX2-NEXT:    movq 80(%rdi), %rbx
 ; AVX2-NEXT:    cmovnel %r11d, %eax
 ; AVX2-NEXT:    movq 88(%rdi), %r11
 ; AVX2-NEXT:    subl $-128, %eax
-; AVX2-NEXT:    orq %r10, %r8
-; AVX2-NEXT:    cmovnel %ebx, %eax
+; AVX2-NEXT:    orq %r9, %r8
+; AVX2-NEXT:    cmovnel %r10d, %eax
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    lzcntq %r11, %rdx
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    lzcntq %r9, %rbx
-; AVX2-NEXT:    addl $64, %ebx
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    lzcntq %rbx, %r9
+; AVX2-NEXT:    addl $64, %r9d
 ; AVX2-NEXT:    testq %r11, %r11
-; AVX2-NEXT:    cmovnel %edx, %ebx
+; AVX2-NEXT:    cmovnel %edx, %r9d
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    lzcntq 64(%rdi), %rdx
 ; AVX2-NEXT:    xorl %r8d, %r8d
@@ -3204,21 +3203,21 @@ define i32 @load_ctlz_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    cmovnel %r8d, %edx
 ; AVX2-NEXT:    movq 48(%rdi), %r8
 ; AVX2-NEXT:    subl $-128, %edx
-; AVX2-NEXT:    orq %r11, %r9
-; AVX2-NEXT:    movq 56(%rdi), %r9
-; AVX2-NEXT:    cmovnel %ebx, %edx
+; AVX2-NEXT:    orq %r11, %rbx
+; AVX2-NEXT:    movq 56(%rdi), %r11
+; AVX2-NEXT:    cmovnel %r9d, %edx
 ; AVX2-NEXT:    vmovdqu 96(%rdi), %ymm0
 ; AVX2-NEXT:    addl $256, %edx # imm = 0x100
 ; AVX2-NEXT:    vpor 112(%rdi), %xmm0, %xmm1
 ; AVX2-NEXT:    vptest %xmm1, %xmm1
 ; AVX2-NEXT:    cmovnel %eax, %edx
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    lzcntq %r9, %rax
-; AVX2-NEXT:    xorl %r11d, %r11d
-; AVX2-NEXT:    lzcntq %r8, %r11
-; AVX2-NEXT:    addl $64, %r11d
-; AVX2-NEXT:    testq %r9, %r9
-; AVX2-NEXT:    cmovnel %eax, %r11d
+; AVX2-NEXT:    lzcntq %r11, %rax
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    lzcntq %r8, %r9
+; AVX2-NEXT:    addl $64, %r9d
+; AVX2-NEXT:    testq %r11, %r11
+; AVX2-NEXT:    cmovnel %eax, %r9d
 ; AVX2-NEXT:    xorl %esi, %esi
 ; AVX2-NEXT:    lzcntq 32(%rdi), %rsi
 ; AVX2-NEXT:    xorl %eax, %eax
@@ -3228,8 +3227,8 @@ define i32 @load_ctlz_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    movq 24(%rdi), %r10
 ; AVX2-NEXT:    cmovnel %eax, %esi
 ; AVX2-NEXT:    subl $-128, %esi
-; AVX2-NEXT:    orq %r9, %r8
-; AVX2-NEXT:    cmovnel %r11d, %esi
+; AVX2-NEXT:    orq %r11, %r8
+; AVX2-NEXT:    cmovnel %r9d, %esi
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    lzcntq %r10, %rax
 ; AVX2-NEXT:    xorl %r8d, %r8d
@@ -4339,9 +4338,9 @@ define i32 @test_ctlz_poison_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    orq %rcx, %rdx
 ; SSE-NEXT:    cmovnel %r14d, %edi
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rcx
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
-; SSE-NEXT:    orq %r10, %r9
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rsi
+; SSE-NEXT:    orq %r10, %r9
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r10
 ; SSE-NEXT:    orq %rax, %r8
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rax
 ; SSE-NEXT:    addl $256, %edi # imm = 0x100
@@ -4350,30 +4349,30 @@ define i32 @test_ctlz_poison_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    addl $512, %edi # imm = 0x200
 ; SSE-NEXT:    bsrq %rax, %rdx
 ; SSE-NEXT:    xorl $63, %edx
-; SSE-NEXT:    bsrq %rsi, %r10
-; SSE-NEXT:    xorl $63, %r10d
-; SSE-NEXT:    orl $64, %r10d
-; SSE-NEXT:    testq %rax, %rax
-; SSE-NEXT:    cmovnel %edx, %r10d
-; SSE-NEXT:    bsrq %rbx, %r8
+; SSE-NEXT:    bsrq %r10, %r8
 ; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
+; SSE-NEXT:    testq %rax, %rax
+; SSE-NEXT:    cmovnel %edx, %r8d
+; SSE-NEXT:    bsrq %rsi, %r9
+; SSE-NEXT:    xorl $63, %r9d
 ; SSE-NEXT:    bsrq {{[0-9]+}}(%rsp), %rdx
 ; SSE-NEXT:    xorl $63, %edx
 ; SSE-NEXT:    orl $64, %edx
-; SSE-NEXT:    testq %rbx, %rbx
-; SSE-NEXT:    cmovnel %r8d, %edx
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r8
+; SSE-NEXT:    testq %rsi, %rsi
+; SSE-NEXT:    cmovnel %r9d, %edx
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rsi
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r9
 ; SSE-NEXT:    subl $-128, %edx
-; SSE-NEXT:    orq %rax, %rsi
-; SSE-NEXT:    cmovnel %r10d, %edx
+; SSE-NEXT:    orq %rax, %r10
+; SSE-NEXT:    cmovnel %r8d, %edx
 ; SSE-NEXT:    bsrq %r9, %rax
 ; SSE-NEXT:    xorl $63, %eax
-; SSE-NEXT:    bsrq %r8, %rsi
-; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    orl $64, %esi
+; SSE-NEXT:    bsrq %rsi, %r8
+; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
 ; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    cmovnel %eax, %esi
+; SSE-NEXT:    cmovnel %eax, %r8d
 ; SSE-NEXT:    bsrq %rcx, %r10
 ; SSE-NEXT:    xorl $63, %r10d
 ; SSE-NEXT:    bsrq {{[0-9]+}}(%rsp), %rax
@@ -4382,8 +4381,8 @@ define i32 @test_ctlz_poison_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    testq %rcx, %rcx
 ; SSE-NEXT:    cmovnel %r10d, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %r9, %r8
-; SSE-NEXT:    cmovnel %esi, %eax
+; SSE-NEXT:    orq %r9, %rsi
+; SSE-NEXT:    cmovnel %r8d, %eax
 ; SSE-NEXT:    movdqa {{[0-9]+}}(%rsp), %xmm0
 ; SSE-NEXT:    movdqa {{[0-9]+}}(%rsp), %xmm1
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
@@ -4411,44 +4410,44 @@ define i32 @test_ctlz_poison_i1024(i1024 %a0) nounwind {
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rax
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r10
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r11
-; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r15
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    lzcntq %r15, %rbx
-; AVX2-NEXT:    xorl %r12d, %r12d
-; AVX2-NEXT:    lzcntq %r11, %r12
-; AVX2-NEXT:    addl $64, %r12d
-; AVX2-NEXT:    testq %r15, %r15
-; AVX2-NEXT:    cmovnel %ebx, %r12d
+; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
+; AVX2-NEXT:    xorl %r14d, %r14d
+; AVX2-NEXT:    lzcntq %rbx, %r14
+; AVX2-NEXT:    xorl %r15d, %r15d
+; AVX2-NEXT:    lzcntq %r11, %r15
+; AVX2-NEXT:    addl $64, %r15d
+; AVX2-NEXT:    testq %rbx, %rbx
+; AVX2-NEXT:    cmovnel %r14d, %r15d
 ; AVX2-NEXT:    xorl %r14d, %r14d
 ; AVX2-NEXT:    lzcntq {{[0-9]+}}(%rsp), %r14
-; AVX2-NEXT:    xorl %r13d, %r13d
-; AVX2-NEXT:    lzcntq %r10, %r13
+; AVX2-NEXT:    xorl %r12d, %r12d
+; AVX2-NEXT:    lzcntq %r10, %r12
 ; AVX2-NEXT:    addl $64, %r14d
 ; AVX2-NEXT:    testq %r10, %r10
-; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
-; AVX2-NEXT:    cmovnel %r13d, %r14d
-; AVX2-NEXT:    subl $-128, %r14d
-; AVX2-NEXT:    orq %r15, %r11
+; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r13
 ; AVX2-NEXT:    cmovnel %r12d, %r14d
+; AVX2-NEXT:    subl $-128, %r14d
+; AVX2-NEXT:    orq %rbx, %r11
+; AVX2-NEXT:    cmovnel %r15d, %r14d
 ; AVX2-NEXT:    xorl %r10d, %r10d
-; AVX2-NEXT:    lzcntq %rbx, %r10
+; AVX2-NEXT:    lzcntq %r13, %r10
 ; AVX2-NEXT:    xorl %r15d, %r15d
 ; AVX2-NEXT:    lzcntq %rax, %r15
 ; AVX2-NEXT:    addl $64, %r15d
-; AVX2-NEXT:    testq %rbx, %rbx
+; AVX2-NEXT:    testq %r13, %r13
 ; AVX2-NEXT:    cmovnel %r10d, %r15d
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r11
-; AVX2-NEXT:    xorl %r12d, %r12d
-; AVX2-NEXT:    lzcntq %r11, %r12
+; AVX2-NEXT:    xorl %ebx, %ebx
+; AVX2-NEXT:    lzcntq %r11, %rbx
 ; AVX2-NEXT:    xorl %r10d, %r10d
 ; AVX2-NEXT:    lzcntq {{[0-9]+}}(%rsp), %r10
 ; AVX2-NEXT:    addl $64, %r10d
 ; AVX2-NEXT:    testq %r11, %r11
-; AVX2-NEXT:    cmovnel %r12d, %r10d
+; AVX2-NEXT:    cmovnel %ebx, %r10d
 ; AVX2-NEXT:    vmovdqu {{[0-9]+}}(%rsp), %ymm0
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %r11
 ; AVX2-NEXT:    subl $-128, %r10d
-; AVX2-NEXT:    orq %rbx, %rax
+; AVX2-NEXT:    orq %r13, %rax
 ; AVX2-NEXT:    movq {{[0-9]+}}(%rsp), %rbx
 ; AVX2-NEXT:    cmovnel %r15d, %r10d
 ; AVX2-NEXT:    addl $256, %r10d # imm = 0x100
@@ -4657,37 +4656,38 @@ define i32 @test_ctlz_poison_i1024(i1024 %a0) nounwind {
 define i32 @load_ctlz_poison_i1024(ptr %p0) nounwind {
 ; SSE-LABEL: load_ctlz_poison_i1024:
 ; SSE:       # %bb.0:
+; SSE-NEXT:    pushq %rbx
 ; SSE-NEXT:    movq 8(%rdi), %rcx
 ; SSE-NEXT:    movq 72(%rdi), %rax
-; SSE-NEXT:    movq 104(%rdi), %r8
-; SSE-NEXT:    movq 112(%rdi), %rdx
+; SSE-NEXT:    movq 104(%rdi), %rdx
+; SSE-NEXT:    movq 112(%rdi), %r8
 ; SSE-NEXT:    movq 120(%rdi), %r9
 ; SSE-NEXT:    bsrq %r9, %rsi
 ; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    bsrq %rdx, %r11
-; SSE-NEXT:    xorl $63, %r11d
-; SSE-NEXT:    orl $64, %r11d
-; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    cmovnel %esi, %r11d
 ; SSE-NEXT:    bsrq %r8, %r10
 ; SSE-NEXT:    xorl $63, %r10d
+; SSE-NEXT:    orl $64, %r10d
+; SSE-NEXT:    testq %r9, %r9
+; SSE-NEXT:    cmovnel %esi, %r10d
+; SSE-NEXT:    bsrq %rdx, %r11
+; SSE-NEXT:    xorl $63, %r11d
 ; SSE-NEXT:    bsrq 96(%rdi), %rsi
 ; SSE-NEXT:    xorl $63, %esi
 ; SSE-NEXT:    orl $64, %esi
-; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    movq 80(%rdi), %r8
-; SSE-NEXT:    cmovnel %r10d, %esi
-; SSE-NEXT:    movq 88(%rdi), %r10
-; SSE-NEXT:    subl $-128, %esi
-; SSE-NEXT:    orq %r9, %rdx
+; SSE-NEXT:    testq %rdx, %rdx
+; SSE-NEXT:    movq 80(%rdi), %rbx
 ; SSE-NEXT:    cmovnel %r11d, %esi
-; SSE-NEXT:    bsrq %r10, %rdx
+; SSE-NEXT:    movq 88(%rdi), %r11
+; SSE-NEXT:    subl $-128, %esi
+; SSE-NEXT:    orq %r9, %r8
+; SSE-NEXT:    cmovnel %r10d, %esi
+; SSE-NEXT:    bsrq %r11, %rdx
 ; SSE-NEXT:    xorl $63, %edx
-; SSE-NEXT:    bsrq %r8, %r11
-; SSE-NEXT:    xorl $63, %r11d
-; SSE-NEXT:    orl $64, %r11d
-; SSE-NEXT:    testq %r10, %r10
-; SSE-NEXT:    cmovnel %edx, %r11d
+; SSE-NEXT:    bsrq %rbx, %r8
+; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
+; SSE-NEXT:    testq %r11, %r11
+; SSE-NEXT:    cmovnel %edx, %r8d
 ; SSE-NEXT:    bsrq %rax, %r9
 ; SSE-NEXT:    xorl $63, %r9d
 ; SSE-NEXT:    bsrq 64(%rdi), %rdx
@@ -4698,51 +4698,51 @@ define i32 @load_ctlz_poison_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    movq 40(%rdi), %r9
 ; SSE-NEXT:    movq 48(%rdi), %rax
 ; SSE-NEXT:    subl $-128, %edx
-; SSE-NEXT:    orq %r10, %r8
-; SSE-NEXT:    movq 56(%rdi), %r8
+; SSE-NEXT:    orq %r11, %rbx
+; SSE-NEXT:    movq 56(%rdi), %r10
 ; SSE-NEXT:    movdqa 112(%rdi), %xmm0
-; SSE-NEXT:    cmovnel %r11d, %edx
+; SSE-NEXT:    cmovnel %r8d, %edx
 ; SSE-NEXT:    movdqa 96(%rdi), %xmm1
 ; SSE-NEXT:    addl $256, %edx # imm = 0x100
 ; SSE-NEXT:    movdqa %xmm1, %xmm2
 ; SSE-NEXT:    por %xmm0, %xmm2
 ; SSE-NEXT:    ptest %xmm2, %xmm2
 ; SSE-NEXT:    cmovnel %esi, %edx
-; SSE-NEXT:    bsrq %r8, %rsi
+; SSE-NEXT:    bsrq %r10, %rsi
 ; SSE-NEXT:    xorl $63, %esi
-; SSE-NEXT:    bsrq %rax, %r11
+; SSE-NEXT:    bsrq %rax, %r8
+; SSE-NEXT:    xorl $63, %r8d
+; SSE-NEXT:    orl $64, %r8d
+; SSE-NEXT:    testq %r10, %r10
+; SSE-NEXT:    cmovnel %esi, %r8d
+; SSE-NEXT:    bsrq %r9, %r11
 ; SSE-NEXT:    xorl $63, %r11d
-; SSE-NEXT:    orl $64, %r11d
-; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    cmovnel %esi, %r11d
-; SSE-NEXT:    bsrq %r9, %r10
-; SSE-NEXT:    xorl $63, %r10d
 ; SSE-NEXT:    bsrq 32(%rdi), %rsi
 ; SSE-NEXT:    xorl $63, %esi
 ; SSE-NEXT:    orl $64, %esi
 ; SSE-NEXT:    testq %r9, %r9
 ; SSE-NEXT:    movq 16(%rdi), %r9
-; SSE-NEXT:    cmovnel %r10d, %esi
-; SSE-NEXT:    movq 24(%rdi), %r10
-; SSE-NEXT:    subl $-128, %esi
-; SSE-NEXT:    orq %r8, %rax
 ; SSE-NEXT:    cmovnel %r11d, %esi
-; SSE-NEXT:    bsrq %r10, %rax
+; SSE-NEXT:    movq 24(%rdi), %r11
+; SSE-NEXT:    subl $-128, %esi
+; SSE-NEXT:    orq %r10, %rax
+; SSE-NEXT:    cmovnel %r8d, %esi
+; SSE-NEXT:    bsrq %r11, %rax
 ; SSE-NEXT:    xorl $63, %eax
 ; SSE-NEXT:    bsrq %r9, %r8
 ; SSE-NEXT:    xorl $63, %r8d
 ; SSE-NEXT:    orl $64, %r8d
-; SSE-NEXT:    testq %r10, %r10
+; SSE-NEXT:    testq %r11, %r11
 ; SSE-NEXT:    cmovnel %eax, %r8d
-; SSE-NEXT:    bsrq %rcx, %r11
-; SSE-NEXT:    xorl $63, %r11d
+; SSE-NEXT:    bsrq %rcx, %r10
+; SSE-NEXT:    xorl $63, %r10d
 ; SSE-NEXT:    bsrq (%rdi), %rax
 ; SSE-NEXT:    xorl $63, %eax
 ; SSE-NEXT:    orl $64, %eax
 ; SSE-NEXT:    testq %rcx, %rcx
-; SSE-NEXT:    cmovnel %r11d, %eax
+; SSE-NEXT:    cmovnel %r10d, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %r10, %r9
+; SSE-NEXT:    orq %r11, %r9
 ; SSE-NEXT:    cmovnel %r8d, %eax
 ; SSE-NEXT:    movdqa 32(%rdi), %xmm2
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
@@ -4756,6 +4756,7 @@ define i32 @load_ctlz_poison_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    ptest %xmm1, %xmm1
 ; SSE-NEXT:    cmovnel %edx, %eax
 ; SSE-NEXT:    # kill: def $eax killed $eax killed $rax
+; SSE-NEXT:    popq %rbx
 ; SSE-NEXT:    retq
 ;
 ; AVX2-LABEL: load_ctlz_poison_i1024:
@@ -4765,31 +4766,30 @@ define i32 @load_ctlz_poison_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    movq 72(%rdi), %rsi
 ; AVX2-NEXT:    movq 104(%rdi), %rdx
 ; AVX2-NEXT:    movq 112(%rdi), %r8
-; AVX2-NEXT:    movq 120(%rdi), %r10
-; AVX2-NEXT:    lzcntq %r10, %rax
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    lzcntq %r8, %rbx
-; AVX2-NEXT:    addl $64, %ebx
-; AVX2-NEXT:    testq %r10, %r10
-; AVX2-NEXT:    cmovnel %eax, %ebx
+; AVX2-NEXT:    movq 120(%rdi), %r9
+; AVX2-NEXT:    lzcntq %r9, %rax
+; AVX2-NEXT:    lzcntq %r8, %r10
+; AVX2-NEXT:    addl $64, %r10d
+; AVX2-NEXT:    testq %r9, %r9
+; AVX2-NEXT:    cmovnel %eax, %r10d
 ; AVX2-NEXT:    lzcntq %rdx, %r11
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    lzcntq 96(%rdi), %rax
 ; AVX2-NEXT:    addl $64, %eax
 ; AVX2-NEXT:    testq %rdx, %rdx
-; AVX2-NEXT:    movq 80(%rdi), %r9
+; AVX2-NEXT:    movq 80(%rdi), %rbx
 ; AVX2-NEXT:    cmovnel %r11d, %eax
 ; AVX2-NEXT:    movq 88(%rdi), %r11
 ; AVX2-NEXT:    subl $-128, %eax
-; AVX2-NEXT:    orq %r10, %r8
-; AVX2-NEXT:    cmovnel %ebx, %eax
+; AVX2-NEXT:    orq %r9, %r8
+; AVX2-NEXT:    cmovnel %r10d, %eax
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    lzcntq %r11, %rdx
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    lzcntq %r9, %rbx
-; AVX2-NEXT:    addl $64, %ebx
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    lzcntq %rbx, %r9
+; AVX2-NEXT:    addl $64, %r9d
 ; AVX2-NEXT:    testq %r11, %r11
-; AVX2-NEXT:    cmovnel %edx, %ebx
+; AVX2-NEXT:    cmovnel %edx, %r9d
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    lzcntq 64(%rdi), %rdx
 ; AVX2-NEXT:    xorl %r8d, %r8d
@@ -4800,21 +4800,21 @@ define i32 @load_ctlz_poison_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    cmovnel %r8d, %edx
 ; AVX2-NEXT:    movq 48(%rdi), %r8
 ; AVX2-NEXT:    subl $-128, %edx
-; AVX2-NEXT:    orq %r11, %r9
-; AVX2-NEXT:    movq 56(%rdi), %r9
-; AVX2-NEXT:    cmovnel %ebx, %edx
+; AVX2-NEXT:    orq %r11, %rbx
+; AVX2-NEXT:    movq 56(%rdi), %r11
+; AVX2-NEXT:    cmovnel %r9d, %edx
 ; AVX2-NEXT:    vmovdqu 96(%rdi), %ymm0
 ; AVX2-NEXT:    addl $256, %edx # imm = 0x100
 ; AVX2-NEXT:    vpor 112(%rdi), %xmm0, %xmm1
 ; AVX2-NEXT:    vptest %xmm1, %xmm1
 ; AVX2-NEXT:    cmovnel %eax, %edx
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    lzcntq %r9, %rax
-; AVX2-NEXT:    xorl %r11d, %r11d
-; AVX2-NEXT:    lzcntq %r8, %r11
-; AVX2-NEXT:    addl $64, %r11d
-; AVX2-NEXT:    testq %r9, %r9
-; AVX2-NEXT:    cmovnel %eax, %r11d
+; AVX2-NEXT:    lzcntq %r11, %rax
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    lzcntq %r8, %r9
+; AVX2-NEXT:    addl $64, %r9d
+; AVX2-NEXT:    testq %r11, %r11
+; AVX2-NEXT:    cmovnel %eax, %r9d
 ; AVX2-NEXT:    xorl %esi, %esi
 ; AVX2-NEXT:    lzcntq 32(%rdi), %rsi
 ; AVX2-NEXT:    xorl %eax, %eax
@@ -4824,8 +4824,8 @@ define i32 @load_ctlz_poison_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    movq 24(%rdi), %r10
 ; AVX2-NEXT:    cmovnel %eax, %esi
 ; AVX2-NEXT:    subl $-128, %esi
-; AVX2-NEXT:    orq %r9, %r8
-; AVX2-NEXT:    cmovnel %r11d, %esi
+; AVX2-NEXT:    orq %r11, %r8
+; AVX2-NEXT:    cmovnel %r9d, %esi
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    lzcntq %r10, %rax
 ; AVX2-NEXT:    xorl %r8d, %r8d
@@ -5891,9 +5891,11 @@ define i32 @test_cttz_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    pushq %r12
 ; SSE-NEXT:    pushq %rbx
 ; SSE-NEXT:    movq %r9, %r10
+; SSE-NEXT:    movq %r8, %r9
+; SSE-NEXT:    movq %rcx, %r8
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r14
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rax
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r9
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rcx
 ; SSE-NEXT:    rep bsfq %rdi, %r11
 ; SSE-NEXT:    rep bsfq %rsi, %rbx
 ; SSE-NEXT:    addl $64, %ebx
@@ -5901,7 +5903,7 @@ define i32 @test_cttz_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    cmovnel %r11d, %ebx
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r11
 ; SSE-NEXT:    rep bsfq %rdx, %r12
-; SSE-NEXT:    rep bsfq %rcx, %r15
+; SSE-NEXT:    rep bsfq %r8, %r15
 ; SSE-NEXT:    addl $64, %r15d
 ; SSE-NEXT:    testq %rdx, %rdx
 ; SSE-NEXT:    cmovnel %r12d, %r15d
@@ -5909,24 +5911,24 @@ define i32 @test_cttz_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    movq %rdi, %r12
 ; SSE-NEXT:    orq %rsi, %r12
 ; SSE-NEXT:    cmovnel %ebx, %r15d
-; SSE-NEXT:    rep bsfq %r8, %rbx
+; SSE-NEXT:    rep bsfq %r9, %rbx
 ; SSE-NEXT:    rep bsfq %r10, %r13
 ; SSE-NEXT:    addl $64, %r13d
-; SSE-NEXT:    testq %r8, %r8
+; SSE-NEXT:    testq %r9, %r9
 ; SSE-NEXT:    cmovnel %ebx, %r13d
-; SSE-NEXT:    rep bsfq %r9, %r12
+; SSE-NEXT:    rep bsfq %rcx, %r12
 ; SSE-NEXT:    rep bsfq %r11, %rbx
 ; SSE-NEXT:    addl $64, %ebx
-; SSE-NEXT:    testq %r9, %r9
+; SSE-NEXT:    testq %rcx, %rcx
 ; SSE-NEXT:    cmovnel %r12d, %ebx
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r12
 ; SSE-NEXT:    subl $-128, %ebx
-; SSE-NEXT:    movq %r8, %rbp
+; SSE-NEXT:    movq %r9, %rbp
 ; SSE-NEXT:    orq %r10, %rbp
 ; SSE-NEXT:    cmovnel %r13d, %ebx
 ; SSE-NEXT:    addl $256, %ebx # imm = 0x100
 ; SSE-NEXT:    movq %rsi, %r13
-; SSE-NEXT:    orq %rcx, %r13
+; SSE-NEXT:    orq %r8, %r13
 ; SSE-NEXT:    movq %rdi, %rbp
 ; SSE-NEXT:    orq %rdx, %rbp
 ; SSE-NEXT:    orq %r13, %rbp
@@ -5940,37 +5942,37 @@ define i32 @test_cttz_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    rep bsfq {{[0-9]+}}(%rsp), %r15
 ; SSE-NEXT:    addl $64, %r15d
 ; SSE-NEXT:    testq %r14, %r14
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r9
-; SSE-NEXT:    cmovnel %ebp, %r15d
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r14
+; SSE-NEXT:    cmovnel %ebp, %r15d
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rbp
 ; SSE-NEXT:    subl $-128, %r15d
 ; SSE-NEXT:    orq %r12, %rax
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r12
 ; SSE-NEXT:    cmovnel %r13d, %r15d
-; SSE-NEXT:    rep bsfq %r14, %rax
+; SSE-NEXT:    rep bsfq %rbp, %rax
 ; SSE-NEXT:    rep bsfq %r12, %r13
 ; SSE-NEXT:    addl $64, %r13d
-; SSE-NEXT:    testq %r14, %r14
+; SSE-NEXT:    testq %rbp, %rbp
 ; SSE-NEXT:    cmovnel %eax, %r13d
 ; SSE-NEXT:    movl $64, %eax
 ; SSE-NEXT:    rep bsfq {{[0-9]+}}(%rsp), %rax
 ; SSE-NEXT:    addl $64, %eax
-; SSE-NEXT:    rep bsfq %r9, %rbp
-; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    cmovnel %ebp, %eax
+; SSE-NEXT:    rep bsfq %r14, %rcx
+; SSE-NEXT:    testq %r14, %r14
+; SSE-NEXT:    cmovnel %ecx, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %r12, %r14
+; SSE-NEXT:    orq %r12, %rbp
 ; SSE-NEXT:    cmovnel %r13d, %eax
 ; SSE-NEXT:    movdqa {{[0-9]+}}(%rsp), %xmm0
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
 ; SSE-NEXT:    por {{[0-9]+}}(%rsp), %xmm0
 ; SSE-NEXT:    ptest %xmm0, %xmm0
 ; SSE-NEXT:    cmovnel %r15d, %eax
-; SSE-NEXT:    orq %r11, %rcx
+; SSE-NEXT:    orq %r11, %r8
 ; SSE-NEXT:    orq %r10, %rsi
-; SSE-NEXT:    orq %rcx, %rsi
+; SSE-NEXT:    orq %r8, %rsi
 ; SSE-NEXT:    orq {{[0-9]+}}(%rsp), %rdx
-; SSE-NEXT:    orq %r8, %rdi
+; SSE-NEXT:    orq %r9, %rdi
 ; SSE-NEXT:    orq %rdx, %rdi
 ; SSE-NEXT:    addl $512, %eax # imm = 0x200
 ; SSE-NEXT:    orq %rsi, %rdi
@@ -6328,23 +6330,23 @@ define i32 @load_cttz_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    ptest %xmm2, %xmm2
 ; SSE-NEXT:    cmovnel %eax, %edx
 ; SSE-NEXT:    rep bsfq %r9, %rax
-; SSE-NEXT:    rep bsfq %r8, %r11
-; SSE-NEXT:    addl $64, %r11d
+; SSE-NEXT:    rep bsfq %r8, %r10
+; SSE-NEXT:    addl $64, %r10d
 ; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    cmovnel %eax, %r11d
+; SSE-NEXT:    cmovnel %eax, %r10d
 ; SSE-NEXT:    movq 80(%rdi), %rax
-; SSE-NEXT:    rep bsfq %rax, %r10
+; SSE-NEXT:    rep bsfq %rax, %r11
 ; SSE-NEXT:    rep bsfq 88(%rdi), %rsi
 ; SSE-NEXT:    addl $64, %esi
 ; SSE-NEXT:    testq %rax, %rax
-; SSE-NEXT:    cmovnel %r10d, %esi
-; SSE-NEXT:    movq 104(%rdi), %r10
+; SSE-NEXT:    cmovnel %r11d, %esi
+; SSE-NEXT:    movq 104(%rdi), %r11
 ; SSE-NEXT:    movq 96(%rdi), %rbx
 ; SSE-NEXT:    subl $-128, %esi
 ; SSE-NEXT:    orq %r8, %r9
-; SSE-NEXT:    cmovnel %r11d, %esi
+; SSE-NEXT:    cmovnel %r10d, %esi
 ; SSE-NEXT:    rep bsfq %rbx, %rax
-; SSE-NEXT:    rep bsfq %r10, %r8
+; SSE-NEXT:    rep bsfq %r11, %r8
 ; SSE-NEXT:    addl $64, %r8d
 ; SSE-NEXT:    testq %rbx, %rbx
 ; SSE-NEXT:    cmovnel %eax, %r8d
@@ -6355,7 +6357,7 @@ define i32 @load_cttz_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    testq %rcx, %rcx
 ; SSE-NEXT:    cmovnel %r9d, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %r10, %rbx
+; SSE-NEXT:    orq %r11, %rbx
 ; SSE-NEXT:    cmovnel %r8d, %eax
 ; SSE-NEXT:    movdqa 64(%rdi), %xmm2
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
@@ -6381,82 +6383,81 @@ define i32 @load_cttz_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    movq (%rdi), %r8
 ; AVX2-NEXT:    movq 8(%rdi), %r9
 ; AVX2-NEXT:    tzcntq %r8, %rax
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    tzcntq %r9, %rbx
-; AVX2-NEXT:    addl $64, %ebx
+; AVX2-NEXT:    tzcntq %r9, %r10
+; AVX2-NEXT:    addl $64, %r10d
 ; AVX2-NEXT:    testq %r8, %r8
-; AVX2-NEXT:    cmovnel %eax, %ebx
+; AVX2-NEXT:    cmovnel %eax, %r10d
 ; AVX2-NEXT:    tzcntq %rdx, %r11
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    tzcntq 24(%rdi), %rax
 ; AVX2-NEXT:    addl $64, %eax
 ; AVX2-NEXT:    testq %rdx, %rdx
-; AVX2-NEXT:    movq 40(%rdi), %r10
+; AVX2-NEXT:    movq 40(%rdi), %rbx
 ; AVX2-NEXT:    cmovnel %r11d, %eax
 ; AVX2-NEXT:    movq 32(%rdi), %r11
 ; AVX2-NEXT:    subl $-128, %eax
 ; AVX2-NEXT:    orq %r9, %r8
-; AVX2-NEXT:    cmovnel %ebx, %eax
+; AVX2-NEXT:    cmovnel %r10d, %eax
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    tzcntq %r11, %rdx
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    tzcntq %r10, %rbx
-; AVX2-NEXT:    addl $64, %ebx
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    tzcntq %rbx, %r9
+; AVX2-NEXT:    addl $64, %r9d
 ; AVX2-NEXT:    testq %r11, %r11
-; AVX2-NEXT:    cmovnel %edx, %ebx
+; AVX2-NEXT:    cmovnel %edx, %r9d
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    tzcntq 56(%rdi), %rdx
 ; AVX2-NEXT:    xorl %r8d, %r8d
 ; AVX2-NEXT:    tzcntq %rsi, %r8
 ; AVX2-NEXT:    addl $64, %edx
 ; AVX2-NEXT:    testq %rsi, %rsi
-; AVX2-NEXT:    movq 80(%rdi), %r9
+; AVX2-NEXT:    movq 80(%rdi), %r10
 ; AVX2-NEXT:    cmovnel %r8d, %edx
 ; AVX2-NEXT:    movq 72(%rdi), %r8
 ; AVX2-NEXT:    subl $-128, %edx
-; AVX2-NEXT:    orq %r10, %r11
-; AVX2-NEXT:    movq 64(%rdi), %r10
-; AVX2-NEXT:    cmovnel %ebx, %edx
+; AVX2-NEXT:    orq %rbx, %r11
+; AVX2-NEXT:    movq 64(%rdi), %r11
+; AVX2-NEXT:    cmovnel %r9d, %edx
 ; AVX2-NEXT:    vmovdqu (%rdi), %ymm0
 ; AVX2-NEXT:    addl $256, %edx # imm = 0x100
 ; AVX2-NEXT:    vpor 16(%rdi), %xmm0, %xmm1
 ; AVX2-NEXT:    vptest %xmm1, %xmm1
 ; AVX2-NEXT:    cmovnel %eax, %edx
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    tzcntq %r10, %rax
-; AVX2-NEXT:    xorl %r11d, %r11d
-; AVX2-NEXT:    tzcntq %r8, %r11
-; AVX2-NEXT:    addl $64, %r11d
-; AVX2-NEXT:    testq %r10, %r10
-; AVX2-NEXT:    cmovnel %eax, %r11d
+; AVX2-NEXT:    tzcntq %r11, %rax
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    tzcntq %r8, %r9
+; AVX2-NEXT:    addl $64, %r9d
+; AVX2-NEXT:    testq %r11, %r11
+; AVX2-NEXT:    cmovnel %eax, %r9d
 ; AVX2-NEXT:    xorl %esi, %esi
 ; AVX2-NEXT:    tzcntq 88(%rdi), %rsi
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    tzcntq %r9, %rax
+; AVX2-NEXT:    tzcntq %r10, %rax
 ; AVX2-NEXT:    addl $64, %esi
-; AVX2-NEXT:    testq %r9, %r9
-; AVX2-NEXT:    movq 96(%rdi), %r9
+; AVX2-NEXT:    testq %r10, %r10
+; AVX2-NEXT:    movq 96(%rdi), %r10
 ; AVX2-NEXT:    cmovnel %eax, %esi
 ; AVX2-NEXT:    subl $-128, %esi
-; AVX2-NEXT:    orq %r8, %r10
-; AVX2-NEXT:    cmovnel %r11d, %esi
+; AVX2-NEXT:    orq %r8, %r11
+; AVX2-NEXT:    cmovnel %r9d, %esi
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    tzcntq %r9, %rax
+; AVX2-NEXT:    tzcntq %r10, %rax
 ; AVX2-NEXT:    xorl %r8d, %r8d
 ; AVX2-NEXT:    tzcntq %rcx, %r8
 ; AVX2-NEXT:    addl $64, %r8d
-; AVX2-NEXT:    testq %r9, %r9
+; AVX2-NEXT:    testq %r10, %r10
 ; AVX2-NEXT:    cmovnel %eax, %r8d
-; AVX2-NEXT:    movq 112(%rdi), %r10
+; AVX2-NEXT:    movq 112(%rdi), %r9
 ; AVX2-NEXT:    xorl %r11d, %r11d
-; AVX2-NEXT:    tzcntq %r10, %r11
+; AVX2-NEXT:    tzcntq %r9, %r11
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    tzcntq 120(%rdi), %rax
 ; AVX2-NEXT:    addl $64, %eax
-; AVX2-NEXT:    testq %r10, %r10
+; AVX2-NEXT:    testq %r9, %r9
 ; AVX2-NEXT:    cmovnel %r11d, %eax
 ; AVX2-NEXT:    subl $-128, %eax
-; AVX2-NEXT:    orq %rcx, %r9
+; AVX2-NEXT:    orq %rcx, %r10
 ; AVX2-NEXT:    cmovnel %r8d, %eax
 ; AVX2-NEXT:    vmovdqa 64(%rdi), %xmm1
 ; AVX2-NEXT:    addl $256, %eax # imm = 0x100
@@ -7536,34 +7537,34 @@ define i32 @test_cttz_poison_i1024(i1024 %a0) nounwind {
 ; SSE-NEXT:    orq %r12, %r13
 ; SSE-NEXT:    cmovnel %r14d, %ebx
 ; SSE-NEXT:    rep bsfq %rax, %r14
-; SSE-NEXT:    rep bsfq %r15, %r13
-; SSE-NEXT:    addl $64, %r13d
+; SSE-NEXT:    rep bsfq %r15, %r12
+; SSE-NEXT:    addl $64, %r12d
 ; SSE-NEXT:    testq %rax, %rax
-; SSE-NEXT:    cmovnel %r14d, %r13d
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r12
-; SSE-NEXT:    rep bsfq %r12, %rbp
+; SSE-NEXT:    cmovnel %r14d, %r12d
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r13
+; SSE-NEXT:    rep bsfq %r13, %rbp
 ; SSE-NEXT:    rep bsfq {{[0-9]+}}(%rsp), %r14
 ; SSE-NEXT:    addl $64, %r14d
-; SSE-NEXT:    testq %r12, %r12
+; SSE-NEXT:    testq %r13, %r13
 ; SSE-NEXT:    cmovnel %ebp, %r14d
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r12
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r13
 ; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %rbp
 ; SSE-NEXT:    subl $-128, %r14d
 ; SSE-NEXT:    orq %r15, %rax
-; SSE-NEXT:    cmovnel %r13d, %r14d
-; SSE-NEXT:    rep bsfq %r12, %rax
+; SSE-NEXT:    cmovnel %r12d, %r14d
+; SSE-NEXT:    rep bsfq %r13, %rax
 ; SSE-NEXT:    rep bsfq %rbp, %r15
 ; SSE-NEXT:    addl $64, %r15d
-; SSE-NEXT:    testq %r12, %r12
+; SSE-NEXT:    testq %r13, %r13
 ; SSE-NEXT:    cmovnel %eax, %r15d
-; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r13
+; SSE-NEXT:    movq {{[0-9]+}}(%rsp), %r12
 ; SSE-NEXT:    rep bsfq {{[0-9]+}}(%rsp), %rax
 ; SSE-NEXT:    addl $64, %eax
-; SSE-NEXT:    rep bsfq %r13, %rcx
-; SSE-NEXT:    testq %r13, %r13
+; SSE-NEXT:    rep bsfq %r12, %rcx
+; SSE-NEXT:    testq %r12, %r12
 ; SSE-NEXT:    cmovnel %ecx, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %rbp, %r12
+; SSE-NEXT:    orq %rbp, %r13
 ; SSE-NEXT:    cmovnel %r15d, %eax
 ; SSE-NEXT:    movdqa {{[0-9]+}}(%rsp), %xmm0
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
@@ -7891,37 +7892,37 @@ define i32 @load_cttz_poison_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    movq (%rdi), %r8
 ; SSE-NEXT:    movq 8(%rdi), %r9
 ; SSE-NEXT:    rep bsfq %r8, %rsi
-; SSE-NEXT:    rep bsfq %r9, %r11
-; SSE-NEXT:    addl $64, %r11d
+; SSE-NEXT:    rep bsfq %r9, %r10
+; SSE-NEXT:    addl $64, %r10d
 ; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    cmovnel %esi, %r11d
+; SSE-NEXT:    cmovnel %esi, %r10d
 ; SSE-NEXT:    rep bsfq 24(%rdi), %rsi
-; SSE-NEXT:    rep bsfq %rdx, %rbx
+; SSE-NEXT:    rep bsfq %rdx, %r11
 ; SSE-NEXT:    addl $64, %esi
 ; SSE-NEXT:    testq %rdx, %rdx
-; SSE-NEXT:    movq 32(%rdi), %r10
-; SSE-NEXT:    cmovnel %ebx, %esi
+; SSE-NEXT:    movq 32(%rdi), %rbx
+; SSE-NEXT:    cmovnel %r11d, %esi
 ; SSE-NEXT:    subl $-128, %esi
 ; SSE-NEXT:    orq %r9, %r8
-; SSE-NEXT:    cmovnel %r11d, %esi
-; SSE-NEXT:    rep bsfq %r10, %rdx
-; SSE-NEXT:    rep bsfq %rax, %r11
-; SSE-NEXT:    addl $64, %r11d
-; SSE-NEXT:    testq %r10, %r10
-; SSE-NEXT:    cmovnel %edx, %r11d
+; SSE-NEXT:    cmovnel %r10d, %esi
+; SSE-NEXT:    rep bsfq %rbx, %rdx
+; SSE-NEXT:    rep bsfq %rax, %r9
+; SSE-NEXT:    addl $64, %r9d
+; SSE-NEXT:    testq %rbx, %rbx
+; SSE-NEXT:    cmovnel %edx, %r9d
 ; SSE-NEXT:    movq 48(%rdi), %r8
-; SSE-NEXT:    rep bsfq %r8, %r9
+; SSE-NEXT:    rep bsfq %r8, %r10
 ; SSE-NEXT:    rep bsfq 56(%rdi), %rdx
 ; SSE-NEXT:    addl $64, %edx
 ; SSE-NEXT:    testq %r8, %r8
-; SSE-NEXT:    cmovnel %r9d, %edx
-; SSE-NEXT:    movq 80(%rdi), %r9
+; SSE-NEXT:    cmovnel %r10d, %edx
+; SSE-NEXT:    movq 80(%rdi), %r10
 ; SSE-NEXT:    movq 72(%rdi), %r8
 ; SSE-NEXT:    subl $-128, %edx
-; SSE-NEXT:    orq %rax, %r10
+; SSE-NEXT:    orq %rax, %rbx
 ; SSE-NEXT:    movq 64(%rdi), %rax
 ; SSE-NEXT:    movdqa 16(%rdi), %xmm0
-; SSE-NEXT:    cmovnel %r11d, %edx
+; SSE-NEXT:    cmovnel %r9d, %edx
 ; SSE-NEXT:    movdqa (%rdi), %xmm1
 ; SSE-NEXT:    addl $256, %edx # imm = 0x100
 ; SSE-NEXT:    movdqa %xmm1, %xmm2
@@ -7929,32 +7930,32 @@ define i32 @load_cttz_poison_i1024(ptr %p0) nounwind {
 ; SSE-NEXT:    ptest %xmm2, %xmm2
 ; SSE-NEXT:    cmovnel %esi, %edx
 ; SSE-NEXT:    rep bsfq %rax, %rsi
-; SSE-NEXT:    rep bsfq %r8, %r10
-; SSE-NEXT:    addl $64, %r10d
+; SSE-NEXT:    rep bsfq %r8, %r9
+; SSE-NEXT:    addl $64, %r9d
 ; SSE-NEXT:    testq %rax, %rax
-; SSE-NEXT:    cmovnel %esi, %r10d
+; SSE-NEXT:    cmovnel %esi, %r9d
 ; SSE-NEXT:    rep bsfq 88(%rdi), %rsi
-; SSE-NEXT:    rep bsfq %r9, %r11
+; SSE-NEXT:    rep bsfq %r10, %r11
 ; SSE-NEXT:    addl $64, %esi
-; SSE-NEXT:    testq %r9, %r9
-; SSE-NEXT:    movq 96(%rdi), %r9
+; SSE-NEXT:    testq %r10, %r10
+; SSE-NEXT:    movq 96(%rdi), %r10
 ; SSE-NEXT:    cmovnel %r11d, %esi
 ; SSE-NEXT:    subl $-128, %esi
 ; SSE-NEXT:    orq %r8, %rax
-; SSE-NEXT:    cmovnel %r10d, %esi
-; SSE-NEXT:    rep bsfq %r9, %rax
+; SSE-NEXT:    cmovnel %r9d, %esi
+; SSE-NEXT:    rep bsfq %r10, %rax
 ; SSE-NEXT:    rep bsfq %rcx, %r8
 ; SSE-NEXT:    addl $64, %r8d
-; SSE-NEXT:    testq %r9, %r9
+; SSE-NEXT:    testq %r10, %r10
 ; SSE-NEXT:    cmovnel %eax, %r8d
-; SSE-NEXT:    movq 112(%rdi), %r10
-; SSE-NEXT:    rep bsfq %r10, %r11
+; SSE-NEXT:    movq 112(%rdi), %r9
+; SSE-NEXT:    rep bsfq %r9, %r11
 ; SSE-NEXT:    rep bsfq 120(%rdi), %rax
 ; SSE-NEXT:    addl $64, %eax
-; SSE-NEXT:    testq %r10, %r10
+; SSE-NEXT:    testq %r9, %r9
 ; SSE-NEXT:    cmovnel %r11d, %eax
 ; SSE-NEXT:    subl $-128, %eax
-; SSE-NEXT:    orq %rcx, %r9
+; SSE-NEXT:    orq %rcx, %r10
 ; SSE-NEXT:    cmovnel %r8d, %eax
 ; SSE-NEXT:    movdqa 64(%rdi), %xmm2
 ; SSE-NEXT:    addl $256, %eax # imm = 0x100
@@ -7980,82 +7981,81 @@ define i32 @load_cttz_poison_i1024(ptr %p0) nounwind {
 ; AVX2-NEXT:    movq (%rdi), %r8
 ; AVX2-NEXT:    movq 8(%rdi), %r9
 ; AVX2-NEXT:    tzcntq %r8, %rax
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    tzcntq %r9, %rbx
-; AVX2-NEXT:    addl $64, %ebx
+; AVX2-NEXT:    tzcntq %r9, %r10
+; AVX2-NEXT:    addl $64, %r10d
 ; AVX2-NEXT:    testq %r8, %r8
-; AVX2-NEXT:    cmovnel %eax, %ebx
+; AVX2-NEXT:    cmovnel %eax, %r10d
 ; AVX2-NEXT:    tzcntq %rdx, %r11
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    tzcntq 24(%rdi), %rax
 ; AVX2-NEXT:    addl $64, %eax
 ; AVX2-NEXT:    testq %rdx, %rdx
-; AVX2-NEXT:    movq 40(%rdi), %r10
+; AVX2-NEXT:    movq 40(%rdi), %rbx
 ; AVX2-NEXT:    cmovnel %r11d, %eax
 ; AVX2-NEXT:    movq 32(%rdi), %r11
 ; AVX2-NEXT:    subl $-128, %eax
 ; AVX2-NEXT:    orq %r9, %r8
-; AVX2-NEXT:    cmovnel %ebx, %eax
+; AVX2-NEXT:    cmovnel %r10d, %eax
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    tzcntq %r11, %rdx
-; AVX2-NEXT:    xorl %ebx, %ebx
-; AVX2-NEXT:    tzcntq %r10, %rbx
-; AVX2-NEXT:    addl $64, %ebx
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    tzcntq %rbx, %r9
+; AVX2-NEXT:    addl $64, %r9d
 ; AVX2-NEXT:    testq %r11, %r11
-; AVX2-NEXT:    cmovnel %edx, %ebx
+; AVX2-NEXT:    cmovnel %edx, %r9d
 ; AVX2-NEXT:    xorl %edx, %edx
 ; AVX2-NEXT:    tzcntq 56(%rdi), %rdx
 ; AVX2-NEXT:    xorl %r8d, %r8d
 ; AVX2-NEXT:    tzcntq %rsi, %r8
 ; AVX2-NEXT:    addl $64, %edx
 ; AVX2-NEXT:    testq %rsi, %rsi
-; AVX2-NEXT:    movq 80(%rdi), %r9
+; AVX2-NEXT:    movq 80(%rdi), %r10
 ; AVX2-NEXT:    cmovnel %r8d, %edx
 ; AVX2-NEXT:    movq 72(%rdi), %r8
 ; AVX2-NEXT:    subl $-128, %edx
-; AVX2-NEXT:    orq %r10, %r11
-; AVX2-NEXT:    movq 64(%rdi), %r10
-; AVX2-NEXT:    cmovnel %ebx, %edx
+; AVX2-NEXT:    orq %rbx, %r11
+; AVX2-NEXT:    movq 64(%rdi), %r11
+; AVX2-NEXT:    cmovnel %r9d, %edx
 ; AVX2-NEXT:    vmovdqu (%rdi), %ymm0
 ; AVX2-NEXT:    addl $256, %edx # imm = 0x100
 ; AVX2-NEXT:    vpor 16(%rdi), %xmm0, %xmm1
 ; AVX2-NEXT:    vptest %xmm1, %xmm1
 ; AVX2-NEXT:    cmovnel %eax, %edx
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    tzcntq %r10, %rax
-; AVX2-NEXT:    xorl %r11d, %r11d
-; AVX2-NEXT:    tzcntq %r8, %r11
-; AVX2-NEXT:    addl $64, %r11d
-; AVX2-NEXT:    testq %r10, %r10
-; AVX2-NEXT:    cmovnel %eax, %r11d
+; AVX2-NEXT:    tzcntq %r11, %rax
+; AVX2-NEXT:    xorl %r9d, %r9d
+; AVX2-NEXT:    tzcntq %r8, %r9
+; AVX2-NEXT:    addl $64, %r9d
+; AVX2-NEXT:    testq %r11, %r11
+; AVX2-NEXT:    cmovnel %eax, %r9d
 ; AVX2-NEXT:    xorl %esi, %esi
 ; AVX2-NEXT:    tzcntq 88(%rdi), %rsi
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    tzcntq %r9, %rax
+; AVX2-NEXT:    tzcntq %r10, %rax
 ; AVX2-NEXT:    addl $64, %esi
-; AVX2-NEXT:    testq %r9, %r9
-; AVX2-NEXT:    movq 96(%rdi), %r9
+; AVX2-NEXT:    testq %r10, %r10
+; AVX2-NEXT:    movq 96(%rdi), %r10
 ; AVX2-NEXT:    cmovnel %eax, %esi
 ; AVX2-NEXT:    subl $-128, %esi
-; AVX2-NEXT:    orq %r8, %r10
-; AVX2-NEXT:    cmovnel %r11d, %esi
+; AVX2-NEXT:    orq %r8, %r11
+; AVX2-NEXT:    cmovnel %r9d, %esi
 ; AVX2-NEXT:    xorl %eax, %eax
-; AVX2-NEXT:    tzcntq %r9, %rax
+; AVX2-NEXT:    tzcntq %r10, %rax
 ; AVX2-NEXT:    xorl %r8d, %r8d
 ; AVX2-NEXT:    tzcntq %rcx, %r8
 ; AVX2-NEXT:    addl $64, %r8d
-; AVX2-NEXT:    testq %r9, %r9
+; AVX2-NEXT:    testq %r10, %r10
 ; AVX2-NEXT:    cmovnel %eax, %r8d
-; AVX2-NEXT:    movq 112(%rdi), %r10
+; AVX2-NEXT:    movq 112(%rdi), %r9
 ; AVX2-NEXT:    xorl %r11d, %r11d
-; AVX2-NEXT:    tzcntq %r10, %r11
+; AVX2-NEXT:    tzcntq %r9, %r11
 ; AVX2-NEXT:    xorl %eax, %eax
 ; AVX2-NEXT:    tzcntq 120(%rdi), %rax
 ; AVX2-NEXT:    addl $64, %eax
-; AVX2-NEXT:    testq %r10, %r10
+; AVX2-NEXT:    testq %r9, %r9
 ; AVX2-NEXT:    cmovnel %r11d, %eax
 ; AVX2-NEXT:    subl $-128, %eax
-; AVX2-NEXT:    orq %rcx, %r9
+; AVX2-NEXT:    orq %rcx, %r10
 ; AVX2-NEXT:    cmovnel %r8d, %eax
 ; AVX2-NEXT:    vmovdqa 64(%rdi), %xmm1
 ; AVX2-NEXT:    addl $256, %eax # imm = 0x100

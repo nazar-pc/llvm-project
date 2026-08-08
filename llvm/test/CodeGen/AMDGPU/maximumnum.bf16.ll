@@ -9909,14 +9909,10 @@ define <32 x bfloat> @v_maximumnum_v32bf16(<32 x bfloat> %x, <32 x bfloat> %y) #
 ; GFX10-NEXT:    v_and_b32_e32 v52, 0xffff0000, v23
 ; GFX10-NEXT:    v_cmp_u_f32_e64 s7, v49, v49
 ; GFX10-NEXT:    v_and_b32_e32 v49, 0xffff0000, v6
-; GFX10-NEXT:    v_cmp_gt_f32_e64 s9, v51, v54
-; GFX10-NEXT:    v_and_b32_e32 v51, 0xffff0000, v5
-; GFX10-NEXT:    v_lshrrev_b32_e32 v54, 16, v21
 ; GFX10-NEXT:    v_cndmask_b32_e64 v37, v65, v64, s7
 ; GFX10-NEXT:    v_cmp_u_f32_e64 s7, v52, v52
 ; GFX10-NEXT:    v_lshrrev_b32_e32 v65, 16, v22
 ; GFX10-NEXT:    v_and_b32_e32 v52, 0xffff0000, v22
-; GFX10-NEXT:    v_cmp_u_f32_e64 s10, v51, v51
 ; GFX10-NEXT:    v_lshlrev_b32_e32 v68, 16, v37
 ; GFX10-NEXT:    v_cndmask_b32_e64 v64, v64, v37, s7
 ; GFX10-NEXT:    v_cmp_u_f32_e64 s7, v49, v49
@@ -9925,15 +9921,19 @@ define <32 x bfloat> @v_maximumnum_v32bf16(<32 x bfloat> %x, <32 x bfloat> %y) #
 ; GFX10-NEXT:    v_cmp_u_f32_e64 s7, v52, v52
 ; GFX10-NEXT:    v_lshrrev_b32_e32 v52, 16, v5
 ; GFX10-NEXT:    v_lshlrev_b32_e32 v67, 16, v66
-; GFX10-NEXT:    v_cndmask_b32_e64 v65, v65, v49, s7
-; GFX10-NEXT:    v_cmp_gt_f32_e64 s7, v68, v69
+; GFX10-NEXT:    v_cmp_gt_f32_e64 s9, v68, v69
 ; GFX10-NEXT:    v_and_b32_e32 v68, 0xffff0000, v4
+; GFX10-NEXT:    v_cndmask_b32_e64 v65, v65, v49, s7
+; GFX10-NEXT:    v_cmp_gt_f32_e64 s7, v51, v54
+; GFX10-NEXT:    v_and_b32_e32 v51, 0xffff0000, v5
+; GFX10-NEXT:    v_lshrrev_b32_e32 v54, 16, v21
 ; GFX10-NEXT:    v_lshrrev_b32_e32 v69, 16, v20
-; GFX10-NEXT:    v_cndmask_b32_e64 v51, v52, v54, s10
 ; GFX10-NEXT:    v_cmp_gt_f32_e64 s8, v55, v67
 ; GFX10-NEXT:    v_lshlrev_b32_e32 v55, 16, v49
-; GFX10-NEXT:    v_cmp_u_f32_e64 s10, v68, v68
+; GFX10-NEXT:    v_cmp_u_f32_e64 s10, v51, v51
 ; GFX10-NEXT:    v_lshlrev_b32_e32 v67, 16, v65
+; GFX10-NEXT:    v_cndmask_b32_e64 v51, v52, v54, s10
+; GFX10-NEXT:    v_cmp_u_f32_e64 s10, v68, v68
 ; GFX10-NEXT:    v_lshlrev_b32_e32 v68, 16, v51
 ; GFX10-NEXT:    v_cndmask_b32_e64 v52, v70, v69, s10
 ; GFX10-NEXT:    v_cmp_u_f32_e64 s10, v71, v71
@@ -10034,8 +10034,8 @@ define <32 x bfloat> @v_maximumnum_v32bf16(<32 x bfloat> %x, <32 x bfloat> %y) #
 ; GFX10-NEXT:    v_cndmask_b32_e64 v14, v13, v14, s19
 ; GFX10-NEXT:    v_cndmask_b32_e64 v13, v48, v34, s5
 ; GFX10-NEXT:    v_cmp_eq_u16_e64 s19, 0, v34
-; GFX10-NEXT:    v_cndmask_b32_e64 v48, v53, v35, s9
-; GFX10-NEXT:    v_cndmask_b32_e64 v53, v64, v37, s7
+; GFX10-NEXT:    v_cndmask_b32_e64 v48, v53, v35, s7
+; GFX10-NEXT:    v_cndmask_b32_e64 v53, v64, v37, s9
 ; GFX10-NEXT:    v_cndmask_b32_e64 v64, v65, v49, s10
 ; GFX10-NEXT:    v_lshlrev_b32_e32 v30, 16, v13
 ; GFX10-NEXT:    v_cndmask_b32_e64 v65, v70, v51, s11

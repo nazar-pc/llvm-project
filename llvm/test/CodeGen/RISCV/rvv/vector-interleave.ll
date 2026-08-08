@@ -5453,37 +5453,37 @@ define <vscale x 128 x i1> @vector_interleave_nxv128i1_nxv16i1(<vscale x 16 x i1
 ; CHECK-NEXT:    vmv.v.i v26, 0
 ; CHECK-NEXT:    vmerge.vim v16, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v8
-; CHECK-NEXT:    vmv1r.v v1, v17
+; CHECK-NEXT:    vmv1r.v v8, v17
 ; CHECK-NEXT:    vmerge.vim v24, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
 ; CHECK-NEXT:    vmerge.vim v18, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v10
 ; CHECK-NEXT:    vmerge.vim v28, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v11
-; CHECK-NEXT:    vmv1r.v v2, v25
-; CHECK-NEXT:    vmv1r.v v3, v19
+; CHECK-NEXT:    vmv1r.v v9, v25
+; CHECK-NEXT:    vmv1r.v v10, v19
 ; CHECK-NEXT:    vmerge.vim v20, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v12
-; CHECK-NEXT:    vmerge.vim v10, v26, 1, v0
+; CHECK-NEXT:    vmerge.vim v30, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v13
-; CHECK-NEXT:    vmv1r.v v4, v29
-; CHECK-NEXT:    vmv1r.v v5, v21
+; CHECK-NEXT:    vmv1r.v v11, v29
+; CHECK-NEXT:    vmv1r.v v12, v21
 ; CHECK-NEXT:    vmerge.vim v22, v26, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v14
-; CHECK-NEXT:    vmerge.vim v12, v26, 1, v0
-; CHECK-NEXT:    vmv1r.v v6, v11
-; CHECK-NEXT:    vmv1r.v v7, v23
-; CHECK-NEXT:    vmv1r.v v8, v13
+; CHECK-NEXT:    vmerge.vim v26, v26, 1, v0
+; CHECK-NEXT:    vmv1r.v v13, v31
+; CHECK-NEXT:    vmv1r.v v14, v23
+; CHECK-NEXT:    vmv1r.v v15, v27
 ; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    slli a1, a1, 3
 ; CHECK-NEXT:    add a1, sp, a1
 ; CHECK-NEXT:    addi a1, a1, 16
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m1, ta, ma
-; CHECK-NEXT:    vsseg8e8.v v1, (a1)
+; CHECK-NEXT:    vsseg8e8.v v8, (a1)
 ; CHECK-NEXT:    vmv1r.v v17, v24
 ; CHECK-NEXT:    vmv1r.v v19, v28
-; CHECK-NEXT:    vmv1r.v v21, v10
-; CHECK-NEXT:    vmv1r.v v23, v12
+; CHECK-NEXT:    vmv1r.v v21, v30
+; CHECK-NEXT:    vmv1r.v v23, v26
 ; CHECK-NEXT:    addi a2, sp, 16
 ; CHECK-NEXT:    vsseg8e8.v v16, (a2)
 ; CHECK-NEXT:    csrr a0, vlenb
@@ -5552,37 +5552,37 @@ define <vscale x 128 x i1> @vector_interleave_nxv128i1_nxv16i1(<vscale x 16 x i1
 ; ZVBB-NEXT:    vmv.v.i v26, 0
 ; ZVBB-NEXT:    vmerge.vim v16, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v8
-; ZVBB-NEXT:    vmv1r.v v1, v17
+; ZVBB-NEXT:    vmv1r.v v8, v17
 ; ZVBB-NEXT:    vmerge.vim v24, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v9
 ; ZVBB-NEXT:    vmerge.vim v18, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v10
 ; ZVBB-NEXT:    vmerge.vim v28, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v11
-; ZVBB-NEXT:    vmv1r.v v2, v25
-; ZVBB-NEXT:    vmv1r.v v3, v19
+; ZVBB-NEXT:    vmv1r.v v9, v25
+; ZVBB-NEXT:    vmv1r.v v10, v19
 ; ZVBB-NEXT:    vmerge.vim v20, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v12
-; ZVBB-NEXT:    vmerge.vim v10, v26, 1, v0
+; ZVBB-NEXT:    vmerge.vim v30, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v13
-; ZVBB-NEXT:    vmv1r.v v4, v29
-; ZVBB-NEXT:    vmv1r.v v5, v21
+; ZVBB-NEXT:    vmv1r.v v11, v29
+; ZVBB-NEXT:    vmv1r.v v12, v21
 ; ZVBB-NEXT:    vmerge.vim v22, v26, 1, v0
 ; ZVBB-NEXT:    vmv1r.v v0, v14
-; ZVBB-NEXT:    vmerge.vim v12, v26, 1, v0
-; ZVBB-NEXT:    vmv1r.v v6, v11
-; ZVBB-NEXT:    vmv1r.v v7, v23
-; ZVBB-NEXT:    vmv1r.v v8, v13
+; ZVBB-NEXT:    vmerge.vim v26, v26, 1, v0
+; ZVBB-NEXT:    vmv1r.v v13, v31
+; ZVBB-NEXT:    vmv1r.v v14, v23
+; ZVBB-NEXT:    vmv1r.v v15, v27
 ; ZVBB-NEXT:    csrr a1, vlenb
 ; ZVBB-NEXT:    slli a1, a1, 3
 ; ZVBB-NEXT:    add a1, sp, a1
 ; ZVBB-NEXT:    addi a1, a1, 16
 ; ZVBB-NEXT:    vsetvli a0, zero, e8, m1, ta, ma
-; ZVBB-NEXT:    vsseg8e8.v v1, (a1)
+; ZVBB-NEXT:    vsseg8e8.v v8, (a1)
 ; ZVBB-NEXT:    vmv1r.v v17, v24
 ; ZVBB-NEXT:    vmv1r.v v19, v28
-; ZVBB-NEXT:    vmv1r.v v21, v10
-; ZVBB-NEXT:    vmv1r.v v23, v12
+; ZVBB-NEXT:    vmv1r.v v21, v30
+; ZVBB-NEXT:    vmv1r.v v23, v26
 ; ZVBB-NEXT:    addi a2, sp, 16
 ; ZVBB-NEXT:    vsseg8e8.v v16, (a2)
 ; ZVBB-NEXT:    csrr a0, vlenb
