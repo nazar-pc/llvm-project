@@ -4,6 +4,7 @@
 ; RUN: opt < %s -passes=instcombine -S | FileCheck %s
 
 declare void @use(i8)
+declare i8 @llvm.cttz.i8(i8, i1)
 
 define i32 @shl_C1_add_A_C2_i32(i16 %A) {
 ; CHECK-LABEL: @shl_C1_add_A_C2_i32(
@@ -472,6 +473,148 @@ define i4 @shl_nsw_add_negative_invalid_constant3(i4 %x) {
   %a = add i4 %x, 8
   %r = shl nsw i4 2, %a
   ret i4 %r
+}
+
+; The shift amount is known to be in range, so the pre-shift is valid even
+; without an exact/nowrap flag.
+
+define i8 @lshr_add_negative_shift_amt_in_range(i8 %x) {
+; CHECK-LABEL: @lshr_add_negative_shift_amt_in_range(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 7
+; CHECK-NEXT:    [[R:%.*]] = lshr i8 48, [[S]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 7
+  %a = add i8 %s, -2
+  %r = lshr i8 12, %a
+  ret i8 %r
+}
+
+define i8 @ashr_add_negative_shift_amt_in_range(i8 %x) {
+; CHECK-LABEL: @ashr_add_negative_shift_amt_in_range(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 7
+; CHECK-NEXT:    [[R:%.*]] = ashr exact i8 -128, [[S]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 7
+  %a = add i8 %s, -2
+  %r = ashr i8 -32, %a
+  ret i8 %r
+}
+
+define i8 @shl_add_negative_shift_amt_in_range(i8 %x) {
+; CHECK-LABEL: @shl_add_negative_shift_amt_in_range(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 7
+; CHECK-NEXT:    [[R:%.*]] = shl i8 3, [[S]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 7
+  %a = add i8 %s, -2
+  %r = shl i8 12, %a
+  ret i8 %r
+}
+
+define <2 x i8> @lshr_add_negative_shift_amt_in_range_vec(<2 x i8> %x) {
+; CHECK-LABEL: @lshr_add_negative_shift_amt_in_range_vec(
+; CHECK-NEXT:    [[S:%.*]] = and <2 x i8> [[X:%.*]], splat (i8 7)
+; CHECK-NEXT:    [[R:%.*]] = lshr <2 x i8> splat (i8 48), [[S]]
+; CHECK-NEXT:    ret <2 x i8> [[R]]
+;
+  %s = and <2 x i8> %x, splat (i8 7)
+  %a = add <2 x i8> %s, splat (i8 -2)
+  %r = lshr <2 x i8> splat (i8 12), %a
+  ret <2 x i8> %r
+}
+
+define i8 @lshr_add_negative_shift_amt_in_range_extra_use(i8 %x) {
+; CHECK-LABEL: @lshr_add_negative_shift_amt_in_range_extra_use(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 7
+; CHECK-NEXT:    [[A:%.*]] = add nsw i8 [[S]], -2
+; CHECK-NEXT:    call void @use(i8 [[A]])
+; CHECK-NEXT:    [[R:%.*]] = lshr i8 48, [[S]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 7
+  %a = add i8 %s, -2
+  call void @use(i8 %a)
+  %r = lshr i8 12, %a
+  ret i8 %r
+}
+
+; The 'exact' flag must not be transferred to the new shift.
+
+define i8 @lshr_add_negative_shift_amt_in_range_not_exact(i8 %x) {
+; CHECK-LABEL: @lshr_add_negative_shift_amt_in_range_not_exact(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 7
+; CHECK-NEXT:    [[R:%.*]] = lshr i8 12, [[S]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 7
+  %a = add i8 %s, -1
+  %r = lshr i8 6, %a
+  ret i8 %r
+}
+
+; negative test - the shift amount may be out of range
+
+define i8 @lshr_add_negative_shift_amt_maybe_out_of_range(i8 %x) {
+; CHECK-LABEL: @lshr_add_negative_shift_amt_maybe_out_of_range(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 15
+; CHECK-NEXT:    [[A:%.*]] = add nsw i8 [[S]], -2
+; CHECK-NEXT:    [[R:%.*]] = lshr i8 12, [[A]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 15
+  %a = add i8 %s, -2
+  %r = lshr i8 12, %a
+  ret i8 %r
+}
+
+define i8 @ashr_add_negative_shift_amt_maybe_out_of_range(i8 %x) {
+; CHECK-LABEL: @ashr_add_negative_shift_amt_maybe_out_of_range(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 15
+; CHECK-NEXT:    [[A:%.*]] = add nsw i8 [[S]], -2
+; CHECK-NEXT:    [[R:%.*]] = ashr i8 -32, [[A]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 15
+  %a = add i8 %s, -2
+  %r = ashr i8 -32, %a
+  ret i8 %r
+}
+
+define i8 @shl_add_negative_shift_amt_maybe_out_of_range(i8 %x) {
+; CHECK-LABEL: @shl_add_negative_shift_amt_maybe_out_of_range(
+; CHECK-NEXT:    [[S:%.*]] = and i8 [[X:%.*]], 15
+; CHECK-NEXT:    [[A:%.*]] = add nsw i8 [[S]], -2
+; CHECK-NEXT:    [[R:%.*]] = shl i8 12, [[A]]
+; CHECK-NEXT:    ret i8 [[R]]
+;
+  %s = and i8 %x, 15
+  %a = add i8 %s, -2
+  %r = shl i8 12, %a
+  ret i8 %r
+}
+
+; https://github.com/llvm/llvm-project/issues/222281
+; The shift amount is bounded by the range of cttz.
+
+define i32 @lshr_add_negative_cttz(i8 %x) {
+; CHECK-LABEL: @lshr_add_negative_cttz(
+; CHECK-NEXT:    [[M:%.*]] = and i8 [[X:%.*]], 120
+; CHECK-NEXT:    [[V:%.*]] = or disjoint i8 [[M]], -128
+; CHECK-NEXT:    [[TZ:%.*]] = call range(i8 3, 8) i8 @llvm.cttz.i8(i8 [[V]], i1 true)
+; CHECK-NEXT:    [[Z:%.*]] = zext nneg i8 [[TZ]] to i32
+; CHECK-NEXT:    [[R:%.*]] = lshr exact i32 512, [[Z]]
+; CHECK-NEXT:    ret i32 [[R]]
+;
+  %m = and i8 %x, -8
+  %v = or i8 %m, -128
+  %tz = call i8 @llvm.cttz.i8(i8 %v, i1 true)
+  %z = zext nneg i8 %tz to i32
+  %a = sub nuw nsw i32 %z, 3
+  %r = lshr i32 64, %a
+  ret i32 %r
 }
 
 define i2 @lshr_2_add_zext_basic(i1 %a, i1 %b) {

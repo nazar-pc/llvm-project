@@ -474,20 +474,36 @@ Instruction *InstCombinerImpl::commonShiftTransforms(BinaryOperator &I) {
         (-*AddC).ult(BitWidth)) {
       unsigned PosOffset = (-*AddC).getZExtValue();
 
-      auto isSuitableForPreShift = [PosOffset, &I, AC]() {
+      // The constant must not lose any bits when it is pre-shifted.
+      auto canPreShiftConstant = [PosOffset, &I, AC]() {
         switch (I.getOpcode()) {
         default:
           return false;
         case Instruction::Shl:
-          return (I.hasNoSignedWrap() || I.hasNoUnsignedWrap()) &&
-                 AC->eq(AC->lshr(PosOffset).shl(PosOffset));
+          return AC->eq(AC->lshr(PosOffset).shl(PosOffset));
         case Instruction::LShr:
-          return I.isExact() && AC->eq(AC->shl(PosOffset).lshr(PosOffset));
+          return AC->eq(AC->shl(PosOffset).lshr(PosOffset));
         case Instruction::AShr:
-          return I.isExact() && AC->eq(AC->shl(PosOffset).ashr(PosOffset));
+          return AC->eq(AC->shl(PosOffset).ashr(PosOffset));
         }
       };
-      if (isSuitableForPreShift()) {
+
+      // Pre-shifting is only valid if the new shift amount X can not be out of
+      // range while the old shift amount (X - PosOffset) was in range. That
+      // holds if X is known to be a valid shift amount. Otherwise the
+      // exact/nowrap flag is required: an out-of-range X means the old shift
+      // amount was at least BitWidth - PosOffset, and shifting the constant by
+      // that much drops bits, given that it survives a shift by PosOffset in
+      // the other direction. So the old shift is poison for such X.
+      auto isValidShiftAmt = [&]() {
+        if (I.getOpcode() == Instruction::Shl
+                ? (I.hasNoSignedWrap() || I.hasNoUnsignedWrap())
+                : I.isExact())
+          return true;
+        return computeKnownBits(A, &I).getMaxValue().ult(BitWidth);
+      };
+
+      if (canPreShiftConstant() && isValidShiftAmt()) {
         Constant *NewC = ConstantInt::get(Ty, I.getOpcode() == Instruction::Shl
                                                   ? AC->lshr(PosOffset)
                                                   : AC->shl(PosOffset));
@@ -496,7 +512,7 @@ Instruction *InstCombinerImpl::commonShiftTransforms(BinaryOperator &I) {
         if (I.getOpcode() == Instruction::Shl) {
           NewShiftOp->setHasNoUnsignedWrap(I.hasNoUnsignedWrap());
         } else {
-          NewShiftOp->setIsExact();
+          NewShiftOp->setIsExact(I.isExact());
         }
         return NewShiftOp;
       }
