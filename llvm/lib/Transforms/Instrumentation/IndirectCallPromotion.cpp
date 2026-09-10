@@ -877,6 +877,19 @@ bool IndirectCallPromoter::processFunction(ProfileSummaryInfo *PSI) {
   bool Changed = false;
   ICallPromotionAnalysis ICallAnalysis;
   for (auto *CB : findIndirectCalls(F)) {
+    // Do not promote an indirect tail call. Such a call is a node in a tail
+    // call chain, as a threaded interpreter's dispatch step is, so the guard
+    // the promotion adds is paid on every step of the chain while the
+    // promoted call only saves a jump. Worse, the guard gives the inliner a
+    // direct call edge into the next node, and inlining along a chain has no
+    // natural bound: every node is duplicated into every other node that
+    // reaches it.
+    if (CB->isMustTailCall()) {
+      LLVM_DEBUG(dbgs() << "Don't promote an indirect tail call: " << *CB
+                        << "\n");
+      continue;
+    }
+
     uint32_t NumCandidates;
     uint64_t TotalCount;
     auto ICallProfDataRef = ICallAnalysis.getPromotionCandidatesForInstruction(
