@@ -200,6 +200,15 @@ static cl::opt<unsigned> MaxSwitchCasesPerResult(
     "max-switch-cases-per-result", cl::Hidden, cl::init(16),
     cl::desc("Limit cases to analyze when converting a switch to select"));
 
+static cl::opt<unsigned> MaxGuardedCases(
+    "simplifycfg-max-guarded-cases", cl::Hidden, cl::init(3),
+    cl::desc("Most cases a switch may have tested ahead of its lookup table"));
+
+static cl::opt<bool> GuardNonTableCase(
+    "simplifycfg-guard-non-table-case", cl::Hidden, cl::init(true),
+    cl::desc("Test a case that cannot be part of a switch's lookup table ahead "
+             "of the table, instead of giving up the table"));
+
 static cl::opt<unsigned> MaxJumpThreadingLiveBlocks(
     "max-jump-threading-live-blocks", cl::Hidden, cl::init(24),
     cl::desc("Limit number of blocks a define in a threaded block is allowed "
@@ -217,6 +226,9 @@ STATISTIC(NumLookupTables,
 STATISTIC(
     NumLookupTablesHoles,
     "Number of switch instructions turned into lookup tables (holes checked)");
+STATISTIC(NumLookupTablesGuardedCase,
+          "Number of switch lookup tables that needed a case tested ahead "
+          "of them");
 STATISTIC(NumTableCmpReuses, "Number of reused switch table lookup compares");
 STATISTIC(NumFoldValueComparisonIntoPredecessors,
           "Number of value comparisons folded into predecessor basic blocks");
@@ -6627,15 +6639,16 @@ getCaseResults(SwitchInst *SI, ConstantInt *CaseVal, BasicBlock *CaseDest,
     }
   }
 
-  // If we did not have a CommonDest before, use the current one.
-  if (!*CommonDest)
-    *CommonDest = CaseDest;
+  // Hold off on adopting this case's destination as the common one until the
+  // case is known to be usable, so that a case which fails below leaves the
+  // caller no worse off than if it had never been looked at.
+  BasicBlock *NewCommonDest = *CommonDest ? *CommonDest : CaseDest;
   // If the destination isn't the common one, abort.
-  if (CaseDest != *CommonDest)
+  if (CaseDest != NewCommonDest)
     return false;
 
   // Get the values for this case from phi nodes in the destination block.
-  for (PHINode &PHI : (*CommonDest)->phis()) {
+  for (PHINode &PHI : NewCommonDest->phis()) {
     int Idx = PHI.getBasicBlockIndex(Pred);
     if (Idx == -1)
       continue;
@@ -6652,7 +6665,11 @@ getCaseResults(SwitchInst *SI, ConstantInt *CaseVal, BasicBlock *CaseDest,
     Res.push_back(std::make_pair(&PHI, ConstVal));
   }
 
-  return Res.size() > 0;
+  if (Res.empty())
+    return false;
+
+  *CommonDest = NewCommonDest;
+  return true;
 }
 
 // Helper function used to add CaseVal to the list of cases that generate
@@ -7366,11 +7383,12 @@ getDenseSwitchRangeReductionShift(ArrayRef<int64_t> Values, int64_t Base,
 // TODO: We could support larger than legal types by limiting based on the
 // number of loads required and/or table size. If the constants are small we
 // could use smaller table entries and extend after the load.
-static bool shouldBuildLookupTable(SwitchInst *SI, uint64_t TableSize,
+static bool shouldBuildLookupTable(SwitchInst *SI, uint64_t NumCases,
+                                   uint64_t TableSize,
                                    const TargetTransformInfo &TTI,
                                    const DataLayout &DL,
                                    const SmallVector<Type *> &ResultTypes) {
-  if (SI->getNumCases() > TableSize)
+  if (NumCases > TableSize)
     return false; // TableSize overflowed.
 
   bool AllTablesFitInRegister = true;
@@ -7399,8 +7417,7 @@ static bool shouldBuildLookupTable(SwitchInst *SI, uint64_t TableSize,
   if (HasIllegalType)
     return false;
 
-  return isSwitchDense(SI->getNumCases(), TableSize,
-                       SI->getFunction()->hasOptSize());
+  return isSwitchDense(NumCases, TableSize, SI->getFunction()->hasOptSize());
 }
 
 static bool shouldUseSwitchConditionAsTableIndex(
@@ -7501,6 +7518,21 @@ static void reuseTableCompare(
   }
 }
 
+/// Whether adding \p C to a table already holding \p Values would make its
+/// element type wider than the values in it need.
+static bool wouldWidenTable(
+    const SmallVectorImpl<std::pair<ConstantInt *, Constant *>> &Values,
+    const Constant *C) {
+  const auto *CI = dyn_cast<ConstantInt>(C);
+  if (!CI)
+    return false;
+  return none_of(Values, [&](const auto &V) {
+    const auto *Held = dyn_cast<ConstantInt>(V.second);
+    return Held && Held->getValue().getActiveBits() >=
+                       CI->getValue().getActiveBits();
+  });
+}
+
 /// If the switch is only used to initialize one or more phi nodes in a common
 /// successor block with different constant values, replace the switch with
 /// lookup tables.
@@ -7529,44 +7561,202 @@ static bool simplifySwitchLookup(SwitchInst *SI, IRBuilder<> &Builder,
   // common destination, as well as the min and max case values.
   assert(!SI->cases().empty());
   SwitchInst::CaseIt CI = SI->case_begin();
-  ConstantInt *MinCaseVal = CI->getCaseValue();
-  ConstantInt *MaxCaseVal = CI->getCaseValue();
+  // Over the cases that make it into the table, so that a guarded case far away
+  // from the others does not stretch the table to cover a range nothing reads.
+  ConstantInt *MinCaseVal = nullptr;
+  ConstantInt *MaxCaseVal = nullptr;
 
   BasicBlock *CommonDest = nullptr;
 
   using ResultListTy = SmallVector<std::pair<ConstantInt *, Constant *>, 4>;
   SmallDenseMap<PHINode *, ResultListTy> ResultLists;
 
+  // A single case that has to be tested ahead of the table, see below.
+  // Cases a table cannot hold, to be tested ahead of it.
+  struct GuardedCase {
+    ConstantInt *Val;
+    BasicBlock *Dest;
+    bool HasSlot = false;
+  };
+  SmallVector<GuardedCase, 4> Guarded;
+
   SmallDenseMap<PHINode *, Constant *> DefaultResults;
   SmallVector<Type *> ResultTypes;
   SmallVector<PHINode *, 4> PHIs;
 
-  for (SwitchInst::CaseIt E = SI->case_end(); CI != E; ++CI) {
-    ConstantInt *CaseVal = CI->getCaseValue();
-    if (CaseVal->getValue().slt(MinCaseVal->getValue()))
-      MinCaseVal = CaseVal;
-    if (CaseVal->getValue().sgt(MaxCaseVal->getValue()))
-      MaxCaseVal = CaseVal;
-
-    // Resulting value at phi nodes for this case value.
-    using ResultsTy = SmallVector<std::pair<PHINode *, Constant *>, 4>;
+  // Resolve each case on its own first. Letting the first case that resolves
+  // decide the common destination would make the transform depend on the order
+  // the cases happen to be written in, since the case left over is then
+  // whichever one disagrees with that choice rather than the odd one out.
+  using ResultsTy = SmallVector<std::pair<PHINode *, Constant *>, 4>;
+  struct ResolvedCase {
+    ConstantInt *Val;
+    BasicBlock *Succ;
+    BasicBlock *Dest; // Null if the case has no constant to contribute.
     ResultsTy Results;
-    if (!getCaseResults(SI, CaseVal, CI->getCaseSuccessor(), &CommonDest,
-                        Results, DL, TTI))
-      return false;
+  };
+  SmallVector<ResolvedCase> Cases;
+  SmallMapVector<BasicBlock *, unsigned, 8> DestCounts;
+  for (SwitchInst::CaseIt E = SI->case_end(); CI != E; ++CI) {
+    ResolvedCase RC{CI->getCaseValue(), CI->getCaseSuccessor(), nullptr, {}};
+    BasicBlock *Dest = nullptr;
+    if (getCaseResults(SI, RC.Val, RC.Succ, &Dest, RC.Results, DL, TTI)) {
+      RC.Dest = Dest;
+      ++DestCounts[Dest];
+    } else {
+      RC.Results.clear();
+    }
+    Cases.push_back(std::move(RC));
+  }
+
+  // Upstream pins the common destination on the first case that yields results
+  // and rejects the switch if any other case disagrees. Start there, so that a
+  // switch with no case to guard is decided exactly as it was before.
+  auto MismatchesFor = [&](BasicBlock *Dest) {
+    return count_if(Cases,
+                    [&](const ResolvedCase &RC) { return RC.Dest != Dest; });
+  };
+  for (const ResolvedCase &RC : Cases)
+    if (RC.Dest) {
+      CommonDest = RC.Dest;
+      break;
+    }
+  if (!CommonDest)
+    return false;
+
+  // Only when that pin cannot describe the switch, and only when a case may be
+  // guarded at all, is the majority worth consulting: the case a table cannot hold may be the first one, which would
+  // otherwise pin a destination the rest of the cases disagree with and reject
+  // a switch that is nearly all table. Preferring the majority unconditionally
+  // would change switches that have nothing to do with this.
+  if (GuardNonTableCase && MismatchesFor(CommonDest) > 1) {
+    unsigned BestCount = 0;
+    for (const auto &[Dest, Count] : DestCounts)
+      if (Count > BestCount) {
+        BestCount = Count;
+        CommonDest = Dest;
+      }
+  }
+
+  for (const ResolvedCase &RC : Cases) {
+    if (RC.Dest != CommonDest) {
+      // This case does not reach the common destination with a constant, so a
+      // table cannot stand in for it: it has to go somewhere else and do
+      // something else. Set it aside rather than give up the table. If it is
+      // the only such case it is tested ahead of the table, which leaves the
+      // rest of the switch in the shape a table can replace. Indirect call
+      // promotion creates exactly this shape, by giving the profiled target of
+      // a dispatch a destination of its own.
+      if (!GuardNonTableCase ||
+          Guarded.size() >= (size_t)MaxGuardedCases)
+        return false;
+      // A case that cannot be reached is not worth a test of its own, and
+      // SimplifyCFG removes it in its own time, leaving the hole the table
+      // already knows how to fill.
+      if (isa<UnreachableInst>(RC.Succ->getFirstNonPHIIt()))
+        return false;
+      Guarded.push_back({RC.Val, RC.Succ});
+      continue;
+    }
+
+    if (!MinCaseVal || RC.Val->getValue().slt(MinCaseVal->getValue()))
+      MinCaseVal = RC.Val;
+    if (!MaxCaseVal || RC.Val->getValue().sgt(MaxCaseVal->getValue()))
+      MaxCaseVal = RC.Val;
 
     // Append the result and result types from this case to the list for each
     // phi.
-    for (const auto &I : Results) {
+    for (const auto &I : RC.Results) {
       PHINode *PHI = I.first;
       Constant *Value = I.second;
       auto [It, Inserted] = ResultLists.try_emplace(PHI);
       if (Inserted)
         PHIs.push_back(PHI);
-      It->second.push_back(std::make_pair(CaseVal, Value));
+      It->second.push_back(std::make_pair(RC.Val, Value));
       ResultTypes.push_back(PHI->getType());
     }
   }
+
+  // A guarded case inside the range the others span owns a slot in the table
+  // that nothing will ever load, since the case is tested before the table is
+  // reached. Leaving it empty is not free -- a hole makes the cases that do
+  // reach the table pay for a bitmask check, and takes the default value, which
+  // may be wider than anything the table holds -- so fill it with a value the
+  // table already has. That is enough to keep it from being mistaken for a
+  // hole, and it costs nothing to store. It does mean an evenly spaced run of
+  // values with a guarded case in the middle of it is no longer evenly spaced,
+  // and is stored rather than computed.
+  for (GuardedCase &G : Guarded)
+    G.HasSlot = MinCaseVal && G.Val->getValue().sgt(MinCaseVal->getValue()) &&
+                G.Val->getValue().slt(MaxCaseVal->getValue());
+
+  // Decide whether the case set aside above can really be guarded. Nothing has
+  // been mutated yet, so this can still give up on the whole transform.
+  SmallDenseMap<ConstantInt *, uint64_t> CaseWeights;
+  uint64_t DefaultWeight = 0;
+  bool HaveWeights = false;
+  bool WeightsAreExpected = false;
+  if (!Guarded.empty()) {
+    // The table is the point of the guard, so there has to be one worth building
+    // without the guarded cases. Everything else is left to the decisions the
+    // table already has to pass below.
+    if (SI->getNumCases() - Guarded.size() < 3)
+      return false;
+
+    SmallVector<uint32_t> Weights;
+    HaveWeights = extractBranchWeights(*SI, Weights) &&
+                  Weights.size() == SI->getNumSuccessors();
+    if (HaveWeights) {
+      WeightsAreExpected = hasBranchWeightOrigin(*SI);
+      DefaultWeight = Weights[0];
+      for (const auto &Case : SI->cases())
+        CaseWeights[Case.getCaseValue()] = Weights[Case.getSuccessorIndex()];
+    }
+
+    // Each guarded case is a test every value that does reach the table has to
+    // run first, so more than one has to be paid for. Without a profile there
+    // is nothing to say the case is taken often enough to be worth the test, so
+    // only the single case indirect call promotion leaves behind is guarded.
+    // With one, a case earns its test by being taken more often than the
+    // average case that reaches the table.
+    if (Guarded.size() > 1) {
+      if (!HaveWeights)
+        return false;
+      uint64_t TableWeight = 0, TableCases = 0;
+      for (const auto &Case : SI->cases())
+        if (none_of(Guarded, [&](const GuardedCase &G) {
+              return G.Val == Case.getCaseValue();
+            })) {
+          TableWeight += CaseWeights.lookup(Case.getCaseValue());
+          ++TableCases;
+        }
+      uint64_t Average = TableCases ? TableWeight / TableCases : 0;
+      for (const GuardedCase &G : Guarded)
+        if (CaseWeights.lookup(G.Val) < Average)
+          return false;
+    }
+
+    // Keep the rewrite simple by requiring the two halves to be disjoint, so no
+    // phi ends up with edges from both switches.
+    for (const GuardedCase &G : Guarded) {
+      if (G.Dest == SI->getDefaultDest())
+        return false;
+      for (const auto &Case : SI->cases())
+        if (none_of(Guarded,
+                    [&](const GuardedCase &O) {
+                      return O.Val == Case.getCaseValue();
+                    }) &&
+            Case.getCaseSuccessor() == G.Dest)
+          return false;
+    }
+  }
+
+  assert(MinCaseVal && MaxCaseVal && "No case reaches the common destination?");
+
+  // The guarded case never reaches the table, so it does not count towards the
+  // table's density, its size, or the case count that decides whether a hole
+  // check is worth paying for.
+  uint64_t NumTableCases = SI->getNumCases() - Guarded.size();
 
   // If the table has holes, we need a constant result for the default case
   // or a bitmask that fits in a register.
@@ -7578,6 +7768,29 @@ static bool simplifySwitchLookup(SwitchInst *SI, IRBuilder<> &Builder,
     PHINode *PHI = I.first;
     Constant *Result = I.second;
     DefaultResults[PHI] = Result;
+  }
+
+  // Stand a value in for the guarded case where it has a slot of its own, so
+  // that the slot is not mistaken for a hole below. Nothing will ever load it,
+  // so it is chosen only to cost nothing, which means leaving the cases that do
+  // reach the table with the representation they would have had: the value they
+  // agree on where they agree on one, and otherwise the default the hole would
+  // have taken. A value already in the table is the fallback, since it can at
+  // least never be wider than the table.
+  for (const GuardedCase &G : Guarded) {
+    if (!G.HasSlot)
+      continue;
+    for (PHINode *PHI : PHIs) {
+      ResultListTy &ResultList = ResultLists[PHI];
+      Constant *Agreed = ResultList.front().second;
+      Constant *Fill = all_of(ResultList,
+                              [&](const auto &E) { return E.second == Agreed; })
+                           ? Agreed
+                           : DefaultResults.lookup(PHI);
+      if (!Fill || wouldWidenTable(ResultList, Fill))
+        Fill = Agreed;
+      ResultList.emplace_back(G.Val, Fill);
+    }
   }
 
   bool UseSwitchConditionAsTableIndex = shouldUseSwitchConditionAsTableIndex(
@@ -7616,13 +7829,14 @@ static bool simplifySwitchLookup(SwitchInst *SI, IRBuilder<> &Builder,
   bool NeedMask = AllHolesArePoison && DefaultIsReachable;
   if (NeedMask) {
     // As an extra penalty for the validity test we require more cases.
-    if (SI->getNumCases() < 4) // FIXME: Find best threshold value (benchmark).
+    if (NumTableCases < 4) // FIXME: Find best threshold value (benchmark).
       return false;
     if (!DL.fitsInLegalInteger(TableSize))
       return false;
   }
 
-  if (!shouldBuildLookupTable(SI, TableSize, TTI, DL, ResultTypes))
+  if (!shouldBuildLookupTable(SI, NumTableCases, TableSize, TTI, DL,
+                              ResultTypes))
     return false;
 
   // Compute the table index value.
@@ -7689,8 +7903,63 @@ static bool simplifySwitchLookup(SwitchInst *SI, IRBuilder<> &Builder,
   // In the early optimization pipeline, disable formation of lookup tables,
   // bit maps and mask checks, as they may inhibit further optimization.
   if (!ConvertSwitchToLookupTable &&
-      (AnyLookupTables || AnyBitMaps || NeedMask))
+      (AnyLookupTables || AnyBitMaps || NeedMask || !Guarded.empty()))
     return false;
+
+  // From here on the function is mutated. Move the switch into a block of its
+  // own and put a switch over the guarded cases in front of it, so that what is
+  // left below is an ordinary switch whose cases all reach CommonDest.
+  if (!Guarded.empty()) {
+    BasicBlock *TableBB =
+        SplitBlock(BB, SI->getIterator(), DTU, /*LI=*/nullptr, /*MSSAU=*/nullptr,
+                   BB->getName() + ".lookup");
+    // The split has already pointed the successors' phis at TableBB.
+    for (const GuardedCase &G : Guarded)
+      SI->removeCase(SI->findCaseValue(G.Val));
+
+    SmallVector<uint64_t> KeptWeights{DefaultWeight};
+    uint64_t ToTableWeight = DefaultWeight;
+    for (const auto &Case : SI->cases()) {
+      uint64_t W = CaseWeights.lookup(Case.getCaseValue());
+      KeptWeights.push_back(W);
+      ToTableWeight += W;
+    }
+    // Only when the switch had a profile to divide up; a switch without one
+    // must not come out of this carrying a made-up profile of zeroes.
+    if (HaveWeights)
+      setFittedBranchWeights(*SI, KeptWeights, WeightsAreExpected);
+
+    BB->getTerminator()->eraseFromParent();
+    SwitchInst *GuardSI = SwitchInst::Create(SI->getCondition(), TableBB,
+                                            Guarded.size(), BB);
+    SmallVector<uint64_t> GuardWeights{ToTableWeight};
+    for (const GuardedCase &G : Guarded) {
+      GuardSI->addCase(G.Val, G.Dest);
+      GuardWeights.push_back(CaseWeights.lookup(G.Val));
+    }
+    if (HaveWeights)
+      setFittedBranchWeights(*GuardSI, GuardWeights, WeightsAreExpected);
+    GuardSI->setDebugLoc(SI->getDebugLoc());
+
+    // The guarded destinations are reached from BB again rather than from the
+    // block the split put the switch in. Two guarded cases may share one, so
+    // rewrite each destination only once.
+    SmallVector<DominatorTree::UpdateType, 8> Updates;
+    SmallPtrSet<BasicBlock *, 4> Rewritten;
+    for (const GuardedCase &G : Guarded)
+      if (Rewritten.insert(G.Dest).second) {
+        G.Dest->replacePhiUsesWith(TableBB, BB);
+        Updates.push_back({DominatorTree::Insert, BB, G.Dest});
+        Updates.push_back({DominatorTree::Delete, TableBB, G.Dest});
+      }
+
+    if (DTU)
+      DTU->applyUpdates(Updates);
+
+    // Everything below works on the block the switch now lives in.
+    BB = TableBB;
+    ++NumLookupTablesGuardedCase;
+  }
 
   Builder.SetInsertPoint(SI);
   // TableIndex is the switch condition - TableIndexOffset if we don't
