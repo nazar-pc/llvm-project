@@ -7518,6 +7518,125 @@ static void reuseTableCompare(
   }
 }
 
+/// Number of instructions matched when recovering the table entry of a
+/// specialized case. A block specialized by indirect call promotion holds a
+/// call and a terminator, so a handful is enough; the limit only keeps this
+/// from walking long blocks that will not match anyway.
+static constexpr unsigned SpecializedCaseMatchBudget = 8;
+
+/// Recover the value a specialized case would have contributed to a lookup
+/// table.
+///
+/// A case that has been specialized for one value of the switch condition -- by
+/// indirect call promotion and jump threading, say -- reaches a copy of the
+/// common destination in which the phi nodes have been replaced by the
+/// constants they hold on that path. Matching the two blocks recovers those
+/// constants, so the case can still have its original table entry instead of
+/// leaving a hole. That keeps the table identical to the tables built for the
+/// other copies of a dispatch that inlining replicated, which is what lets them
+/// be merged.
+///
+/// The recovered entry is never loaded: the case is tested before the table is
+/// reached, so the index it occupies is excluded on every path that reads the
+/// table. A wrong entry would therefore not be wrong in any observable way, and
+/// the matching below only has to be conservative enough to keep the table
+/// well-formed and to leave the entries of the other cases alone.
+/// Walk \p A and \p B in lockstep, requiring them to be the same instructions
+/// with the same operands, except where an operand of \p A is a key of
+/// \p Mapping -- those are pinned down to whatever \p B has in their place.
+static bool matchBlocks(BasicBlock *A, BasicBlock *B,
+                        SmallDenseMap<const Value *, Value *> &Mapping) {
+  unsigned Budget = SpecializedCaseMatchBudget;
+  auto AIt = A->getFirstNonPHIIt(), AEnd = A->end();
+  auto BIt = B->begin(), BEnd = B->end();
+  for (; AIt != AEnd && BIt != BEnd; ++AIt, ++BIt) {
+    if (Budget-- == 0)
+      return false;
+    Instruction &X = *AIt, &Y = *BIt;
+    // isSameOperationAs() compares the operand types, which is what keeps a
+    // recovered constant from being given the wrong type by the caller.
+    if (!X.isSameOperationAs(&Y))
+      return false;
+    for (unsigned I = 0, E = X.getNumOperands(); I != E; ++I) {
+      Value *XOp = X.getOperand(I), *YOp = Y.getOperand(I);
+      if (XOp == YOp)
+        continue;
+      auto It = Mapping.find(XOp);
+      if (It == Mapping.end())
+        return false;
+      if (It->second && It->second != YOp)
+        return false;
+      It->second = YOp;
+    }
+    Mapping[&X] = &Y;
+  }
+  return AIt == AEnd && BIt == BEnd;
+}
+
+static bool getSpecializedCaseResults(
+    BasicBlock *CaseDest, BasicBlock *CommonDest, ArrayRef<PHINode *> PHIs,
+    SmallVectorImpl<std::pair<PHINode *, Constant *>> &Res,
+    const TargetTransformInfo &TTI) {
+  if (CaseDest == CommonDest || CaseDest->hasAddressTaken())
+    return false;
+
+
+
+  // Values in CommonDest mapped to what stands in for them in CaseDest. The
+  // phis start out unmapped and are pinned down by the first operand that uses
+  // them.
+  SmallDenseMap<const Value *, Value *> Mapping;
+  for (PHINode *PHI : PHIs)
+    Mapping.insert({PHI, nullptr});
+
+  if (matchBlocks(CommonDest, CaseDest, Mapping)) {
+    for (PHINode *PHI : PHIs) {
+      auto *C = dyn_cast_or_null<Constant>(Mapping.lookup(PHI));
+      if (!C || C->getType() != PHI->getType() ||
+          !validLookupTableConstant(C, TTI))
+        continue;
+      Res.emplace_back(PHI, C);
+    }
+    if (!Res.empty())
+      return true;
+    Res.clear();
+  }
+
+  // The common destination may instead still be testing a phi against the value
+  // the case was specialized for -- the shape indirect call promotion leaves
+  // when the test it inserted has been folded back into the switch. The phi
+  // does not appear on the side the test selects, since it has already been
+  // replaced there, so the value it would have held is the one the test names.
+  auto *Br = dyn_cast<CondBrInst>(CommonDest->getTerminator());
+  auto *Cmp = Br ? dyn_cast<ICmpInst>(Br->getCondition()) : nullptr;
+  if (Cmp && Cmp->getParent() == CommonDest &&
+      Cmp->getPredicate() == ICmpInst::ICMP_EQ) {
+    for (PHINode *PHI : PHIs) {
+      Constant *C = nullptr;
+      if (Cmp->getOperand(0) == PHI)
+        C = dyn_cast<Constant>(Cmp->getOperand(1));
+      else if (Cmp->getOperand(1) == PHI)
+        C = dyn_cast<Constant>(Cmp->getOperand(0));
+      if (!C || C->getType() != PHI->getType() ||
+          !validLookupTableConstant(C, TTI))
+        continue;
+      SmallDenseMap<const Value *, Value *> Empty;
+      if (matchBlocks(Br->getSuccessor(0), CaseDest, Empty))
+        Res.emplace_back(PHI, C);
+    }
+    if (!Res.empty())
+      return true;
+    Res.clear();
+  }
+
+  // Nothing matched, so the case keeps the stand-in value chosen for its slot.
+  // Guessing here is not worth it: the guarded case differs between the copies
+  // a dispatch is replicated into, so a guess that is not the value the case
+  // really held leaves the tables disagreeing exactly as a stand-in does, while
+  // being harder to justify.
+  return false;
+}
+
 /// Whether adding \p C to a table already holding \p Values would make its
 /// element type wider than the values in it need.
 static bool wouldWidenTable(
@@ -7869,6 +7988,19 @@ static bool simplifySwitchLookup(SwitchInst *SI, IRBuilder<> &Builder,
     }
   }
 
+  // Where a guarded case's own entry can be recovered, use it instead of the
+  // stand-in: copies of a dispatch guard different cases, so a stand-in leaves
+  // their tables disagreeing in the byte nothing reads, and unmergeable.
+  SmallDenseMap<std::pair<ConstantInt *, PHINode *>, Constant *> OwnValue;
+  for (const GuardedCase &G : Guarded) {
+    if (!G.HasSlot)
+      continue;
+    SmallVector<std::pair<PHINode *, Constant *>, 4> Recovered;
+    if (getSpecializedCaseResults(G.Dest, CommonDest, PHIs, Recovered, TTI))
+      for (const auto &[PHI, C] : Recovered)
+        OwnValue.insert({{G.Val, PHI}, C});
+  }
+
   // Keep track of the switch replacement for each phi
   SmallDenseMap<PHINode *, SwitchReplacement> PhiToReplacementMap;
   for (PHINode *PHI : PHIs) {
@@ -7881,6 +8013,24 @@ static bool simplifySwitchLookup(SwitchInst *SI, IRBuilder<> &Builder,
     StringRef FuncName = Fn->getName();
     SwitchReplacement Replacement(*Fn->getParent(), TableSize, TableIndexOffset,
                                   ResultList, DefaultVal, DL, TTI, FuncName);
+
+    if (Replacement.isLookupTable()) {
+      ResultListTy WithOwn(ResultList);
+      bool AnyOwn = false;
+      for (auto &E : WithOwn) {
+        Constant *Own = OwnValue.lookup({E.first, PHI});
+        if (Own && !wouldWidenTable(ResultList, Own)) {
+          E.second = Own;
+          AnyOwn = true;
+        }
+      }
+      if (AnyOwn) {
+        SwitchReplacement Merged(*Fn->getParent(), TableSize, TableIndexOffset,
+                                 WithOwn, DefaultVal, DL, TTI, FuncName);
+        if (Merged.isLookupTable())
+          Replacement = Merged;
+      }
+    }
     PhiToReplacementMap.insert({PHI, Replacement});
   }
 
