@@ -111,6 +111,29 @@ def GENERIC_RV64 : RISCVProcessorModel<"generic-rv64",
 // Support generic for compatibility with other targets. The triple will be used
 // to change to the appropriate rv32/rv64 version.
 def GENERIC : RISCVTuneProcessorModel<"generic", NoSchedModel>, GenericTuneInfo;
+// `generic-interpreter`, `generic-interpreter-rv32` and `generic-interpreter-rv64`
+// are for RISC-V code that will be interpreted or run through a simple JIT
+// rather than executed by hardware. Here they use a copy of the generic
+// scheduling model and the generic tuning, so that adding them changes no
+// generated code; the tuning that makes them different follows separately.
+def GENERIC_INTERPRETER_RV32 : RISCVProcessorModel<"generic-interpreter-rv32",
+                                                   InterpreterModel,
+                                                   [Feature32Bit,
+                                                    FeatureStdExtI],
+                                                   GenericTuneFeatures>,
+                               GenericTuneInfo;
+def GENERIC_INTERPRETER_RV64 : RISCVProcessorModel<"generic-interpreter-rv64",
+                                                   InterpreterModel,
+                                                   [Feature64Bit,
+                                                    FeatureStdExtI],
+                                                   GenericTuneFeatures>,
+                               GenericTuneInfo;
+// Tune-only, so `-mtune=generic-interpreter` can be paired with any `-march`.
+def GENERIC_INTERPRETER : RISCVTuneProcessorModel<"generic-interpreter",
+                                                  InterpreterModel,
+                                                  GenericTuneFeatures>,
+                          GenericTuneInfo;
+
 // `generic-ooo` is expected to target out-of-order application processors designed
 // for general-purpose computing.
 def GENERIC_OOO : RISCVTuneProcessorModel<"generic-ooo", GenericOOOModel>,
