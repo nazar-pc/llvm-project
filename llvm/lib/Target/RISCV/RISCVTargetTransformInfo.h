@@ -164,6 +164,12 @@ public:
                                TTI::UnrollingPreferences &UP,
                                OptimizationRemarkEmitter *ORE) const override;
 
+  BranchProbability getPredictableBranchThreshold() const override;
+
+  InstructionCost getBranchMispredictPenalty() const override;
+
+  unsigned getInliningThresholdMultiplier() const override;
+
   void getPeelingPreferences(Loop *L, ScalarEvolution &SE,
                              TTI::PeelingPreferences &PP) const override;
 

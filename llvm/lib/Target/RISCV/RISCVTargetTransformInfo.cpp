@@ -32,6 +32,32 @@ static cl::opt<unsigned> RVVRegisterWidthLMUL(
         "by autovectorized code. Fractional LMULs are not supported."),
     cl::init(2), cl::Hidden);
 
+// Defaults to 1, which leaves the threshold alone. Raising it wins on CoreMark
+// and loses badly on code whose callees are loops with a high register demand:
+// inlining such a callee makes its trip count a constant, the loop is then
+// unrolled, and a body that already needed every register spills. Measured on
+// an ed25519 field inversion, where it turned a 248-byte function into 17436
+// bytes with 454 spill stores per call. Kept as a knob for sweeping.
+static cl::opt<unsigned> InterpreterInliningThresholdMultiplier(
+    "riscv-interpreter-inlining-threshold-multiplier", cl::init(1), cl::Hidden,
+    cl::desc("Multiplier applied to the inlining threshold when targeting an "
+             "interpreter rather than hardware"));
+
+static cl::opt<unsigned> InterpreterMaxShiftChainUnrollCount(
+    "riscv-interpreter-max-shift-chain-unroll-count", cl::init(4), cl::Hidden,
+    cl::desc("Largest shift-chain period a small loop may be unrolled to when "
+             "targeting an interpreter rather than hardware"));
+
+// Defaults to 1, which is no partial unrolling beyond the shift-chain rule
+// below. A spill is a dispatch and a guest memory access, which is one of the
+// most expensive dispatches there is, so an unrolled body that no longer fits
+// in the register file costs more than the backedges it removed - and the
+// unroller has no notion of that.
+static cl::opt<unsigned> InterpreterMaxUnrollCount(
+    "riscv-interpreter-max-unroll-count", cl::init(1), cl::Hidden,
+    cl::desc("Maximum unroll factor when targeting an interpreter rather than "
+             "hardware"));
+
 static cl::opt<unsigned> SLPMaxVF(
     "riscv-v-slp-max-vf",
     cl::desc(
@@ -3039,15 +3065,91 @@ InstructionCost RISCVTTIImpl::getPointersChainCost(
   return Cost;
 }
 
+BranchProbability RISCVTTIImpl::getPredictableBranchThreshold() const {
+  // On a software execution target a guest conditional branch becomes a host
+  // indirect jump whose target depends on guest data, and the host branch
+  // predictor cannot learn it the way it learns its own branches. There is no
+  // probability at which turning a select back into control flow pays, so
+  // nothing counts as predictable.
+  if (ST->isInterpreterTarget())
+    return BranchProbability::getOne();
+
+  return BaseT::getPredictableBranchThreshold();
+}
+
+InstructionCost RISCVTTIImpl::getBranchMispredictPenalty() const {
+  // Only meaningful where the scheduling model describes what a branch
+  // actually costs, which for RISC-V is the software execution target. The
+  // hardware models here carry the default penalty rather than a measured one.
+  if (ST->isInterpreterTarget())
+    return ST->getSchedModel().MispredictPenalty;
+
+  return BaseT::getBranchMispredictPenalty();
+}
+
+unsigned RISCVTTIImpl::getInliningThresholdMultiplier() const {
+  // Inlining removes a call and a return outright rather than merely
+  // shortening a dependency chain, and the instruction cache pressure that
+  // bounds it on hardware is not a cost a software execution target pays in
+  // the same way.
+  if (ST->isInterpreterTarget())
+    return InterpreterInliningThresholdMultiplier;
+
+  return BaseT::getInliningThresholdMultiplier();
+}
+
+// A loop that shifts values along a chain - `next = list; list = list->next;`
+// - needs no copies inside an unrolled body, because renaming takes care of
+// them, but it needs one per link at the backedge, where each header phi has
+// to be assigned its next value. Unrolling by the chain's period makes that
+// assignment the identity and removes the copies outright, which for a small
+// body costs about one instruction. Returns 0 if there is no such chain.
+static unsigned getShiftChainPeriod(const Loop *L) {
+  const BasicBlock *Header = L->getHeader();
+  const BasicBlock *Latch = L->getLoopLatch();
+  if (!Latch)
+    return 0;
+
+  unsigned Longest = 0;
+  for (const PHINode &Phi : Header->phis()) {
+    SmallPtrSet<const PHINode *, 4> Chain;
+    const PHINode *Cur = &Phi;
+    while (Chain.insert(Cur).second) {
+      auto *Next = dyn_cast<PHINode>(Cur->getIncomingValueForBlock(Latch));
+      if (!Next || Next->getParent() != Header)
+        break;
+      Cur = Next;
+    }
+    Longest = std::max<unsigned>(Longest, Chain.size());
+  }
+
+  // A chain of one is a plain induction variable, not a shift.
+  return Longest > 1 ? Longest + 1 : 0;
+}
+
 void RISCVTTIImpl::getUnrollingPreferences(
     Loop *L, ScalarEvolution &SE, TTI::UnrollingPreferences &UP,
     OptimizationRemarkEmitter *ORE) const {
   // TODO: More tuning on benchmarks and metrics with changes as needed
   //       would apply to all settings below to enable performance.
 
+  // Unrolling pays the backedge branch and the induction variable update once
+  // per unrolled body rather than once per iteration, so for a software
+  // execution target it removes dispatches outright rather than just
+  // shortening a dependency chain. No instruction cache bounds it here, so use
+  // the tuned preferences below rather than the generic ones - but code size
+  // is still an objective for such a target, hence the cap right after.
+  bool IsInterpreterTarget = ST->isInterpreterTarget();
 
-  if (ST->enableDefaultUnroll())
+  if (ST->enableDefaultUnroll() && !IsInterpreterTarget)
     return BasicTTIImplBase::getUnrollingPreferences(L, SE, UP, ORE);
+
+  // The code grows linearly with the unroll factor while the backedge saving
+  // per extra copy shrinks, and past a small factor the register pressure
+  // costs more in spills - each of which is a dispatch - than the backedge it
+  // removed. Cap the factor rather than letting the size budget decide it.
+  if (IsInterpreterTarget)
+    UP.MaxCount = InterpreterMaxUnrollCount;
 
   // Enable Upper bound unrolling universally, not dependent upon the conditions
   // below.
@@ -3112,8 +3214,17 @@ void RISCVTTIImpl::getUnrollingPreferences(
 
   // Force unrolling small loops can be very useful because of the branch
   // taken cost of the backedge.
-  if (Cost < 12)
+  if (Cost < 12) {
     UP.Force = true;
+
+    // Small enough that unrolling to the period of a shift chain is worth a
+    // copy per link, and the cap above would otherwise cut the chain short and
+    // leave every one of them.
+    if (IsInterpreterTarget)
+      if (unsigned Period = getShiftChainPeriod(L))
+        if (Period <= InterpreterMaxShiftChainUnrollCount)
+          UP.MaxCount = std::max(UP.MaxCount, Period);
+  }
 }
 
 void RISCVTTIImpl::getPeelingPreferences(Loop *L, ScalarEvolution &SE,

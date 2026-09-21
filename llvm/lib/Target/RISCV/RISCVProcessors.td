@@ -111,33 +111,70 @@ def GENERIC_RV64 : RISCVProcessorModel<"generic-rv64",
 // Support generic for compatibility with other targets. The triple will be used
 // to change to the appropriate rv32/rv64 version.
 def GENERIC : RISCVTuneProcessorModel<"generic", NoSchedModel>, GenericTuneInfo;
-// `generic-interpreter`, `generic-interpreter-rv32` and `generic-interpreter-rv64`
-// are for RISC-V code that will be interpreted or run through a simple JIT
-// rather than executed by hardware. Here they use a copy of the generic
-// scheduling model and the generic tuning, so that adding them changes no
-// generated code; the tuning that makes them different follows separately.
+// `generic-ooo` is expected to target out-of-order application processors designed
+// for general-purpose computing.
+def GENERIC_OOO : RISCVTuneProcessorModel<"generic-ooo", GenericOOOModel>,
+                  GenericTuneInfo;
+
+// `generic-interpreter`, `generic-interpreter-rv32` and
+// `generic-interpreter-rv64` are not processors. They target an interpreter or
+// a simple JIT: code generated for them is tuned for the number of
+// instructions executed and for the absence of data-dependent branches, not
+// for any pipeline. See `TuneInterpreterTarget`.
+//
+// The fusion tune features are on not because a machine will fuse anything,
+// but because a software consumer that folds an adjacent pair with a dead
+// intermediate into one dispatch can only do so when the pair was left
+// adjacent, and these features are what keeps such pairs together.
+// Notably absent: TuneDisableLatencySchedHeuristic. Nothing is pipelined, so
+// there is no latency to hide and disabling the heuristic looks right - but
+// latency is what makes the scheduler keep a producer near its consumer, and
+// without it register pressure rises and the spills cost more than the
+// scheduling saves. Measured, it is worth 12.5% of wall clock on an
+// interpreted Blake3 workload.
+defvar InterpreterTuneFeatures = [TuneInterpreterTarget,
+                                  // A select becomes a branch over a single
+                                  // c.mv rather than a diamond or a chain of
+                                  // conditional-zero instructions, which is
+                                  // both shorter and, being an adjacent pair,
+                                  // something a consumer that fuses can charge
+                                  // one dispatch for. Inert without Zca.
+                                  TuneConditionalCompressedMoveFusion,
+                                  TuneLUIADDIFusion,
+                                  TuneAUIPCADDIFusion,
+                                  TuneZExtHFusion,
+                                  TuneZExtWFusion,
+                                  TuneShiftedZExtWFusion,
+                                  TuneLDADDFusion,
+                                  TuneADDLoadFusion,
+                                  TuneAUIPCLoadFusion,
+                                  TuneLUILoadFusion,
+                                  TuneBFExtFusion,
+                                  TuneADDILoadFusion,
+                                  TuneSHXADDLoadFusion,
+                                  TuneFusionLogicRegReg,
+                                  TuneFusionLogicRegImm,
+                                  TuneFusionMulAdd,
+                                  TuneFusionShiftBitExtract];
+
 def GENERIC_INTERPRETER_RV32 : RISCVProcessorModel<"generic-interpreter-rv32",
                                                    InterpreterModel,
                                                    [Feature32Bit,
                                                     FeatureStdExtI],
-                                                   GenericTuneFeatures>,
+                                                   InterpreterTuneFeatures>,
                                GenericTuneInfo;
 def GENERIC_INTERPRETER_RV64 : RISCVProcessorModel<"generic-interpreter-rv64",
                                                    InterpreterModel,
                                                    [Feature64Bit,
                                                     FeatureStdExtI],
-                                                   GenericTuneFeatures>,
+                                                   InterpreterTuneFeatures>,
                                GenericTuneInfo;
-// Tune-only, so `-mtune=generic-interpreter` can be paired with any `-march`.
+// Usable as `-mtune=generic-interpreter` next to any `-march`, and as a CPU
+// name when the ISA comes from elsewhere.
 def GENERIC_INTERPRETER : RISCVTuneProcessorModel<"generic-interpreter",
                                                   InterpreterModel,
-                                                  GenericTuneFeatures>,
+                                                  InterpreterTuneFeatures>,
                           GenericTuneInfo;
-
-// `generic-ooo` is expected to target out-of-order application processors designed
-// for general-purpose computing.
-def GENERIC_OOO : RISCVTuneProcessorModel<"generic-ooo", GenericOOOModel>,
-                  GenericTuneInfo;
 
 // clang-format off
 def MIPS_P8700 : RISCVProcessorModel<"mips-p8700",

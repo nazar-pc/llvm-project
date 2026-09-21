@@ -2247,6 +2247,21 @@ def TunePreferVsetvliOverReadVLENB
           "prefer-vsetvli-over-read-vlenb", "PreferVsetvliOverReadVLENB",
           "true", "Prefer vsetvli over read vlenb CSR to calculate VLEN">;
 
+// RISC-V is increasingly a portable execution target for software rather than
+// a description of a machine: blockchain virtual machines, sandboxes,
+// deterministic replay environments and emulators all run RISC-V code through
+// an interpreter or a simple JIT. What such a consumer charges for has almost
+// nothing to do with what silicon charges for. It pays per instruction
+// executed rather than per cycle of a pipeline, it has no instruction cache to
+// protect from inlining and unrolling, and a guest conditional branch becomes
+// a host indirect jump whose target depends on guest data and which the host
+// branch predictor therefore cannot learn.
+def TuneInterpreterTarget
+    : RISCVSimpleTuneFeature<
+          "interpreter-target", "IsInterpreterTarget", "true",
+          "Optimize for an interpreter or a simple JIT rather than for "
+          "hardware">;
+
 //===----------------------------------------------------------------------===//
 // CPU Families (alphabetized by vendor).
 //===----------------------------------------------------------------------===//

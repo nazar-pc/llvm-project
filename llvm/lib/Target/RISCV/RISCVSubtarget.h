@@ -452,7 +452,12 @@ public:
     return TuneInfo->PostRASchedDirection;
   }
 
-  bool isJumpExpensive() const { return TuneInfo->IsJumpExpensive; }
+  bool isJumpExpensive() const {
+    // An interpreter cannot predict a guest branch the way hardware predicts
+    // its own, so splitting a condition into a chain of branches is worse
+    // than computing it, whatever the CPU's tune info says.
+    return TuneInfo->IsJumpExpensive || isInterpreterTarget();
+  }
 
   void overrideSchedPolicy(MachineSchedPolicy &Policy,
                            const SchedRegion &Region) const override;
