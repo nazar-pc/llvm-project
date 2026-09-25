@@ -9,6 +9,7 @@
 #include "RISCVTargetTransformInfo.h"
 #include "MCTargetDesc/RISCVMatInt.h"
 #include "llvm/ADT/STLExtras.h"
+#include "llvm/Analysis/ScalarEvolutionExpressions.h"
 #include "llvm/Analysis/TargetTransformInfo.h"
 #include "llvm/CodeGen/BasicTTIImpl.h"
 #include "llvm/CodeGen/CostTable.h"
@@ -19,6 +20,7 @@
 #include "llvm/IR/PatternMatch.h"
 #include "llvm/Transforms/InstCombine/InstCombiner.h"
 #include <cmath>
+#include <numeric>
 #include <optional>
 using namespace llvm;
 using namespace llvm::PatternMatch;
@@ -3039,26 +3041,8 @@ InstructionCost RISCVTTIImpl::getPointersChainCost(
   return Cost;
 }
 
-void RISCVTTIImpl::getUnrollingPreferences(
-    Loop *L, ScalarEvolution &SE, TTI::UnrollingPreferences &UP,
-    OptimizationRemarkEmitter *ORE) const {
-  // TODO: More tuning on benchmarks and metrics with changes as needed
-  //       would apply to all settings below to enable performance.
-
-
-  if (ST->enableDefaultUnroll())
-    return BasicTTIImplBase::getUnrollingPreferences(L, SE, UP, ORE);
-
-  // Enable Upper bound unrolling universally, not dependent upon the conditions
-  // below.
-  UP.UpperBound = true;
-
-  // Disable loop unrolling for Oz and Os.
-  UP.OptSizeThreshold = 0;
-  UP.PartialOptSizeThreshold = 0;
-  if (L->getHeader()->getParent()->hasOptSize())
-    return;
-
+std::optional<InstructionCost>
+RISCVTTIImpl::getUnrollableLoopCost(const Loop *L) const {
   SmallVector<BasicBlock *, 4> ExitingBlocks;
   L->getExitingBlocks(ExitingBlocks);
   LLVM_DEBUG(dbgs() << "Loop has:\n"
@@ -3068,12 +3052,12 @@ void RISCVTTIImpl::getUnrollingPreferences(
   // Only allow another exit other than the latch. This acts as an early exit
   // as it mirrors the profitability calculation of the runtime unroller.
   if (ExitingBlocks.size() > 2)
-    return;
+    return std::nullopt;
 
   // Limit the CFG of the loop body for targets with a branch predictor.
   // Allowing 4 blocks permits if-then-else diamonds in the body.
   if (L->getNumBlocks() > 4)
-    return;
+    return std::nullopt;
 
   // Scan the loop: don't unroll loops with calls as this could prevent
   // inlining. Don't unroll auto-vectorized loops either, though do allow
@@ -3089,12 +3073,12 @@ void RISCVTTIImpl::getUnrollingPreferences(
                            llvm::any_of(I.operand_values(), [](Value *V) {
                              return V->getType()->isVectorTy();
                            })))
-        return;
+        return std::nullopt;
 
       if (isa<CallInst>(I) || isa<InvokeInst>(I)) {
         const Function *F = cast<CallBase>(I).getCalledFunction();
         if (!F || isLoweredToCall(F))
-          return;
+          return std::nullopt;
       }
 
       SmallVector<const Value *> Operands(I.operand_values());
@@ -3104,6 +3088,195 @@ void RISCVTTIImpl::getUnrollingPreferences(
   }
 
   LLVM_DEBUG(dbgs() << "Cost of loop: " << Cost << "\n");
+  return Cost;
+}
+
+// Loops cheaper than this are forced to unroll, because of the branch taken
+// cost of the backedge.
+static constexpr unsigned SmallLoopCost = 12;
+
+// The longest period a shift chain is unrolled to. Each extra copy of the body
+// costs code size, and a longer chain means a larger body to copy.
+static constexpr unsigned MaxShiftChainPeriod = 4;
+
+// Whether \p Oldest, the phi whose value a shift chain drops, is still needed
+// once \p Fresh, the value that enters the chain, has been computed. If it is,
+// both need a register at once, and the chain rotates through one register more
+// than it has phis. It is needed if a use can be reached from Fresh without
+// starting another iteration, where a phi uses its value at the end of the
+// incoming block.
+static bool outlivesFreshValue(const PHINode *Oldest,
+                               const Instruction *FreshInst, const Loop *L) {
+  const BasicBlock *FreshBlock = FreshInst->getParent();
+  const BasicBlock *Header = L->getHeader();
+
+  // The blocks that can run after Fresh's own in the same iteration.
+  SmallPtrSet<const BasicBlock *, 4> After;
+  SmallVector<const BasicBlock *, 4> Worklist = {FreshBlock};
+  while (!Worklist.empty())
+    for (const BasicBlock *Succ : successors(Worklist.pop_back_val()))
+      if (Succ != Header && L->contains(Succ) && After.insert(Succ).second)
+        Worklist.push_back(Succ);
+
+  return any_of(Oldest->uses(), [&](const Use &U) {
+    const auto *UserInst = cast<Instruction>(U.getUser());
+    if (UserInst == FreshInst)
+      return false;
+    const BasicBlock *UserBlock = UserInst->getParent();
+    if (const auto *Phi = dyn_cast<PHINode>(UserInst)) {
+      UserBlock = Phi->getIncomingBlock(U);
+      if (UserBlock == FreshBlock)
+        return true;
+    } else if (!L->contains(UserBlock)) {
+      return true;
+    } else if (UserBlock == FreshBlock &&
+               FreshInst->comesBefore(UserInst)) {
+      return true;
+    }
+    return After.contains(UserBlock);
+  });
+}
+
+// A loop that shifts values along a chain of header phis - `prev = cur;
+// cur = next;` - needs no copies inside an unrolled body, because renaming
+// takes care of them, but it needs one per link at the backedge, where each
+// header phi has to be assigned its next value. The values rotate through a
+// fixed set of registers, and unrolling by the number of iterations the
+// rotation takes to come back to where it started - the period - makes that
+// assignment the identity and removes the copies.
+//
+// A chain that ends in a value computed in the loop has a period of the number
+// of its phis, plus one if the value it drops is still live when the new one is
+// computed. A chain that is a cycle, such as two phis swapping, has a period of
+// its length. Chains with different periods need their least common multiple;
+// if that is too long, the longest period that fits is used, which leaves the
+// copies of the other chains in place. Returns 0 if there is nothing to remove,
+// or if unrolling by the period is not possible without a remainder that would
+// cost more than the copies.
+static unsigned getShiftChainPeriod(const Loop *L, ScalarEvolution &SE) {
+  BasicBlock *Header = L->getHeader();
+  BasicBlock *Latch = L->getLoopLatch();
+  if (!Latch)
+    return 0;
+
+  auto NextPhi = [&](PHINode *Phi) -> PHINode * {
+    auto *Next = dyn_cast<PHINode>(Phi->getIncomingValueForBlock(Latch));
+    return Next && Next->getParent() == Header ? Next : nullptr;
+  };
+
+  // Walks start at the phis whose value is dropped, so that each covers a whole
+  // chain, and then at whatever is left, which can only be a cycle.
+  SmallPtrSet<PHINode *, 8> Fed;
+  for (PHINode &Phi : Header->phis())
+    if (PHINode *Next = NextPhi(&Phi))
+      Fed.insert(Next);
+  SmallVector<PHINode *, 8> Starts;
+  for (PHINode &Phi : Header->phis())
+    if (!Fed.contains(&Phi))
+      Starts.push_back(&Phi);
+  for (PHINode &Phi : Header->phis())
+    if (Fed.contains(&Phi))
+      Starts.push_back(&Phi);
+
+  SmallPtrSet<PHINode *, 8> Visited;
+  unsigned Combined = 1;
+  unsigned Longest = 0;
+  for (PHINode *Start : Starts) {
+    if (Visited.contains(Start))
+      continue;
+
+    SmallVector<PHINode *, 4> Chain;
+    PHINode *Cur = Start;
+    unsigned Period = 0;
+    while (true) {
+      Chain.push_back(Cur);
+      Visited.insert(Cur);
+      PHINode *Next = NextPhi(Cur);
+      if (!Next) {
+        // A value from outside the loop is not a rotation, whatever it is.
+        auto *Fresh =
+            dyn_cast<Instruction>(Cur->getIncomingValueForBlock(Latch));
+        if (Fresh && L->contains(Fresh))
+          Period = Chain.size() + outlivesFreshValue(Start, Fresh, L);
+        break;
+      }
+      auto *Repeated = find(Chain, Next);
+      if (Repeated != Chain.end()) {
+        Period = Chain.end() - Repeated;
+        break;
+      }
+      // Another walk has been here already: two phis take the same value, and
+      // that walk accounts for where it goes from here.
+      if (Visited.contains(Next))
+        break;
+      Cur = Next;
+    }
+
+    // An induction variable is rewritten by loop strength reduction after
+    // unrolling, so whether its old value outlives the new one here says
+    // nothing about the copies it will need.
+    if (Chain.size() == 1 && SE.isSCEVable(Start->getType()) &&
+        isa<SCEVAddRecExpr>(SE.getSCEV(Start)))
+      continue;
+    if (Period < 2 || Period > MaxShiftChainPeriod)
+      continue;
+    Combined = std::lcm(Combined, Period);
+    Longest = std::max(Longest, Period);
+  }
+
+  if (!Longest)
+    return 0;
+  unsigned Period = Combined <= MaxShiftChainPeriod ? Combined : Longest;
+
+  // The unroller lowers the count until it divides a constant trip count, which
+  // would leave the rotation in place, and finding the remainder of a trip count
+  // only known at run time takes a division unless the count is a power of two.
+  if (unsigned TripCount = SE.getSmallConstantTripCount(L))
+    return TripCount % Period == 0 ? Period : 0;
+  if (!isPowerOf2_32(Period) &&
+      !isa<SCEVCouldNotCompute>(SE.getExitCount(L, Latch)))
+    return 0;
+  return Period;
+}
+
+void RISCVTTIImpl::getUnrollingPreferences(
+    Loop *L, ScalarEvolution &SE, TTI::UnrollingPreferences &UP,
+    OptimizationRemarkEmitter *ORE) const {
+  // TODO: More tuning on benchmarks and metrics with changes as needed
+  //       would apply to all settings below to enable performance.
+
+  bool OptSize = L->getHeader()->getParent()->hasOptSize();
+
+  // A small loop with a shift chain is unrolled by exactly the chain's period,
+  // and with the preferences below even where the default ones apply to every
+  // other loop.
+  unsigned ShiftChainPeriod = 0;
+  std::optional<InstructionCost> ShiftChainCost;
+  if (ST->unrollShiftChains() && !OptSize && L->isInnermost()) {
+    if (unsigned Period = getShiftChainPeriod(L, SE)) {
+      ShiftChainCost = getUnrollableLoopCost(L);
+      if (ShiftChainCost && *ShiftChainCost < SmallLoopCost)
+        ShiftChainPeriod = Period;
+    }
+  }
+
+  if (ST->enableDefaultUnroll() && !ShiftChainPeriod)
+    return BasicTTIImplBase::getUnrollingPreferences(L, SE, UP, ORE);
+
+  // Enable Upper bound unrolling universally, not dependent upon the conditions
+  // below.
+  UP.UpperBound = true;
+
+  // Disable loop unrolling for Oz and Os.
+  UP.OptSizeThreshold = 0;
+  UP.PartialOptSizeThreshold = 0;
+  if (OptSize)
+    return;
+
+  std::optional<InstructionCost> Cost =
+      ShiftChainPeriod ? ShiftChainCost : getUnrollableLoopCost(L);
+  if (!Cost)
+    return;
 
   UP.Partial = true;
   UP.Runtime = true;
@@ -3112,8 +3285,11 @@ void RISCVTTIImpl::getUnrollingPreferences(
 
   // Force unrolling small loops can be very useful because of the branch
   // taken cost of the backedge.
-  if (Cost < 12)
+  if (*Cost < SmallLoopCost) {
     UP.Force = true;
+    if (ShiftChainPeriod)
+      UP.MaxCount = ShiftChainPeriod;
+  }
 }
 
 void RISCVTTIImpl::getPeelingPreferences(Loop *L, ScalarEvolution &SE,

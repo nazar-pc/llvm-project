@@ -72,6 +72,10 @@ class RISCVTTIImpl final : public BasicTTIImplBase<RISCVTTIImpl> {
   InstructionCost getSlideCost(FixedVectorType *Tp, ArrayRef<int> Mask,
                                TTI::TargetCostKind CostKind) const;
 
+  /// The size and latency cost of a loop the RISC-V unrolling preferences are
+  /// willing to unroll, or std::nullopt for a loop they leave alone.
+  std::optional<InstructionCost> getUnrollableLoopCost(const Loop *L) const;
+
 public:
   explicit RISCVTTIImpl(const RISCVTargetMachine *TM, const Function &F)
       : BaseT(TM, F.getDataLayout()), ST(TM->getSubtargetImpl(F)),

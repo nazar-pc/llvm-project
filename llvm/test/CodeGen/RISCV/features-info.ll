@@ -218,6 +218,7 @@
 ; CHECK-NEXT:   tagged-globals                   - Use an instruction sequence for taking the address of a global that allows a memory tag in the upper address bits.
 ; CHECK-NEXT:   unaligned-scalar-mem             - Has reasonably performant unaligned scalar loads and stores.
 ; CHECK-NEXT:   unaligned-vector-mem             - Has reasonably performant unaligned vector loads and stores.
+; CHECK-NEXT:   unroll-shift-chains              - Unroll small loops that rotate values through a chain of phis by the chain's period.
 ; CHECK-NEXT:   use-postra-scheduler             - Schedule again after register allocation.
 ; CHECK-NEXT:   v                                - 'V' (Vector Extension for Application Processors).
 ; CHECK-NEXT:   vl-dependent-latency             - Latency of vector instructions is dependent on the dynamic value of vl.

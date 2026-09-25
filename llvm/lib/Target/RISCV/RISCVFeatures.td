@@ -2247,6 +2247,17 @@ def TunePreferVsetvliOverReadVLENB
           "prefer-vsetvli-over-read-vlenb", "PreferVsetvliOverReadVLENB",
           "true", "Prefer vsetvli over read vlenb CSR to calculate VLEN">;
 
+// A loop that rotates values through a chain of header phis, such as walking a
+// list while reversing it, needs a register copy per link at the backedge.
+// Unrolling it by the chain's period makes the rotation the identity and the
+// copies disappear. Hardware that eliminates moves at rename has little to gain
+// from that, but an interpreter or a simple JIT pays for every copy it executes.
+def TuneUnrollShiftChains
+    : RISCVSimpleTuneFeature<
+          "unroll-shift-chains", "UnrollShiftChains", "true",
+          "Unroll small loops that rotate values through a chain of phis by "
+          "the chain's period">;
+
 //===----------------------------------------------------------------------===//
 // CPU Families (alphabetized by vendor).
 //===----------------------------------------------------------------------===//
