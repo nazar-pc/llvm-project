@@ -6254,6 +6254,19 @@ void AArch64TTIImpl::getUnrollingPreferences(
     }
   }
 
+  // If mcpu is omitted, getProcFamily() returns AArch64Subtarget::Others, so by
+  // checking for that case, we can ensure that the default behaviour is
+  // unchanged
+  bool IsInOrder = ST->getProcFamily() != AArch64Subtarget::Generic &&
+                   !ST->getSchedModel().isOutOfOrder();
+
+  // Every register copy costs an issue slot on an in-order core, so remove the
+  // ones that shift chains need at the backedge. A load from the node a chain
+  // drops is scheduled before the next one is computed, or paired with its
+  // load, so it does not keep the node live.
+  UP.UnrollShiftChains = IsInOrder;
+  UP.ShiftChainLoadsReorder = true;
+
   // Apply subtarget-specific unrolling preferences.
   if (ST->isAppleMLike())
     getAppleRuntimeUnrollPreferences(L, SE, UP, *this);
@@ -6275,11 +6288,7 @@ void AArch64TTIImpl::getUnrollingPreferences(
   }
 
   // Enable runtime unrolling for in-order models
-  // If mcpu is omitted, getProcFamily() returns AArch64Subtarget::Others, so by
-  // checking for that case, we can ensure that the default behaviour is
-  // unchanged
-  if (ST->getProcFamily() != AArch64Subtarget::Generic &&
-      !ST->getSchedModel().isOutOfOrder()) {
+  if (IsInOrder) {
     UP.Runtime = true;
     UP.Partial = true;
     UP.UnrollRemainder = true;
