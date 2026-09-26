@@ -745,6 +745,23 @@ public:
     bool RuntimeUnrollMultiExit;
     /// Allow unrolling to add parallel reduction phis.
     bool AddAdditionalAccumulators;
+    /// Unroll a small loop whose header phis pass values along a chain by
+    /// enough iterations to remove the register copies the chain needs at the
+    /// backedge, even where partial and runtime unrolling would not unroll it.
+    /// Worth it where a register copy costs as much as any other instruction,
+    /// such as on an in-order core.
+    bool UnrollShiftChains;
+    /// Whether loads from the node a shift chain drops, at any offset, are
+    /// scheduled before the next node is computed, or together with its load,
+    /// so that they do not keep the dropped node live and the chain needs no
+    /// register for it.
+    bool ShiftChainLoadsReorder;
+    /// Whether a simple load of an integer or pointer as wide as a pointer from
+    /// the node a shift chain drops, next to the one the next node is taken
+    /// from, the lower of the two aligned to that width, in the same block with
+    /// no store in between, is paired with it, so that it does not keep the
+    /// dropped node live. Only one such load is.
+    bool ShiftChainLoadsPair;
   };
 
   /// Get target-customized preferences for the generic loop unrolling

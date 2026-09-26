@@ -31,6 +31,7 @@
 #include "llvm/Analysis/OptimizationRemarkEmitter.h"
 #include "llvm/Analysis/ProfileSummaryInfo.h"
 #include "llvm/Analysis/ScalarEvolution.h"
+#include "llvm/Analysis/ScalarEvolutionExpressions.h"
 #include "llvm/Analysis/TargetTransformInfo.h"
 #include "llvm/Analysis/UniformityAnalysis.h"
 #include "llvm/IR/BasicBlock.h"
@@ -42,6 +43,7 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instruction.h"
 #include "llvm/IR/Instructions.h"
+#include "llvm/IR/IntrinsicInst.h"
 #include "llvm/IR/Metadata.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/InitializePasses.h"
@@ -64,6 +66,7 @@
 #include <cassert>
 #include <cstdint>
 #include <limits>
+#include <numeric>
 #include <optional>
 #include <string>
 #include <tuple>
@@ -156,6 +159,16 @@ static cl::opt<bool> UnrollUnrollRemainder(
   "unroll-remainder", cl::Hidden,
   cl::desc("Allow the loop remainder to be unrolled."));
 
+static cl::opt<bool> UnrollShiftChains(
+    "unroll-shift-chains", cl::Hidden,
+    cl::desc("Unroll small loops that pass values along a chain of phis by "
+             "enough iterations to remove the register copies it needs."));
+
+static cl::opt<unsigned> UnrollShiftChainThreshold(
+    "unroll-shift-chain-threshold", cl::init(12), cl::Hidden,
+    cl::desc("Only loops smaller than this are unrolled for their shift "
+             "chains."));
+
 // This option isn't ever intended to be enabled, it serves to allow
 // experiments to check the assumptions about when this kind of revisit is
 // necessary.
@@ -220,6 +233,9 @@ TargetTransformInfo::UnrollingPreferences llvm::gatherUnrollingPreferences(
   UP.SCEVExpansionBudget = SCEVCheapExpansionBudget;
   UP.RuntimeUnrollMultiExit = false;
   UP.AddAdditionalAccumulators = false;
+  UP.UnrollShiftChains = false;
+  UP.ShiftChainLoadsReorder = false;
+  UP.ShiftChainLoadsPair = false;
 
   // Override with any target specific settings
   TTI.getUnrollingPreferences(L, SE, UP, &ORE);
@@ -261,6 +277,13 @@ TargetTransformInfo::UnrollingPreferences llvm::gatherUnrollingPreferences(
     UP.UnrollRemainder = UnrollUnrollRemainder;
   if (UnrollMaxIterationsCountToAnalyze.getNumOccurrences() > 0)
     UP.MaxIterationsCountToAnalyze = UnrollMaxIterationsCountToAnalyze;
+  // Unrolling for shift chains is partial or runtime unrolling, and is off
+  // where either is turned off explicitly.
+  if (UnrollShiftChains.getNumOccurrences() > 0)
+    UP.UnrollShiftChains = UnrollShiftChains;
+  if ((UnrollAllowPartial.getNumOccurrences() > 0 && !UnrollAllowPartial) ||
+      (UnrollRuntime.getNumOccurrences() > 0 && !UnrollRuntime))
+    UP.UnrollShiftChains = false;
 
   // Apply user values provided by argument
   if (UserThreshold) {
@@ -275,6 +298,9 @@ TargetTransformInfo::UnrollingPreferences llvm::gatherUnrollingPreferences(
     UP.UpperBound = *UserUpperBound;
   if (UserFullUnrollMaxCount)
     UP.FullUnrollMaxCount = *UserFullUnrollMaxCount;
+  if ((UserAllowPartial && !*UserAllowPartial) ||
+      (UserRuntime && !*UserRuntime))
+    UP.UnrollShiftChains = false;
 
   return UP;
 }
@@ -1007,6 +1033,508 @@ shouldPartialUnroll(const unsigned LoopSize, const unsigned TripCount,
 
   return Count;
 }
+
+// The largest count a loop is unrolled by for its shift chains. Each copy of
+// the body costs code size, and a longer chain means a larger body to copy.
+static constexpr unsigned MaxShiftChainCount = 4;
+
+namespace {
+// What an unroll count takes to remove the copies that the shift chains of a
+// loop need at the backedge.
+struct ShiftChainCount {
+  // A chain that ends in a value computed in the loop holds each value for a
+  // number of iterations, and unrolling by at least that many gives every value
+  // in flight a register of its own.
+  unsigned Min = 1;
+  // A chain that is a cycle, such as two phis swapping, moves the same values
+  // around for good, and only a multiple of its length brings them back to the
+  // registers they started in.
+  unsigned Multiple = 1;
+
+  bool empty() const { return Min == 1 && Multiple == 1; }
+  bool isSatisfiedBy(unsigned Count) const {
+    return Count >= Min && Count % Multiple == 0;
+  }
+  unsigned smallest() const { return alignTo(Min, Multiple); }
+};
+} // namespace
+
+// Whether an instruction between \p A and \p B, which are in the same block,
+// may write to memory.
+static bool mayWriteBetween(const Instruction *A, const Instruction *B) {
+  if (B->comesBefore(A))
+    std::swap(A, B);
+  return any_of(make_range(std::next(A->getIterator()), B->getIterator()),
+                [](const Instruction &I) { return I.mayWriteToMemory(); });
+}
+
+// Whether \p Load and \p Fresh, simple loads of integers or pointers from
+// \p Base or a constant offset from it, are as wide as a pointer and next to
+// each other, the first of them aligned to that width, and in the same block
+// with nothing in between that may write to memory, so that a target can load
+// them with one instruction.
+static bool isPairableLoad(const LoadInst *Load, const LoadInst *Fresh,
+                           const Value *Base) {
+  if (Load->getParent() != Fresh->getParent() ||
+      !Load->getType()->isIntOrPtrTy() || !Fresh->getType()->isIntOrPtrTy() ||
+      !Base->getType()->isPointerTy())
+    return false;
+  const DataLayout &DL = Load->getDataLayout();
+  uint64_t Size = DL.getPointerSize(Base->getType()->getPointerAddressSpace());
+  if (DL.getTypeStoreSize(Load->getType()) != Size ||
+      DL.getTypeStoreSize(Fresh->getType()) != Size)
+    return false;
+  auto GetOffset = [&](const LoadInst *LI) -> std::optional<APInt> {
+    const Value *Ptr = LI->getPointerOperand();
+    if (Ptr->getType() != Base->getType())
+      return std::nullopt;
+    APInt Offset(DL.getIndexTypeSizeInBits(Ptr->getType()), 0);
+    if (Ptr->stripAndAccumulateConstantOffsets(DL, Offset,
+                                               /*AllowNonInbounds=*/true) !=
+        Base)
+      return std::nullopt;
+    return Offset;
+  };
+  std::optional<APInt> LoadOffset = GetOffset(Load);
+  std::optional<APInt> FreshOffset = GetOffset(Fresh);
+  if (!LoadOffset || !FreshOffset || (*LoadOffset - *FreshOffset).abs() != Size)
+    return false;
+  const LoadInst *Lower = LoadOffset->slt(*FreshOffset) ? Load : Fresh;
+  if (Lower->getAlign().value() < Size)
+    return false;
+  return !mayWriteBetween(Load, Fresh);
+}
+
+// The simple load that \p V, a value entering a shift chain, is taken from,
+// through casts, operations with a constant and constant offsets, as a tagged
+// pointer or the containing object of a field is, if there is one.
+static const LoadInst *getSourceLoad(const Value *V) {
+  for (unsigned Depth = 0; Depth < 4; ++Depth) {
+    if (const auto *Load = dyn_cast<LoadInst>(V))
+      return Load->isSimple() ? Load : nullptr;
+    const auto *I = dyn_cast<Instruction>(V);
+    if (!I)
+      return nullptr;
+    if (isa<CastInst>(I) ||
+        (I->isBinaryOp() && isa<Constant>(I->getOperand(1))))
+      V = I->getOperand(0);
+    else if (const auto *GEP = dyn_cast<GetElementPtrInst>(I);
+             GEP && GEP->hasAllConstantIndices())
+      V = GEP->getPointerOperand();
+    else
+      return nullptr;
+  }
+  return nullptr;
+}
+
+// Whether \p V is \p Phi combined only with values that do not change in \p L,
+// such as a shift, a comparison or a cast of it.
+static bool isFoldedFrom(const Value *V, const PHINode *Phi, const Loop *L) {
+  const auto *I = dyn_cast<Instruction>(V);
+  if (!I || !(isa<BinaryOperator, CmpInst, CastInst>(I)))
+    return false;
+  return is_contained(I->operands(), Phi) &&
+         all_of(I->operands(), [&](const Value *Op) {
+           return Op == Phi || L->isLoopInvariant(Op);
+         });
+}
+
+// Whether \p Oldest, the phi whose value a shift chain drops, is still needed
+// in the loop once \p Fresh, the value that enters the chain, has been
+// computed. If it is, both need a register at once, and the chain rotates
+// through one register more than it has phis. It is needed if a use can be
+// reached from Fresh without starting another iteration, where a phi uses its
+// value at the end of the incoming block. An address at a constant offset from
+// Oldest is folded into the instructions that use it, wherever it is computed,
+// so they count as uses of Oldest. A use after the loop needs a copy on the way
+// out whatever the count, so it does not count.
+//
+// Where the target says so in \p UP, neither does a load from Oldest, which it
+// does before Fresh is computed, folding any offset from Oldest into it, unless
+// a store that may alias Oldest keeps it after the load Fresh is taken from; or
+// one load from Oldest that it does together with the load Fresh is taken from.
+//
+// Where Fresh is Oldest combined with values that do not change in the loop, as
+// `d >> 1` is, a use of Oldest that is too, such as an exit test on the new
+// value rewritten in terms of the old one, does not count either: in an
+// unrolled body, such uses fold back into uses of the phi, and no count moves
+// them.
+static bool
+outlivesFreshValue(const PHINode *Oldest, const Instruction *Fresh,
+                   const Loop *L,
+                   const TargetTransformInfo::UnrollingPreferences &UP) {
+  const BasicBlock *FreshBlock = Fresh->getParent();
+  const BasicBlock *Header = L->getHeader();
+
+  // The blocks that can run after Fresh's own in the same iteration.
+  SmallPtrSet<const BasicBlock *, 4> After;
+  SmallVector<const BasicBlock *, 4> Worklist = {FreshBlock};
+  while (!Worklist.empty())
+    for (const BasicBlock *Succ : successors(Worklist.pop_back_val()))
+      if (Succ != Header && L->contains(Succ) && After.insert(Succ).second)
+        Worklist.push_back(Succ);
+
+  const LoadInst *FreshLoad = getSourceLoad(Fresh);
+  const Instruction *FreshStart = FreshLoad ? FreshLoad : Fresh;
+  bool Paired = false;
+  bool FreshIsFolded = isFoldedFrom(Fresh, Oldest, L);
+
+  // Uses of Oldest, and of addresses at an offset from it.
+  SmallVector<const Use *, 8> Uses;
+  for (const Use &U : Oldest->uses())
+    Uses.push_back(&U);
+  while (!Uses.empty()) {
+    const Use &U = *Uses.pop_back_val();
+    const auto *UserInst = cast<Instruction>(U.getUser());
+    if (UserInst == Fresh || UserInst == FreshStart || !L->contains(UserInst) ||
+        (FreshIsFolded && isFoldedFrom(UserInst, Oldest, L)))
+      continue;
+    if (const auto *GEP = dyn_cast<GetElementPtrInst>(UserInst);
+        GEP && GEP->getPointerOperand() == U.get() &&
+        (GEP->hasAllConstantIndices() || UP.ShiftChainLoadsReorder)) {
+      for (const Use &GEPUse : GEP->uses())
+        Uses.push_back(&GEPUse);
+      continue;
+    }
+    if (const auto *Load = dyn_cast<LoadInst>(UserInst);
+        Load && Load->isSimple()) {
+      if (UP.ShiftChainLoadsReorder &&
+          (Load->getParent() != FreshStart->getParent() ||
+           Load->comesBefore(FreshStart) || !mayWriteBetween(FreshStart, Load)))
+        continue;
+      if (UP.ShiftChainLoadsPair && FreshLoad && !Paired &&
+          isPairableLoad(Load, FreshLoad, Oldest)) {
+        Paired = true;
+        continue;
+      }
+    }
+    const BasicBlock *UserBlock = UserInst->getParent();
+    if (const auto *Phi = dyn_cast<PHINode>(UserInst)) {
+      UserBlock = Phi->getIncomingBlock(U);
+      if (UserBlock == FreshBlock)
+        return true;
+    } else if (UserBlock == FreshBlock && Fresh->comesBefore(UserInst)) {
+      return true;
+    }
+    if (After.contains(UserBlock))
+      return true;
+  }
+  return false;
+}
+
+// A loop that passes values along a chain of header phis - `prev = cur;
+// cur = next;` - needs no copies inside an unrolled body, because renaming
+// takes care of them, but it needs one per link at the backedge, where each
+// header phi has to be assigned its next value. Unrolling by enough iterations
+// makes that assignment the identity and removes the copies.
+//
+// A chain that ends in a value computed in the loop holds each value for as
+// many iterations as it has phis, plus one if the value it drops is still live
+// when the new one is computed. A chain that is a cycle needs a multiple of its
+// length. Chains that need more than MaxShiftChainCount are left alone, and
+// so is the loop if the chains together do.
+static ShiftChainCount
+getShiftChainCount(const Loop *L, ScalarEvolution &SE,
+                   const TargetTransformInfo::UnrollingPreferences &UP) {
+  BasicBlock *Header = L->getHeader();
+  BasicBlock *Latch = L->getLoopLatch();
+  if (!Latch)
+    return {};
+
+  auto NextPhi = [&](PHINode *Phi) -> PHINode * {
+    auto *Next = dyn_cast<PHINode>(Phi->getIncomingValueForBlock(Latch));
+    return Next && Next->getParent() == Header ? Next : nullptr;
+  };
+
+  // Walks start at the phis whose value is dropped, so that each covers a whole
+  // chain, and then at whatever is left, which can only be a cycle. Chains that
+  // merge are each walked to the end, since each drops a value of its own.
+  SmallPtrSet<PHINode *, 8> Fed;
+  for (PHINode &Phi : Header->phis())
+    if (PHINode *Next = NextPhi(&Phi))
+      Fed.insert(Next);
+  SmallVector<PHINode *, 8> Starts;
+  for (PHINode &Phi : Header->phis())
+    if (!Fed.contains(&Phi))
+      Starts.push_back(&Phi);
+  for (PHINode &Phi : Header->phis())
+    if (Fed.contains(&Phi))
+      Starts.push_back(&Phi);
+
+  SmallPtrSet<PHINode *, 8> Visited;
+  ShiftChainCount Result;
+  for (PHINode *Start : Starts) {
+    if (Visited.contains(Start))
+      continue;
+
+    // Past MaxShiftChainCount phis, a chain would need more than that, and is
+    // only followed to its end so that its tail is not taken for a chain of its
+    // own, stopping where another walk has been, which covers the rest.
+    SmallVector<PHINode *, 8> Chain;
+    SmallDenseMap<PHINode *, unsigned, 8> Position;
+    PHINode *Cur = Start;
+    while (true) {
+      Position[Cur] = Chain.size();
+      Chain.push_back(Cur);
+      Visited.insert(Cur);
+      PHINode *Next = NextPhi(Cur);
+      if (!Next) {
+        // A value from outside the loop does not move, whatever it is.
+        // Induction variables are rewritten by loop strength reduction after
+        // unrolling, which keeps one in a register of its own, so a chain
+        // that ends in one says nothing about the copies it will need. Its
+        // phis are induction variables too.
+        auto *Fresh =
+            dyn_cast<Instruction>(Cur->getIncomingValueForBlock(Latch));
+        auto IsInduction = [&](Value *V) {
+          return SE.isSCEVable(V->getType()) &&
+                 isa<SCEVAddRecExpr>(SE.getSCEV(V));
+        };
+        if (Chain.size() > MaxShiftChainCount || !Fresh ||
+            !L->contains(Fresh) || IsInduction(Fresh))
+          break;
+        unsigned Lifetime =
+            Chain.size() + outlivesFreshValue(Start, Fresh, L, UP);
+        if (Lifetime <= MaxShiftChainCount)
+          Result.Min = std::max(Result.Min, Lifetime);
+        break;
+      }
+      auto Repeated = Position.find(Next);
+      if (Repeated != Position.end()) {
+        unsigned Length = Chain.size() - Repeated->second;
+        if (Length <= MaxShiftChainCount)
+          Result.Multiple = std::lcm(Result.Multiple, Length);
+        break;
+      }
+      if (Chain.size() > MaxShiftChainCount && Visited.contains(Next))
+        break;
+      Cur = Next;
+    }
+  }
+
+  if (Result.smallest() > MaxShiftChainCount)
+    return {};
+  return Result;
+}
+
+// Whether \p I is a call, or is likely to become one. Division and remainder,
+// including floating-point ones, atomic operations, memory intrinsics,
+// which are left in the IR when they are too big to be loads and stores,
+// floating-point arithmetic on a type the target cannot hold in registers or
+// one wider than double, and conversions between floating point and integers
+// wider than its widest native integer are often lowered to library calls, and
+// cost far more than a copy even where they are not. Other integer arithmetic,
+// and other intrinsics the target does not say are calls, are taken not to be.
+static bool mayBecomeCall(const Instruction &I,
+                          const TargetTransformInfo &TTI) {
+  unsigned MaxIntBits = I.getDataLayout().getLargestLegalIntTypeSizeInBits();
+  auto NeedsFloatLibcall = [&]() {
+    SmallVector<Type *, 4> Types = {I.getType()};
+    for (const Value *Op : I.operands())
+      Types.push_back(Op->getType());
+    bool HasFloat = false;
+    bool HasWideInt = false;
+    for (Type *Ty : Types) {
+      Type *ScalarTy = Ty->getScalarType();
+      if (ScalarTy->isFloatingPointTy()) {
+        if (!TTI.isTypeLegal(ScalarTy) ||
+            ScalarTy->getPrimitiveSizeInBits() > 64)
+          return true;
+        HasFloat = true;
+      } else if (ScalarTy->isIntegerTy() && MaxIntBits &&
+                 ScalarTy->getIntegerBitWidth() > MaxIntBits &&
+                 (!Ty->isVectorTy() || !TTI.isTypeLegal(Ty))) {
+        HasWideInt = true;
+      }
+    }
+    return HasFloat && HasWideInt;
+  };
+
+  if (const auto *Intrinsic = dyn_cast<IntrinsicInst>(&I)) {
+    if (TTI.isLoweredToCall(Intrinsic->getCalledFunction()) ||
+        isa<AnyMemIntrinsic, MemSetPatternInst>(Intrinsic))
+      return true;
+    switch (Intrinsic->getIntrinsicID()) {
+    case Intrinsic::fabs:
+    case Intrinsic::copysign:
+      return false;
+    default:
+      return NeedsFloatLibcall();
+    }
+  }
+  if (const auto *Call = dyn_cast<CallBase>(&I)) {
+    const Function *F = Call->getCalledFunction();
+    return !F || TTI.isLoweredToCall(F);
+  }
+  if (I.isAtomic())
+    return true;
+  switch (I.getOpcode()) {
+  case Instruction::UDiv:
+  case Instruction::SDiv:
+  case Instruction::URem:
+  case Instruction::SRem:
+  case Instruction::FDiv:
+  case Instruction::FRem:
+    return true;
+  case Instruction::FAdd:
+  case Instruction::FSub:
+  case Instruction::FMul:
+  case Instruction::FCmp:
+  case Instruction::FPTrunc:
+  case Instruction::FPExt:
+  case Instruction::FPToUI:
+  case Instruction::FPToSI:
+  case Instruction::UIToFP:
+  case Instruction::SIToFP:
+    return NeedsFloatLibcall();
+  default:
+    return false;
+  }
+}
+
+// Returns the smallest count, up to MaxShiftChainCount and below \p Limit if
+// that is not 0, that removes the copies of \p Chains, divides \p N and is
+// small enough, or 0 if there is none.
+static unsigned getDividingShiftChainCount(
+    const ShiftChainCount &Chains, unsigned N, unsigned Limit,
+    const UnrollCostEstimator &UCE,
+    const TargetTransformInfo::UnrollingPreferences &UP) {
+  for (unsigned Count = Chains.smallest();
+       Count <= std::min(MaxShiftChainCount, UP.MaxCount) &&
+       (!Limit || Count < Limit);
+       Count += Chains.Multiple)
+    if (N % Count == 0 &&
+        UCE.getUnrolledLoopSize(UP, Count) <= UP.PartialThreshold)
+      return Count;
+  return 0;
+}
+
+// Returns what an unroll count takes to remove the copies of the shift chains
+// in \p L, if unrolling for them is allowed and small enough, or nothing.
+static ShiftChainCount shouldUnrollShiftChains(
+    Loop *L, ScalarEvolution &SE, const TargetTransformInfo &TTI,
+    const UnrollPragmaInfo &PInfo, const unsigned LoopSize,
+    const unsigned TripCount, const unsigned MaxTripCount,
+    const unsigned TripMultiple, const UnrollCostEstimator &UCE,
+    const TargetTransformInfo::UnrollingPreferences &UP) {
+  if (!UP.UnrollShiftChains)
+    return {};
+
+  // Loops marked not to be runtime unrolled, as the loop vectorizer marks
+  // vector loops and some of the scalar loops it leaves behind, are left alone.
+  if (PInfo.ExplicitUnroll || PInfo.PragmaRuntimeUnrollDisable ||
+      !L->isInnermost() || LoopSize >= UnrollShiftChainThreshold)
+    return {};
+
+  // A call costs more than the copies, which are then needed around it anyway,
+  // and copying it costs code size.
+  for (const BasicBlock *BB : L->blocks())
+    for (const Instruction &I : *BB)
+      if (mayBecomeCall(I, TTI))
+        return {};
+
+  ShiftChainCount Chains = getShiftChainCount(L, SE, UP);
+  unsigned Count = Chains.smallest();
+  if (Chains.empty() || Count > UP.MaxCount ||
+      UCE.getUnrolledLoopSize(UP, Count) > UP.PartialThreshold)
+    return {};
+
+  // A loop that is done within the count is left to full unrolling, and one
+  // that has to run whole unrolled iterations has to run a whole number of
+  // them.
+  if (TripCount ? TripCount <= Count : MaxTripCount && MaxTripCount <= Count)
+    return {};
+  if (!UP.AllowRemainder &&
+      !getDividingShiftChainCount(Chains, TripCount ? TripCount : TripMultiple,
+                                  TripCount, UCE, UP))
+    return {};
+
+  if (L->getHeader()->getParent()->hasProfileData())
+    if (auto ProfileTripCount = getLoopEstimatedTripCount(L))
+      if (*ProfileTripCount < FlatLoopTripCountThreshold)
+        return {};
+
+  return Chains;
+}
+
+// Returns the runtime unroll count for \p L, whose trip count is not known, or
+// 0. Where remainders are not allowed, the count is first reduced to a power of
+// two that divides \p TripMultiple; it is then limited by UP.MaxCount and
+// \p MaxTripCount.
+static unsigned
+shouldRuntimeUnroll(Loop *L, const UnrollPragmaInfo &PInfo,
+                    const unsigned MaxTripCount, const unsigned TripMultiple,
+                    const UnrollCostEstimator &UCE,
+                    TargetTransformInfo::UnrollingPreferences &UP) {
+  LLVM_DEBUG(dbgs().indent(1) << "Trying runtime unroll...\n");
+  // Don't unroll a runtime trip count loop when it is disabled.
+  if (PInfo.PragmaRuntimeUnrollDisable) {
+    LLVM_DEBUG(dbgs().indent(2)
+               << "Not runtime unrolling: disabled by pragma.\n");
+    return 0;
+  }
+
+  // Don't unroll a small upper bound loop unless user or TTI asked to do so.
+  if (MaxTripCount && !UP.Force && MaxTripCount <= UP.MaxUpperBound) {
+    LLVM_DEBUG(dbgs().indent(2) << "Not runtime unrolling: max trip count "
+                                << MaxTripCount << " is small (<= "
+                                << UP.MaxUpperBound << ") and not forced.\n");
+    return 0;
+  }
+
+  // Check if the runtime trip count is too small when profile is available.
+  if (L->getHeader()->getParent()->hasProfileData()) {
+    if (auto ProfileTripCount = getLoopEstimatedTripCount(L)) {
+      if (*ProfileTripCount < FlatLoopTripCountThreshold)
+        return 0;
+      else
+        UP.AllowExpensiveTripCount = true;
+    }
+  }
+  if (!UP.Runtime) {
+    LLVM_DEBUG(dbgs().indent(2)
+               << "Will not try to unroll loop with runtime trip count "
+               << "because -unroll-runtime not given\n");
+    return 0;
+  }
+
+  unsigned Count = UP.DefaultUnrollRuntimeCount;
+
+  // Reduce unroll count to be the largest power-of-two factor of
+  // the original count which satisfies the threshold limit.
+  while (Count != 0 && UCE.getUnrolledLoopSize(UP, Count) > UP.PartialThreshold)
+    Count >>= 1;
+
+#ifndef NDEBUG
+  unsigned OrigCount = Count;
+#endif
+
+  if (!UP.AllowRemainder && Count != 0 && (TripMultiple % Count) != 0) {
+    while (Count != 0 && TripMultiple % Count != 0)
+      Count >>= 1;
+    LLVM_DEBUG(dbgs().indent(2)
+               << "Remainder loop is restricted (that could be architecture "
+                  "specific or because the loop contains a convergent "
+                  "instruction), so unroll count must divide the trip "
+                  "multiple, "
+               << TripMultiple << ".  Reducing unroll count from " << OrigCount
+               << " to " << Count << ".\n");
+  }
+
+  if (Count > UP.MaxCount)
+    Count = UP.MaxCount;
+
+  if (MaxTripCount && Count > MaxTripCount)
+    Count = MaxTripCount;
+
+  if (Count < 2)
+    Count = 0;
+  else
+    LLVM_DEBUG(dbgs().indent(2)
+               << "Runtime unrolling with count: " << Count << "\n");
+  return Count;
+}
+
 // Calculates and returns the unroll count, using metadata and command-line
 // options that are specific to the LoopUnroll pass (which, for instance, are
 // irrelevant for the LoopUnrollAndJam pass).
@@ -1132,81 +1660,92 @@ unsigned llvm::computeUnrollCount(
   if (TripCount)
     UP.Partial |= PInfo.ExplicitUnroll;
 
+  // A loop with shift chains is unrolled by a count that removes their copies
+  // where partial or runtime unrolling would leave it alone, and where runtime
+  // unrolling could not make a remainder loop and would pick a count that does
+  // not.
+  LLVM_DEBUG(if (UP.UnrollShiftChains) dbgs().indent(1)
+             << "Looking for shift chains...\n");
+  ShiftChainCount ShiftChains =
+      shouldUnrollShiftChains(L, SE, TTI, PInfo, LoopSize, TripCount,
+                              MaxTripCount, TripMultiple, UCE, UP);
+  LLVM_DEBUG(if (!ShiftChains.empty()) dbgs().indent(2)
+             << "Shift chains need a count of at least " << ShiftChains.Min
+             << " that is a multiple of " << ShiftChains.Multiple << ".\n");
+
   // 6th priority is partial unrolling.
   // Try partial unroll only when TripCount could be statically calculated.
   LLVM_DEBUG(dbgs().indent(1) << "Trying partial unroll...\n");
-  if (auto UnrollFactor = shouldPartialUnroll(LoopSize, TripCount, UCE, UP))
+  if (auto UnrollFactor = shouldPartialUnroll(LoopSize, TripCount, UCE, UP)) {
+    if (*UnrollFactor < 2 && !ShiftChains.empty()) {
+      // A count that divides the trip count needs no exit inside the body.
+      unsigned Count = getDividingShiftChainCount(ShiftChains, TripCount,
+                                                  TripCount, UCE, UP);
+      if (!Count)
+        Count = ShiftChains.smallest();
+      LLVM_DEBUG(dbgs().indent(2)
+                 << "Unrolling for shift chains with count: " << Count
+                 << (TripCount % Count ? ", keeping the exit that can be taken"
+                                       : "")
+                 << ".\n");
+      return Count;
+    }
     return *UnrollFactor;
+  }
   assert(TripCount == 0 &&
          "All cases when TripCount is constant should be covered here.");
 
   // 7th priority is runtime unrolling.
-  LLVM_DEBUG(dbgs().indent(1) << "Trying runtime unroll...\n");
-  // Don't unroll a runtime trip count loop when it is disabled.
-  if (PInfo.PragmaRuntimeUnrollDisable) {
-    LLVM_DEBUG(dbgs().indent(2)
-               << "Not runtime unrolling: disabled by pragma.\n");
-    return 0;
-  }
+  unsigned Count =
+      shouldRuntimeUnroll(L, PInfo, MaxTripCount, TripMultiple, UCE, UP);
+  if (ShiftChains.empty())
+    return Count;
 
-  // Don't unroll a small upper bound loop unless user or TTI asked to do so.
-  if (MaxTripCount && !UP.Force && MaxTripCount <= UP.MaxUpperBound) {
-    LLVM_DEBUG(dbgs().indent(2) << "Not runtime unrolling: max trip count "
-                                << MaxTripCount << " is small (<= "
-                                << UP.MaxUpperBound << ") and not forced.\n");
-    return 0;
-  }
-
-  // Check if the runtime trip count is too small when profile is available.
-  if (L->getHeader()->getParent()->hasProfileData()) {
-    if (auto ProfileTripCount = getLoopEstimatedTripCount(L)) {
-      if (*ProfileTripCount < FlatLoopTripCountThreshold)
-        return 0;
-      else
-        UP.AllowExpensiveTripCount = true;
-    }
-  }
-  if (!UP.Runtime) {
-    LLVM_DEBUG(dbgs().indent(2)
-               << "Will not try to unroll loop with runtime trip count "
-               << "because -unroll-runtime not given\n");
-    return 0;
-  }
-
-  unsigned Count = UP.DefaultUnrollRuntimeCount;
-
-  // Reduce unroll count to be the largest power-of-two factor of
-  // the original count which satisfies the threshold limit.
-  while (Count != 0 && UCE.getUnrolledLoopSize(UP, Count) > UP.PartialThreshold)
-    Count >>= 1;
-
-#ifndef NDEBUG
-  unsigned OrigCount = Count;
-#endif
-
-  if (!UP.AllowRemainder && Count != 0 && (TripMultiple % Count) != 0) {
-    while (Count != 0 && TripMultiple % Count != 0)
-      Count >>= 1;
-    LLVM_DEBUG(dbgs().indent(2)
-               << "Remainder loop is restricted (that could be architecture "
-                  "specific or because the loop contains a convergent "
-                  "instruction), so unroll count must divide the trip "
-                  "multiple, "
-               << TripMultiple << ".  Reducing unroll count from " << OrigCount
-               << " to " << Count << ".\n");
-  }
-
-  if (Count > UP.MaxCount)
-    Count = UP.MaxCount;
-
-  if (MaxTripCount && Count > MaxTripCount)
-    Count = MaxTripCount;
-
-  if (Count < 2)
+  // A remainder loop takes a trip count to compute, and a division to work out
+  // unless the count is a power of two. A runtime count unrolls the loop where
+  // it divides the trip multiple and needs no remainder loop, where it makes
+  // one, or where it is forced to keep every exit instead; where it turns out
+  // not to make one after all, tryToUnrollLoop unrolls by a count that removes
+  // the copies instead, keeping every exit.
+  bool CanMakeRemainder =
+      UP.AllowRemainder &&
+      !isa<SCEVCouldNotCompute>(SE.getExitCount(L, L->getLoopLatch()));
+  bool NeedsRemainder = Count >= 2 && TripMultiple % Count != 0;
+  if (!CanMakeRemainder && NeedsRemainder && !UP.Force)
     Count = 0;
-  else
-    LLVM_DEBUG(dbgs().indent(2)
-               << "Runtime unrolling with count: " << Count << "\n");
+  if (Count >= 2 &&
+      (CanMakeRemainder || !NeedsRemainder || ShiftChains.isSatisfiedBy(Count)))
+    return Count;
+  if (Count >= 2) {
+    // Keeping every exit, the count might as well remove the copies.
+    Count -= Count % ShiftChains.Multiple;
+    if (!ShiftChains.isSatisfiedBy(Count) ||
+        (!UP.AllowRemainder && TripMultiple % Count))
+      Count = 0;
+    UP.Runtime = false;
+  }
+  if (Count < 2) {
+    Count =
+        UP.AllowRemainder
+            ? ShiftChains.smallest()
+            : getDividingShiftChainCount(ShiftChains, TripMultiple, 0, UCE, UP);
+    // Like runtime unrolling, make no remainder loop for a loop that runs only
+    // a few times.
+    if (MaxTripCount && MaxTripCount <= UP.MaxUpperBound && !UP.Force)
+      CanMakeRemainder = false;
+    unsigned PowerOf2 = PowerOf2Ceil(Count);
+    if (CanMakeRemainder && ShiftChains.isSatisfiedBy(PowerOf2) &&
+        PowerOf2 <= UP.MaxCount &&
+        UCE.getUnrolledLoopSize(UP, PowerOf2) <= UP.PartialThreshold)
+      Count = PowerOf2;
+    UP.Runtime = CanMakeRemainder && isPowerOf2_32(Count);
+  }
+  LLVM_DEBUG(dbgs().indent(2)
+             << "Unrolling for shift chains with count: " << Count
+             << (TripMultiple % Count == 0 ? ""
+                 : UP.Runtime              ? ", with a remainder loop"
+                                           : ", keeping every exit")
+             << ".\n");
   return Count;
 }
 
@@ -1457,8 +1996,33 @@ tryToUnrollLoop(Loop *L, DominatorTree &DT, LoopInfo *LI, ScalarEvolution &SE,
   ULO.SCEVExpansionBudget = UP.SCEVExpansionBudget;
   ULO.RuntimeUnrollMultiExit = UP.RuntimeUnrollMultiExit;
   ULO.AddAdditionalAccumulators = UP.AddAdditionalAccumulators;
+  // Where runtime unrolling cannot make a remainder loop after all, a loop with
+  // shift chains is unrolled by a count that removes their copies instead,
+  // keeping every exit: a forced count rounded down to one that does, or else
+  // the smallest one. A forced count that does not remove them is not forced,
+  // so that where no remainder loop can be made, this is what happens instead.
+  ShiftChainCount ShiftChains;
+  if (ULO.Runtime && UP.AllowRemainder)
+    ShiftChains =
+        shouldUnrollShiftChains(L, SE, TTI, PInfo, LoopSize, TripCount,
+                                MaxTripCount, TripMultiple, UCE, UP);
+  bool Forced = ULO.Force;
+  if (!ShiftChains.empty() && !ShiftChains.isSatisfiedBy(ULO.Count))
+    ULO.Force = false;
   LoopUnrollResult UnrollResult = UnrollLoop(
       L, ULO, LI, &SE, &DT, &AC, &TTI, &ORE, PreserveLCSSA, &RemainderLoop, AA);
+  if (UnrollResult == LoopUnrollResult::Unmodified && !ShiftChains.empty() &&
+      !ULO.Force) {
+    unsigned Count = ULO.Count - ULO.Count % ShiftChains.Multiple;
+    if (!Forced || !ShiftChains.isSatisfiedBy(Count))
+      Count = ShiftChains.smallest();
+    LLVM_DEBUG(dbgs().indent(1) << "Unrolling for shift chains with count "
+                                << Count << " instead, keeping every exit.\n");
+    ULO.Count = Count;
+    ULO.Runtime = false;
+    UnrollResult = UnrollLoop(L, ULO, LI, &SE, &DT, &AC, &TTI, &ORE,
+                              PreserveLCSSA, &RemainderLoop, AA);
+  }
   if (UnrollResult == LoopUnrollResult::Unmodified) {
     if (PInfo.ExplicitUnroll) {
       LLVM_DEBUG(dbgs().indent(1)
