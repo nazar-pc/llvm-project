@@ -3045,9 +3045,18 @@ void RISCVTTIImpl::getUnrollingPreferences(
   // TODO: More tuning on benchmarks and metrics with changes as needed
   //       would apply to all settings below to enable performance.
 
+  // Every register copy costs an issue slot on an in-order core, so remove the
+  // ones that shift chains need at the backedge. This includes generic-rv32
+  // and generic-rv64, which are meant for in-order cores. As elsewhere, a core
+  // without a scheduling model is not taken to be in-order.
+  const MCSchedModel &SchedModel = ST->getSchedModel();
+  bool IsInOrder =
+      SchedModel.hasInstrSchedModel() && !SchedModel.isOutOfOrder();
 
-  if (ST->enableDefaultUnroll())
+  if (ST->enableDefaultUnroll()) {
+    UP.UnrollShiftChains = IsInOrder;
     return BasicTTIImplBase::getUnrollingPreferences(L, SE, UP, ORE);
+  }
 
   // Enable Upper bound unrolling universally, not dependent upon the conditions
   // below.
@@ -3109,6 +3118,8 @@ void RISCVTTIImpl::getUnrollingPreferences(
   UP.Runtime = true;
   UP.UnrollRemainder = true;
   UP.UnrollAndJam = true;
+  // Loops that are left alone above keep their copies too.
+  UP.UnrollShiftChains = IsInOrder;
 
   // Force unrolling small loops can be very useful because of the branch
   // taken cost of the backedge.
