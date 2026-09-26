@@ -2644,9 +2644,23 @@ void ARMTTIImpl::getUnrollingPreferences(Loop *L, ScalarEvolution &SE,
                    Intrinsic::get_active_lane_mask;
       });
 
+  // Every register copy costs an issue slot on an in-order core, so remove the
+  // ones that shift chains need at the backedge. Only cores with an in-order
+  // per-instruction model count, which leaves out the generic CPU, whose
+  // Cortex-A8 model is made of itineraries, and the cores that share it.
+  const MCSchedModel &SchedModel = ST->getSchedModel();
+  bool IsInOrder =
+      SchedModel.hasInstrSchedModel() && !SchedModel.isOutOfOrder();
+  // A word loaded from the node a chain drops next to the word loaded for the
+  // next node is loaded with it by LDRD, so it does not keep the node live.
+  UP.ShiftChainLoadsPair = ST->hasV5TEOps() && !ST->isThumb1Only() &&
+                           ST->getDualLoadStoreAlignment() <= Align(4);
+
   // Only currently enable these preferences for M-Class cores.
-  if (!ST->isMClass())
+  if (!ST->isMClass()) {
+    UP.UnrollShiftChains = IsInOrder;
     return BasicTTIImplBase::getUnrollingPreferences(L, SE, UP, ORE);
+  }
 
   // Disable loop unrolling for Oz and Os.
   UP.OptSizeThreshold = 0;
@@ -2751,6 +2765,10 @@ void ARMTTIImpl::getUnrollingPreferences(Loop *L, ScalarEvolution &SE,
   UP.Partial = true;
   UP.Runtime = Runtime;
   UP.UnrollRemainder = true;
+  // Loops that are left alone above, such as vector loops that are better tail
+  // predicated, and ones kept rolled to run as low overhead loops, keep their
+  // copies too.
+  UP.UnrollShiftChains = IsInOrder && Runtime;
   UP.DefaultUnrollRuntimeCount = UnrollCount;
   UP.UnrollAndJam = true;
   UP.UnrollAndJamInnerLoopThreshold = 60;
